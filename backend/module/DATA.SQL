@@ -1,4 +1,4 @@
-Table schools {
+CREATE TABLE schools {
   school_id INT PRIMARY SERIAL KEY,
   school_name VARCHAR(255),
   school_image VARCHAR(255),
@@ -10,7 +10,7 @@ Table schools {
   FOREIGN KEY (type) REFERENCES type(type_id)
 }
 
-Table user_school {
+CREATE TABLE user_school {
   user_school_id INT PRIMARY SERIAL KEY,
   school_id INT,
   user_id INT,
@@ -23,7 +23,7 @@ FOREIGN KEY (user_id) REFERENCES users(user_id)
 
 
 
-Table users {
+CREATE TABLE users {
   user_id INT PRIMARY SERIAL KEY,
   email VARCHAR(255),
   first_name VARCHAR(255),
@@ -37,25 +37,25 @@ Table users {
   FOREIGN KEY (role) REFERENCES role(role_id)
 }
 
-Table role {
+CREATE TABLE role {
   role_id INT PRIMARY SERIAL KEY,
   role VARCHAR(255),
   created_at TIMESTAMP DEFAULT NOW()
 }
 
-Table type {
+CREATE TABLE type {
   type_id INT PRIMARY SERIAL KEY,
   type VARCHAR(255),
   created_at TIMESTAMP DEFAULT NOW()
 }
 
-Table permission {
+CREATE TABLE permission {
   permission_id INT PRIMARY SERIAL KEY,
   permission VARCHAR(255),
   created_at TIMESTAMP DEFAULT NOW()
 }
 
-Table role_permission {
+CREATE TABLE role_permission {
   role_permission_id INT PRIMARY SERIAL KEY,
   role_id INT,
   permission_id INT,
@@ -65,7 +65,7 @@ Table role_permission {
 }
 
 
-Table connection {
+CREATE TABLE connection {
   connection_id INT PRIMARY SERIAL KEY,
   user_id INT,
   friend_id INT,
@@ -74,7 +74,3 @@ Table connection {
   FOREIGN KEY (friend_id) REFERENCES users(user_id)
 
 }
-
-
-
-
