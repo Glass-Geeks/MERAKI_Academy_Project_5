@@ -2,7 +2,7 @@ const { pool } = require("../module/db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const SALT = parseInt(process.env.SALT);
-
+const SECRET = process.env.SECRET;
 const register = async (req, res) => {
   const { email, first_name, last_name, role, password, user_image, dob } =
     req.body;
@@ -40,18 +40,18 @@ const register = async (req, res) => {
 
 // Generate Token Function
 
-/* 
-const generateToken = (whatEver Value You Need In The PayLoad "user_Id ...") => {
-  const SECRET = process.env.SECRET;
+const generateToken = (role, userId) => {
   const payload = {
-   user_id : user_Id ...
+    userId,
+    role,
   };
 
   const options = {
-    
+    expiresIn: "1d",
   };
   return jwt.sign(payload, SECRET, options);
-}; */
+};
+
 const login = (req, res) => {
   const { email, password } = req.body;
 
@@ -64,14 +64,9 @@ const login = (req, res) => {
         bcrypt.compare(password, result.rows[0].password, (err, response) => {
           if (err) res.json(err);
           if (response) {
-            const payload = {
-              userId: result.rows[0].user_id,
+            const { role, user_id } = result.rows[0];
+            const token = generateToken(role, user_id);
 
-              role: result.rows[0].role,
-            };
-            const options = { expiresIn: "1d" };
-            const secret = process.env.SECRET;
-            const token = jwt.sign(payload, secret, options);
             if (token) {
               return res.status(200).json({
                 success: true,
@@ -130,14 +125,65 @@ const deleteUser = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-  const { id } = req.params;
-  const QUERY = ``;
-  const VALUE = [];
-  const { someData } = req.body;
+  const id = req.params.id;
+  let { first_name, last_name, user_image } = req.body;
+
+  const query = `UPDATE users SET first_name = COALESCE($1,first_name), last_name = COALESCE($2, last_name), user_image = COALESCE($3, user_image) WHERE user_id=$4 AND is_deleted = 0  RETURNING *;`;
+  const data = [first_name || null, last_name || null, user_image || null, id];
+
+  pool
+    .query(query, data)
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: `The user with id: ${id} is not found`,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `User with id: ${id} updated successfully `,
+          result: result.rows[0],
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err,
+      });
+    });
 };
+
 const getUserById = async (req, res) => {
   const { id } = req.params;
-  const QUERY = ``;
+  const QUERY = `SELECT * FROM users WHERE id=$1`;
+  const data = [id];
+
+  pool
+    .query(QUERY, data)
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: `The user with id: ${id} is not found`,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+
+          result: result.rows[0],
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err,
+      });
+    });
 };
 module.exports = {
   register,
