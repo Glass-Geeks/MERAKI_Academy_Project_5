@@ -85,7 +85,26 @@ const updateSchool = async (req, res) => {
 };
 const deleteSchool = async (req, res) => {
   const { id } = req.params;
-  const QUERY = ``;
+  VALUE = [id]
+  const QUERY = `UPDATE  schools SET is_deleted=1 WHERE school_id=$1 
+   RETURNING *`
+  try{
+   const response = await  pool.query(QUERY,VALUE);
+
+   res.status(203).json({
+    success:true,
+    message:"School Deleted",
+    deleteSchool:response.rows
+  })
+  pool.query(`UPDATE user_school SET is_deleted=1 WHERE school_id=$1  ;`,VALUE)
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      err: err.message
+    })
+  }
 };
 module.exports = {
   createSchool,
