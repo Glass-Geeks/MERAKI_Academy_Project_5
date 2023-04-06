@@ -1,30 +1,30 @@
 INSERT INTO type (type)
 VALUES
 ('SCHOOL'),
-('UNIVERSITY'),
+('UNIVERSITY');
 
 
 INSERT INTO role (role)
 VALUES
 ('ADMIN'),
 ('TEACHER'),
-('STUDENT'),
+('STUDENT');
 
-INSERT INTO users (email, first_name, last_name, role, password, DOB)
+INSERT INTO users (email, first_name, last_name, role, password, DOB,user_image)
 VALUES
-('johndoe@gmail.com', 'John', 'Doe', 2, '123456', '1995-01-01'),
-('janedoe@gmail.com', 'Jane', 'Doe', 3, '123456', '2000-01-01'),
-('bobsmith@gmail.com', 'Bob', 'Smith', 3, '123456', '2002-01-01'),
-('alumni@gmail.com', 'Khalid', 'Haj', 4, '123456', '1990-01-01'),
-('teacher@gmail.com', 'Hassan', 'Er', 2, '123456', '1985-01-01');
+('johndoe@gmail.com', 'John', 'Doe', 2, '123456', '1995-01-01','Test_img'),
+('janedoe@gmail.com', 'Jane', 'Doe', 3, '123456', '2000-01-01','Test_img'),
+('bobsmith@gmail.com', 'Bob', 'Smith', 3, '123456', '2002-01-01','Test_img'),
+('alumni@gmail.com', 'Khalid', 'Haj', 1, '123456', '1990-01-01','Test_img'),
+('teacher@gmail.com', 'Hassan', 'Er', 2, '123456', '1985-01-01','Test_img');
 
-INSERT INTO schools (school_name, establish_date, type, longitude, latitude )
+INSERT INTO schools (school_name, establish_date, type, longitude, latitude,school_image )
 VALUES
-('Lincoln Elementary School', '1990-01-01', 1, '35.901431', '31.931891'),
-('Stevenson Middle School', '2000-01-01', 2, '35.902661', '31.978391'),
-('Washington High School', '2010-01-01', 3, '35.908131', '31.931231'),
-('University of California, Berkeley', '2015-01-01', 4, '35.901471', '31.911811'),
-('Stanford College', '2018-01-01', 5, '35.900731', '31.933391');
+('Lincoln Elementary School', '1990-01-01', 1, '35.901431', '31.931891','Test_img'),
+('Stevenson Middle School', '2000-01-01', 2, '35.902661', '31.978391','Test_img'),
+('Washington High School', '2010-01-01', 3, '35.908131', '31.931231','Test_img'),
+('University of California, Berkeley', '2015-01-01', 4, '35.901471', '31.911811','Test_img'),
+('Stanford College', '2018-01-01', 5, '35.900731', '31.933391','Test_img');
 
 INSERT INTO user_school (school_id, user_id, start_year, end_year)
 VALUES
@@ -60,7 +60,7 @@ VALUES
   (3, 3),
   (3, 6),
   (3, 7),
-  (3, 9),
+  (3, 9);
 
 INSERT INTO connection (user_id, friend_id)
 VALUES
@@ -68,4 +68,4 @@ VALUES
   (1, 3),
   (2, 3),
   (3, 4),
-  (4, 5),
+  (4, 5);
