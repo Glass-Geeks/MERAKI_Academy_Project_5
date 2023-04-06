@@ -27,15 +27,19 @@ const createSchool =  (req, res) => {
 const getAllSchools = async (req, res) => {
   const QUERY = `SELECT * FROM schools`;
   try{
-    pool.query(QUERY)
+   const response = await pool.query(QUERY)
     res.status(200).json({
       success:true,
       message:"All Schools",
-      schools:result
+      schools: response.rows
     })
   }
   catch(err){
-
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      err: err.message
+    })
   }
 };
 const getSchoolById = async (req, res) => {
