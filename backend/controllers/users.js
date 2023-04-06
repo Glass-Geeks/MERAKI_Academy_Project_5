@@ -101,9 +101,34 @@ const login = (req, res) => {
     });
 };
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  const QUERY = ``;
+  const id = req.params.id;
+  const query = `UPDATE users SET is_deleted=1 WHERE user_id=$1;`;
+  const data = [id];
+  pool
+    .query(query, data)
+    .then((result) => {
+      if (result.rowCount === 0) {
+        res.status(404).json({
+          success: false,
+          message: `User with id: ${id} is not found`,
+          err: err,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `User with id: ${id} deleted successfully`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err,
+      });
+    });
 };
+
 const updateUserInfo = async (req, res) => {
   const { id } = req.params;
   const QUERY = ``;
