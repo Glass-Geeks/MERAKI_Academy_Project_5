@@ -25,7 +25,7 @@ const createSchool =  (req, res) => {
 
 };
 const getAllSchools = async (req, res) => {
-  const QUERY = `SELECT * FROM schools`;
+  const QUERY = `SELECT * FROM schools WHERE is_deleted=0 `;
   try{
    const response = await pool.query(QUERY)
     res.status(200).json({
@@ -45,7 +45,7 @@ const getAllSchools = async (req, res) => {
 const getSchoolById = async (req, res) => {
   const { id } = req.params;
   VALUE = [id]
-  const QUERY = `SELECT * FROM schools WHERE school_id = $1`;
+  const QUERY = `SELECT * FROM schools WHERE school_id = $1 AND is_deleted=0`;
   try{
     const response = await pool.query(QUERY,VALUE)
      res.status(200).json({
