@@ -2,12 +2,13 @@ const express = require("express");
 const friendsRouter = express.Router();
 const {
   createFriendConnection,
-  getAllFriends,getFriendRequests,answerFriendRequest
+  getAllFriends,getFriendRequests,answerFriendRequest,deleteFriendRequest
 } = require("../controllers/friends");
 
 friendsRouter.post("/", createFriendConnection);
+friendsRouter.put("/requests/:id/answer",answerFriendRequest)
 friendsRouter.get("/requests/:id",getFriendRequests)
-friendsRouter.put("/requsts/:id/answer",answerFriendRequest)
+friendsRouter.delete("/delete/:id",deleteFriendRequest)
 friendsRouter.get("/:id", getAllFriends);
 
 
