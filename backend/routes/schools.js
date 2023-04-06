@@ -11,7 +11,7 @@ const {
 schoolRouter.get('/',getAllSchools)
 schoolRouter.get('/:id',getSchoolById)
 schoolRouter.post('/add',createSchool)
-schoolRouter.put('/update',updateSchool)
+schoolRouter.put('/update/:id',updateSchool)
 schoolRouter.delete('/delete/:id',deleteSchool)
 
 module.exports = schoolRouter

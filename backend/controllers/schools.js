@@ -44,13 +44,44 @@ const getAllSchools = async (req, res) => {
 };
 const getSchoolById = async (req, res) => {
   const { id } = req.params;
-  const QUERY = ``;
+  VALUE = [id]
+  const QUERY = `SELECT * FROM schools WHERE school_id = $1`;
+  try{
+    const response = await pool.query(QUERY,VALUE)
+     res.status(200).json({
+       success:true,
+       message:"All Schools",
+       schools: response.rows
+     })
+   }
+   catch(err){
+     res.status(500).json({
+       success: false,
+       message: "Server Error",
+       err: err.message
+     })
+   }
 };
 const updateSchool = async (req, res) => {
-  const QUERY = ``;
   const { id } = req.params;
-  const VALUE = [];
-  const { someData } = req.body;
+  const { school_name, school_image, establish_date, longitude, latitude, type } = req.body;
+  const VALUE = [school_name||null,school_image||null,establish_date||null,longitude||null,latitude||null,type||null,id];
+  const QUERY = `UPDATE schools SET school_name=COALESCE($1,school_name),school_image=COALESCE($2,school_image),establish_date=COALESCE($3,establish_date),longitude=COALESCE($4,longitude),latitude=COALESCE($5,latitude),type=COALESCE($6,type) WHERE school_id=$7 RETURNING * `;
+  try{
+  const response = await   pool.query(QUERY,VALUE)
+  res.status(203).json({
+    success:true,
+    message:"School Updated",
+    updatedSchool:response.rows
+  })
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      err: err.message
+    })
+  }
 };
 const deleteSchool = async (req, res) => {
   const { id } = req.params;
