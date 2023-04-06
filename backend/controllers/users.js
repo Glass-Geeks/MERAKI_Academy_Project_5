@@ -60,6 +60,7 @@ const login = (req, res) => {
   pool
     .query(query, data)
     .then((result) => {
+      console.log('result :>> ', result)
       if (result.rows.length) {
         bcrypt.compare(password, result.rows[0].password, (err, response) => {
           if (err) res.json(err);
@@ -72,7 +73,7 @@ const login = (req, res) => {
                 success: true,
                 message: `Valid login credentials`,
                 token,
-                userId: result.rows[0].id,
+                userId: result.rows[0].user_id,
               });
             } else {
               throw Error;
