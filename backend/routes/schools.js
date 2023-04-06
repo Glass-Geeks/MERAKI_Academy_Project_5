@@ -1,7 +1,7 @@
 const express = require('express');
 const schoolRouter = express.Router()
 const {
-    createSchool,
+  createSchool,
     getAllSchools,
     getSchoolById,
     updateSchool,
