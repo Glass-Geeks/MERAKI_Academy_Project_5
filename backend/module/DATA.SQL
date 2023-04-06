@@ -48,7 +48,7 @@ CREATE TABLE user_school (
   created_at TIMESTAMP DEFAULT NOW(),
   is_deleted SMALLINT DEFAULT 0,
   FOREIGN KEY (school_id) REFERENCES schools(school_id),
-  FOREIGN KEY (user_id) REFERENCES users(user_id)
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE permission (
@@ -75,7 +75,7 @@ CREATE TABLE connection (
   status VARCHAR(255),
   created_at TIMESTAMP DEFAULT NOW(),
   is_deleted SMALLINT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ,
   FOREIGN KEY (friend_id) REFERENCES users(user_id)
 );
 -- TO DROP ALL TABLES
