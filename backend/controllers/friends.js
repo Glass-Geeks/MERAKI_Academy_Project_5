@@ -24,7 +24,23 @@ const createFriendConnection = async (req, res) => {
 };
 const getAllFriends = async (req, res) => {
   const { id } = req.params.id;
-  const QUERY = `SELECT  `;
+  const VALUE = [id]
+  const QUERY = `SELECT * FROM connection WHERE status="Accepted" AND user_id=$1 `;
+  try{
+    const response= await pool.query(QUERY,VALUE);
+    res.status(200).json({
+     success :true,
+     Message:"All Friends",
+     connection:response.rows
+    })
+   }
+   catch(err){
+     res.status(500).json({
+       success: false,
+       message: "Server Error",
+       err: err.message
+     })
+   }
 };
 
 const getFriendRequests = async(req,res)=>{
