@@ -5,7 +5,7 @@ const {
   getAllFriends,getFriendRequests,answerFriendRequest,deleteFriendRequest
 } = require("../controllers/friends");
 
-friendsRouter.post("/", createFriendConnection);
+friendsRouter.post("/:id", createFriendConnection);
 friendsRouter.put("/requests/:id/answer",answerFriendRequest)
 friendsRouter.get("/requests/:id",getFriendRequests)
 friendsRouter.delete("/delete/:id",deleteFriendRequest)

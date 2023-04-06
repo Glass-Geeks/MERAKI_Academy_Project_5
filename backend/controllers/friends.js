@@ -23,9 +23,9 @@ const createFriendConnection = async (req, res) => {
   }
 };
 const getAllFriends = async (req, res) => {
-  const { id } = req.params.id;
+  const  id  = req.params.id;
   const VALUE = [id]
-  const QUERY = `SELECT * FROM connection WHERE status="Accepted" AND user_id=$1 `;
+  const QUERY = `SELECT * FROM connection WHERE status='Friends' AND (user_id=$1 OR friend_id=$1) `;
   try{
     const response= await pool.query(QUERY,VALUE);
     res.status(200).json({
@@ -46,10 +46,11 @@ const getAllFriends = async (req, res) => {
 const getFriendRequests = async(req,res)=>{
 const id = req.params.id
 const VALUE= [id]
-const QUERY = `SELECT * FROM connection WHERE user_id=$1 `
+const QUERY = `SELECT * FROM connection WHERE friend_id=$1 AND status = 'Pending' `
 
 try{
- const response = pool.query(QUERY,VALUE)
+ const response =await  pool.query(QUERY,VALUE)
+ 
  res.status(200).json({
   success :true,
   Message:"Connection Status",
@@ -64,13 +65,13 @@ try{
 }
 }
 
-const answerFriendRequest = (req,res)=>{
+const answerFriendRequest = async(req,res)=>{
 const id = req.params.id
-const {status} = req.body
-const VALUE = [status,id]
-const QUERY = `UPDATE Connection SET status=$1 WHERE user_id=$2 RETURNING * `
+const {friend_id}= req.body
+const VALUE = [id,friend_id]
+const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id=$2 AND friend_id=$1 RETURNING * `
 try{
-  const response = pool.query(QUERY,VALUE)
+  const response =await pool.query(QUERY,VALUE)
   res.status(203).json({
    success :true,
    Message:"Connection Response",
@@ -85,7 +86,24 @@ try{
  }
 }
 
-const deleteFriendRequest = (req,res)=>{
-
+const deleteFriendRequest =async (req,res)=>{
+const id = req.params.id
+const {friend_id} = req.body
+const VALUE = [friend_id,id]
+const QUERY = `DELETE FROM connection WHERE friend_id = $1 AND user_id=$2`
+try{
+  const response =await pool.query(QUERY,VALUE)
+  res.status(200).json({
+   success :true,
+   Message:"Friend deleted"
+   
+  })
+ }catch(err){
+   res.status(500).json({
+     success: false,
+     message: "Server Error",
+     err: err.message
+   })
+ }
 }
 module.exports = { createFriendConnection, getAllFriends ,getFriendRequests,answerFriendRequest,deleteFriendRequest};
