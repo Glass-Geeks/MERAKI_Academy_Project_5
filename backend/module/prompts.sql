@@ -1,21 +1,14 @@
-
-
 INSERT INTO type (type)
 VALUES
-('Elementary School'),
-('Middle School'),
-('High School'),
-('University'),
-('College');
+('SCHOOL'),
+('UNIVERSITY'),
+
 
 INSERT INTO role (role)
 VALUES
-('Admin'),
-('Teacher'),
-('Student'),
-('Alumni');
-
-
+('ADMIN'),
+('TEACHER'),
+('STUDENT'),
 
 INSERT INTO users (email, first_name, last_name, role, password, DOB)
 VALUES
@@ -25,7 +18,6 @@ VALUES
 ('alumni@gmail.com', 'Khalid', 'Haj', 4, '123456', '1990-01-01'),
 ('teacher@gmail.com', 'Hassan', 'Er', 2, '123456', '1985-01-01');
 
-
 INSERT INTO schools (school_name, establish_date, type, longitude, latitude )
 VALUES
 ('Lincoln Elementary School', '1990-01-01', 1, '35.901431', '31.931891'),
@@ -33,7 +25,6 @@ VALUES
 ('Washington High School', '2010-01-01', 3, '35.908131', '31.931231'),
 ('University of California, Berkeley', '2015-01-01', 4, '35.901471', '31.911811'),
 ('Stanford College', '2018-01-01', 5, '35.900731', '31.933391');
-
 
 INSERT INTO user_school (school_id, user_id, start_year, end_year)
 VALUES
@@ -43,57 +34,38 @@ VALUES
 (4, 4, '2017-01-01', '2021-01-01'),
 (5, 5, '1985-01-01', '1990-01-01');
 
-
-
-INSERT INTO permission (permission, created_at)
+INSERT INTO permission (permission)
 VALUES
-  ('View profile', NOW()),
-  ('Edit profile', NOW()),
-  ('Delete profile', NOW()),
-  ('Create post', NOW()),
-  ('Edit post', NOW()),
-  ('Delete post', NOW()),
-  ('View dashboard', NOW()),
-  ('Manage users', NOW()),
-  ('Manage settings', NOW()),
-  ('Manage billing', NOW());
+  ('VIEW_PROFILE'),
+  ('EDIT_PROFILE'),
+  ('DELETE_PROFILE'),
+  ('CREATE_POST'),
+  ('EDIT_POST'),
+  ('DELETE_POST'),
+  ('VIEW_DASHBOARD'),
+  ('MANAGE_USERS'),
+  ('MANAGE_SETTINGS'),
+  ('MANAGE_BILLING');
 
-
-
-
-INSERT INTO role_permission (role_id, permission_id, created_at)
+INSERT INTO role_permission (role_id, permission_id)
 VALUES
-  (1, 1, NOW()),
-  (1, 2, NOW()),
-  (1, 3, NOW()),
-  (1, 4, NOW()),
-  (1, 5, NOW()),
-  (2, 1, NOW()),
-  (2, 2, NOW()),
-  (2, 4, NOW()),
-  (3, 3, NOW()),
-  (3, 6, NOW()),
-  (3, 7, NOW()),
-  (3, 9, NOW()),
-  (4, 1, NOW()),
-  (4, 2, NOW()),
-  (4, 4, NOW()),
-  (4, 5, NOW()),
-  (4, 7, NOW()),
-  (4, 8, NOW());
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 5),
+  (2, 1),
+  (2, 2),
+  (2, 4),
+  (3, 3),
+  (3, 6),
+  (3, 7),
+  (3, 9),
 
-
-
-
-INSERT INTO connection (user_id, friend_id, status, created_at)
+INSERT INTO connection (user_id, friend_id)
 VALUES
-  (1, 2, 'Pending', NOW()),
-  (2, 1, 'Pending', NOW()),
-  (1, 3, 'Accepted', NOW()),
-  (3, 1, 'Accepted', NOW()),
-  (2, 3, 'Declined', NOW()),
-  (3, 2, 'Declined', NOW()),
-  (3, 4, 'Accepted', NOW()),
-  (4, 3, 'Accepted', NOW()),
-  (4, 5, 'Pending', NOW()),
-  (5, 4, 'Pending', NOW());
+  (2, 1),
+  (1, 3),
+  (2, 3),
+  (3, 4),
+  (4, 5),
