@@ -2,11 +2,43 @@ const { pool } = require("../module/db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const SALT = parseInt(process.env.SALT);
+
 const register = async (req, res) => {
-  const QUERY = ``;
-  const VALUE = [];
-  const { someData } = req.body;
+  const { email, first_name, last_name, role, password, user_image, dob } =
+    req.body;
+
+  const encryptedPassword = await bcrypt.hash(password, SALT);
+
+  const VALUE = [
+    email.toLowerCase(),
+    first_name,
+    last_name,
+    role,
+    encryptedPassword,
+    user_image,
+    dob,
+  ];
+
+  const QUERY = `INSERT INTO users (email, first_name, last_name, role, password, user_image, dob) VALUES ($1,$2,$3,$4,$5,$6,$7)`;
+
+  pool
+    .query(QUERY, VALUE)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: "Account created successfully",
+      });
+    })
+    .catch((err) => {
+      res.status(409).json({
+        success: false,
+        message: "The email already exists",
+        err,
+      });
+    });
 };
+
+
 // Generate Token Function
 
 /* 
