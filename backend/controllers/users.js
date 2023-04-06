@@ -158,7 +158,7 @@ const updateUserInfo = async (req, res) => {
 
 const getUserById = async (req, res) => {
   const { id } = req.params;
-  const QUERY = `SELECT * FROM users WHERE id=$1`;
+  const QUERY = `SELECT email, first_name, last_name,	role,	user_image,	dob FROM users WHERE user_id=$1`;
   const data = [id];
 
   pool
