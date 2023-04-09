@@ -1,17 +1,17 @@
-const express = require('express');
-const schoolRouter = express.Router()
+const express = require("express");
+const schoolRouter = express.Router();
 const {
   createSchool,
-    getAllSchools,
-    getSchoolById,
-    updateSchool,
-    deleteSchool,
-  }= require('../controllers/schools')
+  getAllSchools,
+  getSchoolById,
+  updateSchool,
+  deleteSchool,
+} = require("../controllers/schools");
 
-schoolRouter.get('/',getAllSchools)
-schoolRouter.get('/:id',getSchoolById)
-schoolRouter.post('/add',createSchool)
-schoolRouter.put('/update/:id',updateSchool)
-schoolRouter.delete('/delete/:id',deleteSchool)
+schoolRouter.get("/", getAllSchools);
+schoolRouter.get("/:id", getSchoolById);
+schoolRouter.post("/add", createSchool);
+schoolRouter.put("/update/:id", updateSchool);
+schoolRouter.delete("/delete/:id", deleteSchool);
 
-module.exports = schoolRouter
+module.exports = schoolRouter;
