@@ -6,7 +6,7 @@ const Register = () => {
     email: "",
     first_name: "",
     last_name: "",
-    role: "",
+    role: 14,
     password: "",
     user_image: "",
     dob: "",
@@ -54,6 +54,8 @@ const [isLoading, setIsLoading] = useState(true)
     axios.post(`http://localhost:5000/users/register`,user)
     .then((result)=>{
       console.log(result)
+    }).catch((err)=>{
+      console.log(err)
     })
   };
 
