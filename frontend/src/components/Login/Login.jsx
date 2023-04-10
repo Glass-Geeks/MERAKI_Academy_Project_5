@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useDispatch,useSelector } from "react-redux";
 import {setLogin, setUserId, setLogout} from "../store/auth/index"
@@ -14,16 +14,18 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate()
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
   const dispatch = useDispatch()
   const state = useSelector ((state)=>{
+    
     return {
       auth:state.auth
     }
   })
 
-  
+  console.log(state)
 
   const login = async (e) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const Login = () => {
         setMessage("");
         dispatch(setLogin(result.data.token))
         dispatch(setUserId(result.data.userId))
-        
+        navigate("/")
       } else throw Error;
     } catch (error) {
       if (error.response && error.response.data) {
