@@ -6,14 +6,16 @@ const SECRET = process.env.SECRET;
 const register = async (req, res) => {
   const { email, first_name, last_name, role, password, user_image, dob } =
     req.body;
-
+  const roleQuery = `SELECT  role_id FROM role WHERE role.role = '${role}'`;
+  const roleId = await pool.query(roleQuery);
+  const { role_id } = roleId.rows[0];
   const encryptedPassword = await bcrypt.hash(password, SALT);
 
   const VALUE = [
     email.toLowerCase(),
     first_name,
     last_name,
-    role,
+    role_id,
     encryptedPassword,
     user_image,
     dob,
@@ -60,7 +62,7 @@ const login = (req, res) => {
   pool
     .query(query, data)
     .then((result) => {
-      console.log('result :>> ', result)
+      console.log("result :>> ", result);
       if (result.rows.length) {
         bcrypt.compare(password, result.rows[0].password, (err, response) => {
           if (err) res.json(err);

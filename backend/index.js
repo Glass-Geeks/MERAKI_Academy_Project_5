@@ -11,7 +11,6 @@ const friendsRouter = require("./routes/friends");
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/schools", schoolRouter);
 app.use("/roles", roleRouter);
 app.use("/users", usersRouter);
