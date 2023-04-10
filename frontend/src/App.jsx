@@ -2,6 +2,7 @@ import "./App.css";
 import Err404 from "./components/Error/Err404";
 import { Routes, Route } from "react-router-dom";
 import School from "./components/School/School";
+
 function App() {
   return (
     <>
