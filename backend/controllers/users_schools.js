@@ -4,7 +4,7 @@ const getAllStudentBySchoolId = async (req, res) => {
   const { id } = req.params;
   const QUERY = `SELECT users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
   INNER JOIN schools ON schools.school_id = user_school.school_id
-  WHERE role.role = 'Student' AND schools.school_id = ${id}`;
+  WHERE role.role = 'STUDENT' AND schools.school_id = ${id}`;
   try {
     const result = await pool.query(QUERY);
 
@@ -23,7 +23,7 @@ const getAllTeachersBySchoolId = async (req, res) => {
   const { id } = req.params;
   const QUERY = `SELECT users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year  FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
   INNER JOIN schools ON schools.school_id = user_school.school_id
-  WHERE role.role = 'Teacher' AND schools.school_id =${id}`;
+  WHERE role.role = 'TEACHER' AND schools.school_id =${id}`;
   try {
     const result = await pool.query(QUERY);
 

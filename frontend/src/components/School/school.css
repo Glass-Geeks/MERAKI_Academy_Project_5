@@ -2,3 +2,24 @@
     width: 99vw;
     height: 500px;
 }
+.scroll-data{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+
+}
+.student-scroll,.teacher-scroll{
+    display: flex;
+    flex-direction: column;
+}
+.Connect-Btn{
+    cursor: pointer;
+}
+#scrollableDiv::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+  }
+  #scrollableDiv::-webkit-scrollbar-thumb {
+    background: #2d2e37;
+  }
