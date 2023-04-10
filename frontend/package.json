@@ -11,9 +11,14 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "google-map-react": "^2.2.0",
+    "antd": "^5.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5"
+    "react-dynamic-virtual-scroll": "^1.4.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.10.0",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
