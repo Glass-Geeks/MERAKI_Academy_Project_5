@@ -6,12 +6,12 @@ const Register = () => {
     email: "",
     first_name: "",
     last_name: "",
-    role: 14,
+    role: "",
     password: "",
     user_image: "",
     dob: "",
   });
-const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const { email, first_name, last_name, role, password, user_image, dob } = userData;
 
   const handleInputChange = (event) => {
@@ -47,16 +47,16 @@ const [isLoading, setIsLoading] = useState(true)
       setIsLoading(false)
     }
   };
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const user= userData
-    axios.post(`http://localhost:5000/users/register`,user)
-    .then((result)=>{
-      console.log(result)
-    }).catch((err)=>{
-      console.log(err)
-    })
+    const user = userData
+    axios.post(`http://localhost:5000/users/register`, user)
+      .then((result) => {
+        console.log(result)
+      }).catch((err) => {
+        console.log(err)
+      })
   };
 
   return (
@@ -128,6 +128,17 @@ const [isLoading, setIsLoading] = useState(true)
               value={password}
               onChange={handleInputChange}
             ></input>
+       
+          <p>You are ?</p>
+  <input type="radio" id="teacher" name="role" value="TEACHER" onClick={(event)=>{
+    handleInputChange(event)
+  }} />
+  <label htmlFor="teacher">Teacher</label><br />
+  <input  type="radio" id="student" name="role" value="STUDENT"onClick={(event)=>{
+    handleInputChange(event)
+  }}  />
+  <label htmlFor="student">Student</label><br />
+  
 
             <button type="submit" className="signupbtn" disabled={isLoading}>
               Sign Up
@@ -140,5 +151,3 @@ const [isLoading, setIsLoading] = useState(true)
 };
 
 export default Register
-
-
