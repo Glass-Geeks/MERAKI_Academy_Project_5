@@ -12,12 +12,11 @@ function App() {
   return (
     <>
       <div className="App">
-      <GlobalStyle/>
+        <GlobalStyle />
         <Routes>
           <Route path="/" element={<MapContainer />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
           <Route path="/school/:id" element={<School />} />
           <Route path="*" element={<Err404 />} />
         </Routes>
