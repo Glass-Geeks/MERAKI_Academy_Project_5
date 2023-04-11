@@ -8,6 +8,7 @@ const roleRouter = require("./routes/roles");
 const usersRouter = require("./routes/users");
 const users_schools_router = require("./routes/users_schools");
 const friendsRouter = require("./routes/friends");
+const cors = require("cors");
 
 app.use(cors());
 app.use(express.json());

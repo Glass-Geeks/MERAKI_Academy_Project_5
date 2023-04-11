@@ -1,37 +1,182 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({ onClick, zoom }) => {
+  const pinSize = zoom <= 13 ? "25px" : "35px";
+  return (
+    <div onClick={onClick}>
+      <img
+        className="pin"
+        src="https://cdn-icons-png.flaticon.com/512/484/484167.png"
+        alt="Pin Icon"
+        style={{ width: pinSize, height: pinSize }}
+      />
+    </div>
+  );
+};
 
 export default function MapContainer() {
+  const navigate = useNavigate();
+  const [pins, setPins] = useState([]);
+  const [pinClicked, setPinClicked] = useState(false);
+
+  const handleClick = () => {
+    setPinClicked(true);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/schools/")
+      .then((result) => {
+        const schools = result.data.schools;
+        const newPins = schools.map((element) => ({
+          lat: element.latitude,
+          lng: element.longitude,
+          school: element.school_name,
+          id: element.school_id,
+          type: element.type,
+        }));
+        setPins(newPins);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const defaultProps = {
     center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
+      lat: 31.985157,
+      lng: 35.833666,
     },
     zoom: 11,
   };
-
+  console.log(pins);
   return (
-    // Important! Always set the container height explicitly
     <div>
-      {
-        <div style={{ height: "100vh", width: "100%" }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: "AIzaSyAZTsJ09SYo2PKzsR8sjk9jDgWMN8ltAZs" }}
-            // defaultCenter={defaultProps.center}
-            defaultZoom={defaultProps.zoom}
-            center={defaultProps.center}
-            yesIWantToUseGoogleMapApiInternals={true}
-          >
+      <div style={{ height: "100vh", width: "100%" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: "AIzaSyAZTsJ09SYo2PKzsR8sjk9jDgWMN8ltAZs",
+            language: "en",
+          }}
+          defaultZoom={defaultProps.zoom}
+          center={defaultProps.center}
+          yesIWantToUseGoogleMapApiInternals={true}
+        >
+          {/* Map over the pins array to create a pin for each object */}
+
+          {pins.map((pin) => (
             <AnyReactComponent
-              lat={59.955413}
-              lng={30.337844}
-              text="My Marker"
+              key={pin.id}
+              lat={pin.lat}
+              lng={pin.lng}
+              onMouseHover={() => {
+                console.log("first");
+              }}
+              onClick={() => {
+                handleClick(pin);
+                navigate(`/school/${pin.id}`);
+              }}
             />
-          </GoogleMapReact>
-        </div>
-      }
+          ))}
+        </GoogleMapReact>
+      </div>
     </div>
   );
 }
+
+// import React, { useState, useEffect } from "react";
+// import GoogleMapReact from "google-map-react";
+// import axios from "axios";
+
+// const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+// export default function MapContainer() {
+//   const pins = [];
+//   const [pinClicked, setPinClicked] = useState(false);
+//   const handleClick = () => {
+//     setPinClicked(true);
+//   };
+//   useEffect(() => {
+//     axios
+//       .get("http://localhost:5000/schools/")
+//       .then((result) => {
+//         const schools = result.data.schools;
+
+//         schools.forEach((element) => {
+//           pins.push({
+//             lat: element.latitude,
+//             lng: element.longitude,
+//             school: element.school_name,
+//             id: element.school_id,
+//             type: element.type,
+//           });
+//         });
+//         console.log(pins);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }, []);
+
+//   const defaultProps = {
+//     center: {
+//       lat: 10.99835602,
+//       lng: 77.01502627,
+//     },
+//     zoom: 11,
+//   };
+
+//   return (
+//     <div>
+//       {pinClicked ? (
+//         // Render the other component when the pin is clicked
+//         <OtherComponent />
+//       ) : (
+//         <div style={{ height: "100vh", width: "100%" }}>
+//           <GoogleMapReact
+//             bootstrapURLKeys={{ key: "AIzaSyAZTsJ09SYo2PKzsR8sjk9jDgWMN8ltAZs" }}
+//             defaultZoom={defaultProps.zoom}
+//             center={defaultProps.center}
+//             yesIWantToUseGoogleMapApiInternals={true}
+//           >
+//             {/* Map over the pins array to create a pin for each object */}
+//             {pins.map((pin, index) => (
+//               <AnyReactComponent
+//                 key={index}
+//                 lat={pin.lat}
+//                 lng={pin.lng}
+//                 text={pin.text}
+//                 onClick={handleClick}
+//               />
+//             ))}
+//           </GoogleMapReact>
+//         </div>
+//       )}
+//     </div>
+//   );
+//   // Important! Always set the container height explicitly
+//   // <div>
+//   //   {
+//   //     <div style={{ height: "100vh", width: "100%" }}>
+//   //       <GoogleMapReact
+//   //         bootstrapURLKeys={{
+//   //           key: "AIzaSyAZTsJ09SYo2PKzsR8sjk9jDgWMN8ltAZs",
+//   //         }}
+//   //         // defaultCenter={defaultProps.center}
+//   //         defaultZoom={defaultProps.zoom}
+//   //         center={defaultProps.center}
+//   //         yesIWantToUseGoogleMapApiInternals={true}
+//   //       >
+//   //         <AnyReactComponent
+//   //           lat={59.955413}
+//   //           lng={30.337844}
+//   //           text="My Marker"
+//   //         />
+//   //       </GoogleMapReact>
+//   //     </div>
+//   //   }
+//   // </div>
+// }
