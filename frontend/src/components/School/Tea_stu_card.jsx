@@ -1,106 +1,72 @@
-import React, { useState } from "react";
 
-const Tea_stu_card = () => {
-  const [data, setData] = useState([
-    "Kaiya",
-    "Lucinda",
-    "Axl",
-    "Jaziah",
-    "Bodhi",
-    "Nico",
-    "Jasmine",
-    "Selah",
-    "Elias",
-    "Zuri",
-    "Marcel",
-    "Callie",
-    "Rosie",
-    "Lea",
-    "Jasper",
-    "Kash",
-    "Reagan",
-    "Mira",
-    "Jett",
-    "Koda",
-    "Mikayla",
-    "Coraline",
-    "Aniya",
-    "Kamryn",
-    "Toby",
-    "Levi",
-    "Maren",
-    "Aurelia",
-    "Darian",
-    "Brycen",
-    "Emmy",
-    "Harrison",
-    "Anaya",
-    "Saylor",
-    "Amira",
-    "Livia",
-    "Lyla",
-    "Hazel",
-    "Eleanor",
-    "Isaiah",
-    "Cali",
-    "Khalil",
-    "Elliana",
-    "Maliah",
-    "Alfred",
-    "Dwayne",
-    "Arden",
-    "Finnegan",
-    "Kade",
-    "Edgar",
-    "Malcolm",
-    "Jacqueline",
-    "Esmeralda",
-    "Chanel",
-    "Augustus",
-    "Reuben",
-    "Brennan",
-    "Cayson",
-    "Riley",
-    "Paxton",
-    "Kamila",
-    "Hattie",
-    "Landon",
-    "Arian",
-    "Zaiden",
-    "Jovani",
-    "Rosalie",
-    "Amaris",
-    "Ryann",
-    "Vihaan",
-    "Remington",
-    "Kaitlyn",
-    "Thalia",
-    "Jaden",
-    "Rayna",
-    "Jairo",
-    "Maeve",
-    "Leona",
-    "Uriel",
-    "Landon",
-    "Giovanni",
-    "Bryce",
-    "Destiny",
-    "Dayana",
-    "Emmalyn",
-    "Arabella",
-    "Eliana",
-    "Alexandria",
-    "Zayne",
-    "Delaney",
-  ]);
+import React, { useEffect, useState } from "react";
 
+import { Avatar, Divider, List, Skeleton } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
+const Tea_stu_card = ({ data }) => {
+  // console.log('data :>> ', data);
+
+  const addFriend = () => {
+    console.log("Hello Stranger");
+  };
   return (
     <>
-      <div>
-      <h1>hello</h1>
+
+      <div
+        id="scrollableDiv"
+        style={{
+          height: 400,
+          width: 500,
+          overflow: "auto",
+          padding: "0 16px",
+          border: "1px solid #fcfeff",
+        }}
+      >
+        <InfiniteScroll
+          dataLength={data.length}
+          hasMore={false}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 1,
+              }}
+              active
+            />
+          }
+          // endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+          scrollableTarget="scrollableDiv"
+        >
+          <List
+            dataSource={data}
+            renderItem={(item) => (
+              <List.Item key={item}>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.user_image} />}
+                  title={
+                    <h4
+                      style={{ color: "#fcfeff" }}
+                    >{`${item.first_name}  ${item.last_name}`}</h4>
+                  }
+                />
+
+                <div
+                  onClick={addFriend}
+                  className="Connect-Btn"
+                  style={{ color: "#fcfeff" }}
+                >
+                  🔗 Connect
+                </div>
+              </List.Item>
+            )}
+          />
+        </InfiniteScroll>
       </div>
+
     </>
   );
 };
 
 export default Tea_stu_card;
+
+
