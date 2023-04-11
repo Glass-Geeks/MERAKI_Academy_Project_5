@@ -70,4 +70,3 @@ const Tea_stu_card = ({ data }) => {
 export default Tea_stu_card;
 
 
-api = 'localhost:5000/message'
