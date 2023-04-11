@@ -1,3 +1,24 @@
+*{
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-padding-top: 32px;
+
+}
+html::-webkit-scrollbar {
+width: 10px;
+background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+background: #bbb;
+}
+body {
+
+ color: #fcfeff !important;
+  background: #1e1e2a !important;
+}
 .pin {
   height: 30px;
   width: 30px;

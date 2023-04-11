@@ -9,13 +9,10 @@ const roleRouter = require("./routes/roles");
 const usersRouter = require("./routes/users");
 const users_schools_router = require("./routes/users_schools");
 const friendsRouter = require("./routes/friends");
-const socket = require("socket.io");
+const { Server } = require("socket.io");
 const messageSchema = require("./module/messageSchema");
 const messageRouter = require("./routes/messages");
-
-
-
-
+const { createServer } = require('http')
 app.use(cors());
 app.use(express.json());
 app.use("/schools", schoolRouter);
@@ -25,11 +22,11 @@ app.use("/friends", friendsRouter);
 app.use("/users_schools", users_schools_router);
 app.use("/message", messageRouter);
 const PORT = process.env.PORT;
-const server = app.listen(PORT, () =>
+ app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
-
-const io = socket(server, {
+const chatServer = createServer()
+const io = new Server(chatServer, {
   cors: {
     origin: process.env.CLIENT_API,
     method: ["GET", "POST"],
@@ -37,16 +34,25 @@ const io = socket(server, {
 });
 
 io.on("CONNECTION", (socket) => {
+  console.log("socket", socket.id);
   socket.on("JOIN_ROOM", (data) => {
+    console.log(data);
     socket.join(data);
   });
-  socket.on("SEND_MESSAGE", (data) => {
+  socket.on("SEND_MESSAGE", async (data) => {
     const { roomId, content } = data;
-    const updateMessage = messageSchema
-      .updateOne({ roomId }, { $push: { message: content } })
-      .then(() => {
-        socket.to(data.room).emit("RECEIVE_MESSAGE", data.content);
-      })
-      .catch((err) => console.log(err));
+    try {
+      const result = await messageSchema.findOneAndUpdate({roomId},
+        { $push: { messages: content } }
+      );
+      console.log("result :>> ", result);
+      socket.to(data.roomId).emit("RECEIVE_MESSAGE", data.content);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  });
+  socket.on("disconnect", () => {
+    console.log("User Left");
   });
 });
+chatServer.listen(5002)
