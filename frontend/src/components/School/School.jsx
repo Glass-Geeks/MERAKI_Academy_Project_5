@@ -5,6 +5,9 @@ import axios from "axios";
 
 import { useParams } from "react-router-dom";
 import Tea_stu_card from "./Tea_stu_card";
+import { Container } from "../Styled/Container.Styled";
+import { Row } from "../Styled/Row.Styled";
+import { Col } from "../Styled/Column.Styled";
 const School = () => {
   const { id } = useParams();
   const [school, setSchool] = useState({});
@@ -31,29 +34,40 @@ const School = () => {
   console.log(typeof establish_date);
   return (
     <>
-      {Object.keys(school).length ? (
-        <>
-          <SchoolNav />
-          <div>
-            <img className="school-img" src={school_image} alt="school" />
-            <h2>{school_name}</h2>
-            <p>{""}</p>
-          </div>
-          <div className="cards-stu-teacher"></div>
-        </>
-      ) : (
-        <h1>loading</h1>
-      )}
-      <div className="scroll-data">
-        <div className="student-scroll">
-          <p>student</p>
-          <Tea_stu_card data={students} />
-        </div>
-        <div className="teacher-scroll">
-          <p>teacher</p>
-          <Tea_stu_card data={teachers} />
-        </div>
-      </div>
+      <SchoolNav />
+      <Container>
+        {Object.keys(school).length ? (
+          <Row>
+            <Col>
+            <Row>
+              <img
+                className="school-img"
+                src={
+                  "https://assets-global.website-files.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
+                }
+                alt="school"
+              />
+            </Row>
+            <Row>
+              <h2>{school_name}</h2>
+            </Row>
+            </Col>
+       
+          </Row>
+        ) : (
+          <h1>loading</h1>
+        )}
+        <Row className="student_teacher_card">
+          <Col>
+            <p>student</p>
+            <Tea_stu_card data={students} />
+          </Col>
+          <Col>
+            <p>teacher</p>
+            <Tea_stu_card data={teachers} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
