@@ -1,17 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const friendSlice = createSlice({
-  name: "schools",
+  name: "friends",
   initialState: {
-    friends: [],
+    allFriends: [],
+    friendRequests: [],
   },
   reducers: {
-    getAllFriends: (state, action) => {
-      state.schools = action.payload;
+    setAllFriends: (state, action) => {
+      state.allFriends = action.payload;
     },
-  },
-});
+    setAllFriendRequests: (state, action) => {
+      state.friendRequests = action.payload;
+    },
+  
+}});
 
-export const { getAllFriends } = friendSlice.actions;
+export const {
+  setAllFriends,
+  setAllFriendRequests,
+} = friendSlice.actions;
 
 export default friendSlice.reducer;
