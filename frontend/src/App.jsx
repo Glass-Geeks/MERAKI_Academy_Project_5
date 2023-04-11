@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import School from "./components/School/School";
 import Login from "./components/Login/Login";
 
+
 function App() {
   return (
     <>
@@ -24,3 +25,4 @@ function App() {
 }
 
 export default App;
+

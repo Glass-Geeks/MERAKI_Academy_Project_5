@@ -7,11 +7,18 @@
 .infoPopup {
   background-color: white;
   width: 250px;
-  height: 150px;
+  height: 250px;
   padding: 10px;
+  border-radius: 5px;
 }
 
 .mainMap {
   padding: 10px;
   margin: 20px;
+}
+
+.schoolMapIMG {
+  border-radius: 10px;
+  width: 200px;
+  height: 100px;
 }
