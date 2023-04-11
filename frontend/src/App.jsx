@@ -11,7 +11,6 @@ function App() {
     <>
       <div className="App">
         <Routes>
-
           <Route path="/" element={<MapContainer />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
@@ -20,12 +19,6 @@ function App() {
           <Route path="*" element={<Err404 />} />
         </Routes>
       </div>
-
-
-      <div>
-        <MapContainer />
-      </div>
-
     </>
   );
 }
