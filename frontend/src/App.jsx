@@ -7,6 +7,7 @@ import School from "./components/School/School";
 import Login from "./components/Login/Login";
 import GlobalStyle from "./components/Styled/Global.Styled";
 
+
 function App() {
   return (
     <>
@@ -25,3 +26,4 @@ function App() {
 }
 
 export default App;
+

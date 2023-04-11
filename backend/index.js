@@ -13,6 +13,9 @@ const socket = require("socket.io");
 const messageSchema = require("./module/messageSchema");
 const messageRouter = require("./routes/messages");
 
+
+
+
 app.use(cors());
 app.use(express.json());
 app.use("/schools", schoolRouter);
