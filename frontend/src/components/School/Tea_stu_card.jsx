@@ -9,7 +9,6 @@ const Tea_stu_card = ({ data }) => {
   const addFriend = () => {
     console.log("Hello Stranger");
   };
-  const openUserPopup = () => {};
   return (
     <>
 
@@ -20,7 +19,7 @@ const Tea_stu_card = ({ data }) => {
           width: 500,
           overflow: "auto",
           padding: "0 16px",
-          border: "1px solid rgba(140, 140, 140, 0.35)",
+          border: "1px solid #fcfeff",
         }}
       >
         <InfiniteScroll
@@ -46,11 +45,16 @@ const Tea_stu_card = ({ data }) => {
                   avatar={<Avatar src={item.user_image} />}
                   title={
                     <h4
-                      onClick={openUserPopup}
+                      style={{ color: "#fcfeff" }}
                     >{`${item.first_name}  ${item.last_name}`}</h4>
                   }
                 />
-                <div onClick={addFriend} className="Connect-Btn">
+
+                <div
+                  onClick={addFriend}
+                  className="Connect-Btn"
+                  style={{ color: "#fcfeff" }}
+                >
                   🔗 Connect
                 </div>
               </List.Item>
@@ -64,3 +68,6 @@ const Tea_stu_card = ({ data }) => {
 };
 
 export default Tea_stu_card;
+
+
+api = 'localhost:5000/message'
