@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {InfiniteScroll} from "react-infinite-scroll-component";
+
 import { Avatar, Divider, List, Skeleton } from "antd";
 const Tea_stu_card = () => {
   const [data, setData] = useState([
@@ -97,9 +97,7 @@ const Tea_stu_card = () => {
 
   return (
     <>
-      <div>
-      
-      </div>
+      <div></div>
     </>
   );
 };
