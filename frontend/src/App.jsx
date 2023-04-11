@@ -7,13 +7,13 @@ import School from "./components/School/School";
 import Login from "./components/Login/Login";
 import GlobalStyle from "./components/Styled/Global.Styled";
 
+
 function App() {
   return (
     <>
       <div className="App">
       <GlobalStyle/>
         <Routes>
-
           <Route path="/" element={<MapContainer />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
@@ -22,14 +22,9 @@ function App() {
           <Route path="*" element={<Err404 />} />
         </Routes>
       </div>
-
-
-      <div>
-        <MapContainer />
-      </div>
-
     </>
   );
 }
 
 export default App;
+
