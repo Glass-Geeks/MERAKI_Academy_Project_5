@@ -43,7 +43,14 @@ const Friends = () => {
         }
     }
 
-    const delete
+    const deleteFriend = async()=>{
+        const id = localStorage.getItem("userId")
+        try{
+            const response = await axios.get(`${url}/friends/delete/${id}`)
+        }catch(err){
+            console.log(err)
+        }
+    }
     useEffect(() => {
         getAllFriends()
         getAllFriendRequests()

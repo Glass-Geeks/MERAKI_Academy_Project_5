@@ -69,10 +69,10 @@ const answerFriendRequest = async(req,res)=>{
 const id = req.params.id
 const {friend_id}= req.body
 const VALUE = [id,friend_id]
-const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id=$2 AND friend_id=$1 RETURNING * `
+const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id=$1 AND friend_id=$2 RETURNING * `
 try{
   const response =await pool.query(QUERY,VALUE)
-  res.status(203).json({
+  res.status(200).json({
    success :true,
    Message:"Connection Response",
    connection:response.rows
