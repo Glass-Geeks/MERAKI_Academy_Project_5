@@ -1,103 +1,64 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 
 import { Avatar, Divider, List, Skeleton } from "antd";
-const Tea_stu_card = () => {
-  const [data, setData] = useState([
-    "Kaiya",
-    "Lucinda",
-    "Axl",
-    "Jaziah",
-    "Bodhi",
-    "Nico",
-    "Jasmine",
-    "Selah",
-    "Elias",
-    "Zuri",
-    "Marcel",
-    "Callie",
-    "Rosie",
-    "Lea",
-    "Jasper",
-    "Kash",
-    "Reagan",
-    "Mira",
-    "Jett",
-    "Koda",
-    "Mikayla",
-    "Coraline",
-    "Aniya",
-    "Kamryn",
-    "Toby",
-    "Levi",
-    "Maren",
-    "Aurelia",
-    "Darian",
-    "Brycen",
-    "Emmy",
-    "Harrison",
-    "Anaya",
-    "Saylor",
-    "Amira",
-    "Livia",
-    "Lyla",
-    "Hazel",
-    "Eleanor",
-    "Isaiah",
-    "Cali",
-    "Khalil",
-    "Elliana",
-    "Maliah",
-    "Alfred",
-    "Dwayne",
-    "Arden",
-    "Finnegan",
-    "Kade",
-    "Edgar",
-    "Malcolm",
-    "Jacqueline",
-    "Esmeralda",
-    "Chanel",
-    "Augustus",
-    "Reuben",
-    "Brennan",
-    "Cayson",
-    "Riley",
-    "Paxton",
-    "Kamila",
-    "Hattie",
-    "Landon",
-    "Arian",
-    "Zaiden",
-    "Jovani",
-    "Rosalie",
-    "Amaris",
-    "Ryann",
-    "Vihaan",
-    "Remington",
-    "Kaitlyn",
-    "Thalia",
-    "Jaden",
-    "Rayna",
-    "Jairo",
-    "Maeve",
-    "Leona",
-    "Uriel",
-    "Landon",
-    "Giovanni",
-    "Bryce",
-    "Destiny",
-    "Dayana",
-    "Emmalyn",
-    "Arabella",
-    "Eliana",
-    "Alexandria",
-    "Zayne",
-    "Delaney",
-  ]);
+import InfiniteScroll from "react-infinite-scroll-component";
+const Tea_stu_card = ({ data }) => {
+  // console.log('data :>> ', data);
 
+  const addFriend = () => {
+    console.log("Hello Stranger");
+  };
+  const openUserPopup = () => {};
   return (
     <>
-      <div></div>
+
+      <div
+        id="scrollableDiv"
+        style={{
+          height: 400,
+          width: 500,
+          overflow: "auto",
+          padding: "0 16px",
+          border: "1px solid rgba(140, 140, 140, 0.35)",
+        }}
+      >
+        <InfiniteScroll
+          dataLength={data.length}
+          hasMore={false}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 1,
+              }}
+              active
+            />
+          }
+          // endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+          scrollableTarget="scrollableDiv"
+        >
+          <List
+            dataSource={data}
+            renderItem={(item) => (
+              <List.Item key={item}>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.user_image} />}
+                  title={
+                    <h4
+                      onClick={openUserPopup}
+                    >{`${item.first_name}  ${item.last_name}`}</h4>
+                  }
+                />
+                <div onClick={addFriend} className="Connect-Btn">
+                  🔗 Connect
+                </div>
+              </List.Item>
+            )}
+          />
+        </InfiniteScroll>
+      </div>
+
     </>
   );
 };
