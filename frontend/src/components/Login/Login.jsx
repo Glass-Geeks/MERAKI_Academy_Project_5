@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useDispatch,useSelector } from "react-redux";
-import {setLogin, setUserId, setLogout} from "../store/auth/index"
+import {setLogin, setUserId, setLogout,setUserName} from "../store/auth/index"
 import axios from "axios";
 
 
@@ -33,9 +33,12 @@ const Login = () => {
     try {
       const result = await axios.post("http://localhost:5000/users/login", user);
       if (result.data) {
+        console.log('result.data :>> ', result.data);
         setMessage("");
         dispatch(setLogin(result.data.token))
         dispatch(setUserId(result.data.userId))
+        dispatch(setUserName(result.data.first_name))
+     
         navigate("/")
       } else throw Error;
     } catch (error) {

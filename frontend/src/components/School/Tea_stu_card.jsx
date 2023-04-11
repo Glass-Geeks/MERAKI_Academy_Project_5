@@ -1,6 +1,4 @@
-
 import React, { useEffect, useState } from "react";
-
 import { Avatar, Divider, List, Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 const Tea_stu_card = ({ data }) => {
@@ -11,7 +9,6 @@ const Tea_stu_card = ({ data }) => {
   };
   return (
     <>
-
       <div
         id="scrollableDiv"
         style={{
@@ -62,11 +59,8 @@ const Tea_stu_card = ({ data }) => {
           />
         </InfiniteScroll>
       </div>
-
     </>
   );
 };
 
 export default Tea_stu_card;
-
-
