@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axios from 'axios';
 const Conversation = () => {
-  const API_LINK = "http://localhost:5002";
+  const API_LINK = "http://localhost:5000";
   const sender = useSelector((state) => state.auth.userName);
   console.log("sender :>> ", sender);
   const { id } = useParams();
