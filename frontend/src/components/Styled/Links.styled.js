@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Link = styled.a`
   text-decoration: none;
   display: inline-block;
-  color: #fcfeff;
+  color: #000;
 
   &::after {
     content: "";
