@@ -14,8 +14,8 @@ const friendsRouter = require("./routes/friends");
 const messageRouter = require("./routes/messages");
 const messageSchema = require("./module/messageSchema");
 
-const { Server } = require("socket.io");
-const { createServer } = require("https");
+// const { Server } = require("socket.io");
+// const { createServer } = require("https");
 
 app.use(cors());
 app.use(express.json());
@@ -29,23 +29,25 @@ app.use("/message", messageRouter);
 
 const PORT = process.env.PORT;
 
-const server = createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
-
-io.on("connection", (socket) => {
-  console.log(socket.id);
-
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-});
-
-server.listen(PORT, () =>
-  console.log(`Example app listening on port ${PORT}!`)
+app.listen(PORT, () =>
+console.log(`Example app listening on port ${PORT}!`)
 );
+;
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
+
+// io.on("connection", (socket) => {
+//   console.log(socket.id);
+
+//   socket.on("disconnect", () => {
+//     console.log("User Disconnected", socket.id);
+//   });
+// });
+
+// server.listen(PORT, () =>
+//   console.log(`Example app listening on port ${PORT}!`)
+// );

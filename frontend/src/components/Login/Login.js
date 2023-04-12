@@ -1,45 +1,46 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { useDispatch,useSelector } from "react-redux";
-import {setLogin, setUserId, setLogout,setUserName} from "../store/auth/index"
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLogin,
+  setUserId,
+  setLogout,
+  setUserName,
+} from "../store/auth/index";
 import axios from "axios";
-
-
-
-
+const API_LINK = process.env.REACT_APP_API_LINK;
 
 const Login = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
-  const dispatch = useDispatch()
-  const state = useSelector ((state)=>{
-    
+  const dispatch = useDispatch();
+  const state = useSelector((state) => {
     return {
-      auth:state.auth
-    }
-  })
+      auth: state.auth,
+    };
+  });
 
-  console.log(state)
+  console.log(state);
 
   const login = async (e) => {
     e.preventDefault();
-    const user = userData
+    const user = userData;
     try {
-      const result = await axios.post("http://localhost:5000/users/login", user);
+      const result = await axios.post(`${API_LINK}/users/login`, user);
       if (result.data) {
-        console.log('result.data :>> ', result.data);
+        console.log("result.data :>> ", result.data);
         setMessage("");
-        dispatch(setLogin(result.data.token))
-        dispatch(setUserId(result.data.userId))
-        dispatch(setUserName(result.data.first_name))
-     
-        navigate("/")
+        dispatch(setLogin(result.data.token));
+        dispatch(setUserId(result.data.userId));
+        dispatch(setUserName(result.data.first_name));
+
+        navigate("/");
       } else throw Error;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -48,8 +49,6 @@ const Login = () => {
       setMessage("Error happened while Login, please try again");
     }
   };
-
- 
 
   return (
     <>
@@ -61,13 +60,17 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
-            onChange={(e) => setUserData({...userData,email:e.target.value})}
+            onChange={(e) =>
+              setUserData({ ...userData, email: e.target.value })
+            }
           />
           <br />
           <input
             type="password"
             placeholder="Password"
-            onChange={(e) => setUserData({...userData,password:e.target.value})}
+            onChange={(e) =>
+              setUserData({ ...userData, password: e.target.value })
+            }
           />
           <br />
           <button

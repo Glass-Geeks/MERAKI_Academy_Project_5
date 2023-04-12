@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+const API_LINK = process.env.REACT_APP_API_LINK;
+
 const Register = () => {
   const [userData, setUserData] = useState({
     email: "",
@@ -11,13 +13,14 @@ const Register = () => {
     user_image: "",
     dob: "",
   });
-  const [isLoading, setIsLoading] = useState(true)
-  const { email, first_name, last_name, role, password, user_image, dob } = userData;
+  const [isLoading, setIsLoading] = useState(true);
+  const { email, first_name, last_name, role, password, user_image, dob } =
+    userData;
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
-    console.log({ ...userData, [name]: value })
+    console.log({ ...userData, [name]: value });
   };
 
   const processFile = async (e) => {
@@ -44,19 +47,21 @@ const Register = () => {
       let json = await res.json();
       setUserData({ ...userData, user_image: json.url });
       console.log("url :>> ", JSON.stringify(json.url));
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const user = userData
-    axios.post(`http://localhost:5000/users/register`, user)
+    const user = userData;
+    axios
+      .post(`${API_LINK}/users/register`, user)
       .then((result) => {
-        console.log(result)
-      }).catch((err) => {
-        console.log(err)
+        console.log(result);
       })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -128,17 +133,30 @@ const Register = () => {
               value={password}
               onChange={handleInputChange}
             ></input>
-       
-          <p>You are ?</p>
-  <input type="radio" id="teacher" name="role" value="TEACHER" onClick={(event)=>{
-    handleInputChange(event)
-  }} />
-  <label htmlFor="teacher">Teacher</label><br />
-  <input  type="radio" id="student" name="role" value="STUDENT"onClick={(event)=>{
-    handleInputChange(event)
-  }}  />
-  <label htmlFor="student">Student</label><br />
-  
+
+            <p>You are ?</p>
+            <input
+              type="radio"
+              id="teacher"
+              name="role"
+              value="TEACHER"
+              onClick={(event) => {
+                handleInputChange(event);
+              }}
+            />
+            <label htmlFor="teacher">Teacher</label>
+            <br />
+            <input
+              type="radio"
+              id="student"
+              name="role"
+              value="STUDENT"
+              onClick={(event) => {
+                handleInputChange(event);
+              }}
+            />
+            <label htmlFor="student">Student</label>
+            <br />
 
             <button type="submit" className="signupbtn" disabled={isLoading}>
               Sign Up
@@ -150,4 +168,4 @@ const Register = () => {
   );
 };
 
-export default Register
+export default Register;

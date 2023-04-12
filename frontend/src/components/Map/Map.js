@@ -1,10 +1,11 @@
-import './map.css'
+import "./map.css";
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MapNav from "./Mapnav";
 import { Box, Button } from "@chakra-ui/react";
+const API_LINK = process.env.REACT_APP_API_LINK;
 
 const AnyReactComponent = ({ onClick, zoom }) => {
   const pinSize = zoom <= 13 ? "25px" : "35px";
@@ -77,7 +78,7 @@ export default function MapContainer() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/schools/")
+      .get(`${API_LINK}/schools/`)
       .then((result) => {
         const schools = result.data.schools;
         const newPins = schools.map((element) => ({

@@ -42,7 +42,6 @@ const Tea_stu_card = ({ data }) => {
                   avatar={<Avatar src={item.user_image} />}
                   title={
                     <h4
-                      style={{ color: "#fcfeff" }}
                     >{`${item.first_name}  ${item.last_name}`}</h4>
                   }
                 />
@@ -50,7 +49,6 @@ const Tea_stu_card = ({ data }) => {
                 <div
                   onClick={addFriend}
                   className="Connect-Btn"
-                  style={{ color: "#fcfeff" }}
                 >
                   🔗 Connect
                 </div>
