@@ -74,13 +74,13 @@ const getFriendRequests = async (req, res) => {
 };
 
 const answerFriendRequest = async (req, res) => {
-  const id = req.params.id;
-  const { friend_id } = req.body;
-  const VALUE = [friend_id, id];
-  const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id= $2 AND friend_id = $1 RETURNING * `;
+  const friend_id = req.params.id;
+  const { user_id } = req.body;
+  const VALUE = [friend_id, user_id ];
+  const QUERY = `UPDATE connection SET status='Friends' WHERE user_id= $2 AND friend_id = $1 RETURNING * `;
   try {
     const response = await pool.query(QUERY, VALUE);
-    const roomId = response.rows[0].connection_id;
+     const roomId = response.rows[0].connection_id;
     const chatRoom = new messageSchema({ roomId });
     await chatRoom.save();
     res.status(200).json({

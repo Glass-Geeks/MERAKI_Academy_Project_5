@@ -29,7 +29,7 @@ const Nav = ({ links }) => {
       <ul className="nav-links">
         <li><Link to={"/"}>Home</Link></li>
         {state.auth.isLoggedIn&&<li><Link>Messages</Link></li>}
-        {state.auth.isLoggedIn&&<li><Link>Friends</Link></li>}
+        {state.auth.isLoggedIn&&<li><Link to={"/friends"}>Friends</Link></li>}
         {state.auth.isLoggedIn ? <li className="dropdown"><span>Profile</span> <div className="dropdown-content"><li><Link to={"/login"} onClick={handleClick}>Logout</Link></li><li>Edit Profile</li>
         </div>
         </li> : <li><Link to={"/login"}>Login</Link></li>}
