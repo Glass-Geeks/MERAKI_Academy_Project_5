@@ -44,7 +44,7 @@ const Conversation = () => {
   };
   return (
     <>
-      <ConversationNav />
+      
       <ul>
         {messages.map((message) => (
           <li key={message.message}>

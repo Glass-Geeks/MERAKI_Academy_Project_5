@@ -7,11 +7,14 @@ import School from "./components/School/School";
 import Login from "./components/Login/Login";
 import Friends from "./components/Friends/Friends";
 import Conversation from "./components/conversation/Conversation";
+import { NavBar } from "./components/Styled/Navbar.styled";
+import Nav from "./components/Navbar/Nav";
 
 function App() {
   console.log('process.env.REACT_APP_API_LINK :>> ', process.env.REACT_APP_API_LINK);
   return (
     <div className="App">
+      <Nav></Nav>
       <Routes>
         <Route path="/" element={<MapContainer />} />
         <Route path="/register" element={<Register />} />
