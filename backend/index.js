@@ -14,7 +14,7 @@ const friendsRouter = require("./routes/friends");
 const messageRouter = require("./routes/messages");
 const messageSchema = require("./module/messageSchema");
 
-// const { Server } = require("socket.io");
+const { Server } = require("socket.io");
 // const { createServer } = require("https");
 
 app.use(cors());
@@ -29,25 +29,44 @@ app.use("/message", messageRouter);
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () =>
-console.log(`Example app listening on port ${PORT}!`)
+const server = app.listen(PORT, () =>
+  console.log(`Example app listening on port ${PORT}!`)
 );
-;
-// const io = new Server(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
-// io.on("connection", (socket) => {
-//   console.log(socket.id);
+io.on("connection", (socket) => {
+  console.log("rooms", socket.rooms);
+  socket.on("JOIN_ROOM", (data) => {
+    console.log("data :>> ", data);
+    socket.join(data);
+    console.log("rooms", socket.rooms);
+  });
+  socket.on("SEND_MESSAGE", (data) => {
+    console.log("data :>> ", data);
+    const content = { sender: data.sender, message: data.message };
+    socket.to(data.roomId).emit("RECEIVE_MESSAGE", content);
+  });
 
-//   socket.on("disconnect", () => {
-//     console.log("User Disconnected", socket.id);
-//   });
-// });
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 
 // server.listen(PORT, () =>
 //   console.log(`Example app listening on port ${PORT}!`)
 // );
+
+/* 
+  await messageSchema
+        .findOneAndUpdate(
+          { roomId: roomId },
+          { $push: { messages: content } },
+          { new: true }
+        )
+        .exec();
+*/

@@ -4,64 +4,90 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Container } from "../Styled/Container.Styled";
+import { Col } from "../Styled/Column.Styled";
 const Conversation = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const sender = useSelector((state) => state.auth.userName);
+  const user_id = useSelector((state) => state.auth.userId);
   const { id } = useParams();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const socket = io.connect(API_LINK);
-  const joinRoom = () => {
-    socket.emit("JOIN_ROOM", id);
-  };
+  const [friends, setFriends] = useState([]);
+  const [room_id, setRoom_id] = useState(null);
+  const socket = io(API_LINK, { autoConnect: false });
+
+  useEffect(() => {
+    getFriends();
+  }, []);
+
   const sendMessage = () => {
     const messageContent = {
-      roomId: id,
-      content: { sender, message },
+      roomId: `room${id}`,
+      sender,
+      message,
     };
-    socket.emit("SEND_MESSAGE", messageContent);
-    setMessages([...messages, messageContent.content]);
+    socket.connect().emit("SEND_MESSAGE", messageContent);
     setMessage("");
   };
 
-  // useEffect(() => {
-  //   joinRoom();
-  //   getAllMessages();
-  //   getTest()
-  // });
-  const getAllMessages = () => {
-    socket.on("RECEIVE_MESSAGE", (data) => {
-      setMessages((messages) => [...messages, data]);
+  useEffect(() => {
+    socket.connect().emit("JOIN_ROOM", `room${id}`);
+
+    socket.connect().on("RECEIVE_MESSAGE", (data) => {
+      console.log("messages B:>> ", messages);
+      setMessages([...messages, data]);
+      console.log("messages A:>> ", messages);
     });
-  };
-  const getTest = async () => {
+  }, [messages]);
+
+  const getFriends = async () => {
     try {
-      const result = await axios.get(`http://localhost:5000/message/${id}`);
-      console.log("result.data :>> ", result.data);
+      const data = await axios.get(`${API_LINK}/friends/${user_id}`);
+      setFriends(data.data.connection);
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
+  // const joinRoom = (roomId) => {
+  //   setRoom_id(roomId);
+  //   socket.emit("JOIN_ROOM", roomId);
+  // };
+  // onClick={() => {
+  // joinRoom(friend.connection_id);
+  // }}
+
   return (
-    <>
-      <ConversationNav />
-      <ul>
-        {messages.map((message) => (
-          <li key={message.message}>
-            {message.sender} {message.message}
-          </li>
+    <Container>
+      <Col>
+        {friends.map((friend) => (
+          <div className="friend">
+            <img src={friend.user_image} alt="" width={"20px"} />
+            <p>
+              {friend.first_name} {friend.last_name}
+            </p>
+          </div>
         ))}
-      </ul>
-      <div>
-        <input
-          style={{ border: "2px solid black" }}
-          type="text"
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        />{" "}
-        <button onClick={sendMessage}>send</button>
-      </div>
-    </>
+      </Col>
+      <Col>
+        <ul>
+          {messages.map((message) => (
+            <li key={message.message}>
+              {message.sender} {message.message}
+            </li>
+          ))}
+        </ul>
+        <div>
+          <input
+            style={{ border: "2px solid black" }}
+            type="text"
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+          />{" "}
+          <button onClick={sendMessage}>send</button>
+        </div>
+      </Col>
+    </Container>
   );
 };
 
