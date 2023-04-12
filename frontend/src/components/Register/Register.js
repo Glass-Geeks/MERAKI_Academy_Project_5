@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Register.css"
 import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -16,7 +18,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { email, first_name, last_name, role, password, user_image, dob } =
     userData;
-
+const navigate = useNavigate()
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
@@ -57,6 +59,7 @@ const Register = () => {
     axios
       .post(`${API_LINK}/users/register`, user)
       .then((result) => {
+        navigate("/login")
         console.log(result);
       })
       .catch((err) => {

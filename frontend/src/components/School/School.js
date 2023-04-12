@@ -35,7 +35,7 @@ const School = () => {
   console.log(typeof establish_date);
   return (
     <>
-      <SchoolNav />
+      
       <Container>
         {Object.keys(school).length ? (
           <Row>

@@ -103,7 +103,7 @@ export default function MapContainer() {
 
   return (
     <>
-      <MapNav />
+      
       <div className="mainMap">
         <div style={{ height: "100vh", width: "100%" }}>
           <GoogleMapReact

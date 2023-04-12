@@ -76,6 +76,7 @@ const login = (req, res) => {
                 token,
                 userId: result.rows[0].user_id,
                 first_name: result.rows[0].first_name,
+                
               });
             } else {
               throw Error;
