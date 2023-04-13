@@ -1,0 +1,27 @@
+.side-list-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.side-list-admin a {
+  text-decoration: none;
+  display: inline-block;
+  color: #000;
+}
+.side-list-admin a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #0275d8;
+  transition: width 0.3s;
+}
+.side-list-admin a:hover::after {
+  width: 25%;
+}
+.admin-page {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 4fr;
+  padding: 0 40px;
+}

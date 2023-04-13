@@ -14,6 +14,7 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import Nav from "../Navbar/Nav";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -61,7 +62,8 @@ const Friends = () => {
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
-  return (
+  return (<>  
+  <Nav/>
     <ChakraProvider>
       <CSSReset />
       <VStack spacing={4} w="full">
@@ -99,6 +101,8 @@ const Friends = () => {
         ))}
       </VStack>
     </ChakraProvider>
+    </>
+
   );
 };
 

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MapNav from "./Mapnav";
 import { Box, Button } from "@chakra-ui/react";
+import Nav from "../Navbar/Nav";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const AnyReactComponent = ({ onClick, zoom }) => {
@@ -87,6 +88,7 @@ export default function MapContainer() {
 
   return (
     <>
+    <Nav/>
       <div className="mainMap">
         <div style={{ height: "100vh", width: "100%" }}>
           <GoogleMapReact

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const history = () => {
+const History = () => {
   return (
-    <div>history</div>
+    <div>History</div>
   )
 }
 
-export default history
+export default History
