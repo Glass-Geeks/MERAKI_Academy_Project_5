@@ -63,6 +63,9 @@ const Friends = () => {
 
   return (
     <ChakraProvider>
+      <br />
+      <br />
+      <br />
       <CSSReset />
       <VStack spacing={4} w="full">
         {friends.map((friend) => (
