@@ -7,6 +7,7 @@ import Tea_stu_card from "./Tea_stu_card";
 import { Container } from "../Styled/Container.Styled";
 import { Row } from "../Styled/Row.Styled";
 import { Col } from "../Styled/Column.Styled";
+import Nav from "../Navbar/Nav";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -37,6 +38,7 @@ const School = () => {
     <>
       
       <Container>
+        <Nav/>
         {Object.keys(school).length ? (
           <Row>
             <Col>

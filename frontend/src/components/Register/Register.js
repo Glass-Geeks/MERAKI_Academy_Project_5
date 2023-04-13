@@ -15,6 +15,7 @@ import {
   InputRightAddon,
 } from "@chakra-ui/react";
 import axios from "axios";
+import Nav from "../Navbar/Nav";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const Register = () => {
@@ -80,6 +81,8 @@ const Register = () => {
 
   return (
     <>
+        <Nav/>
+
       <Box
         w="100%"
         minH="100vh"

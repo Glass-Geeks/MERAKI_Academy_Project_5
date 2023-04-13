@@ -7,14 +7,17 @@ import School from "./components/School/School";
 import Login from "./components/Login/Login";
 import Friends from "./components/Friends/Friends";
 import Conversation from "./components/conversation/Conversation";
-import { NavBar } from "./components/Styled/Navbar.styled";
-import Nav from "./components/Navbar/Nav";
 import Admin from "./components/Admin/Admin";
+import Users from "./components/Admin/Users";
+import Schools from "./components/Admin/Schools";
+import History from "./components/Admin/History";
+import Theme from "./components/Admin/Theme";
+import Authorize from "./components/Admin/Authorize";
+import Basic from "./components/Admin/Basic";
 
 function App() {
   return (
     <div className="App">
-      <Nav></Nav>
       <Routes>
         <Route path="/" element={<MapContainer />} />
         <Route path="/register" element={<Register />} />
@@ -22,10 +25,16 @@ function App() {
         <Route path="/school/:id" element={<School />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/friends/:id" element={<Conversation />} />
-        <Route path="/admin" element={<Admin />} />
-        
-        <Route path="*" element={<Err404 />} />
+        <Route path="/admin" element={<Admin />}>
+          <Route path="basic" element={<Basic />} />
+          <Route path="users" element={<Users />} />
+          <Route path="schools" element={<Schools />} />
+          <Route path="history" element={<History />} />
+          <Route path="theme" element={<Theme />} />
+          <Route path="authorize" element={<Authorize />} />
+        </Route>
 
+        <Route path="*" element={<Err404 />} />
       </Routes>
     </div>
   );

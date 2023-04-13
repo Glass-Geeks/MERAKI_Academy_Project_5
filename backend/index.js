@@ -34,9 +34,10 @@ const PORT = process.env.PORT;
 const server = app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
+// http://localhost:3000
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
