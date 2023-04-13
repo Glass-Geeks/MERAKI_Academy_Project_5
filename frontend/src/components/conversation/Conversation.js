@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./coversation.css"
+import "./conversation.css"
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
