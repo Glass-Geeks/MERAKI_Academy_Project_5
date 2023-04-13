@@ -87,6 +87,7 @@ const Register = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        mt="85px"
       >
         <Box
           as="form"
