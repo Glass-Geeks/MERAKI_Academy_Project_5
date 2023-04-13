@@ -4,17 +4,11 @@ import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { v4 } from "uuid";
-import {
-  Box,
-  Container,
-  VStack,
-  HStack,
-  Image,
-  Text,
-  Input,
-  Button,
-} from "@chakra-ui/react";
-
+import { Box,Container,VStack,HStack,Image,Text,Input, Button,} from "@chakra-ui/react";
+import { Avatar, Divider, List, Skeleton } from "antd";
+import { useNavigate } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
+import "./conversation.css"
 const Conversation = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const sender = useSelector((state) => state.auth.userName);
@@ -24,6 +18,7 @@ const Conversation = () => {
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [room_id, setRoom_id] = useState(null);
+  const navigate = useNavigate()
   const socket = io(API_LINK, { autoConnect: false });
 
   useEffect(() => {
@@ -66,10 +61,86 @@ const Conversation = () => {
   };
   return (
     <>
-    <br/>
-    <br/>
-    <br/>
-      <Container maxW="container.xl">
+    <br></br>
+    <div className="messagePage">
+    <div
+        id="scrollableDiv"
+        style={{
+          height: 400,
+          width: 500,
+          overflow: "auto",
+          padding: "0 16px",
+          border: "1px solid #fcfeff",
+        }}
+      >
+        <InfiniteScroll
+          dataLength={friends.length}
+          hasMore={false}
+          loader={
+            <Skeleton
+              avatar
+              paragraph={{
+                rows: 1,
+              }}
+              active
+            />
+          }
+          // endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+          scrollableTarget="scrollableDiv"
+        >
+          <List
+            dataSource={friends}
+            renderItem={(item) => (
+              <List.Item key={item}>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.user_image} />}
+                  title={
+                    <h4>{`${item.first_name}  ${item.last_name}`}</h4>
+                  }
+                />
+
+                <div className="Connect-Btn" onClick={()=>{
+                  navigate(`/friends/${item.connection_id}`)
+                }} >
+                  🔗 Message
+                </div>
+              </List.Item>
+            )}
+          />
+        </InfiniteScroll>
+        
+      </div>
+      <hr className="hr"></hr>
+      <div>
+      <VStack alignItems="start" w="100%">
+              {messages.map((message) => (
+                <Text key={v4()} fontWeight="medium">
+                  {message.sender}: {message.message}
+                </Text>
+              ))}
+            </VStack>
+      <HStack w="100%">
+              <Input
+                flexGrow={1}
+                border="2px solid black"
+                type="text"
+                onChange={(e) => setMessage(e.target.value)}
+                value={message}
+              />
+              <Button colorScheme="blue" onClick={sendMessage}>
+                Send
+              </Button>
+            </HStack>
+            </div>
+            </div>
+    </>
+  );
+};
+
+export default Conversation;
+
+/*
+<Container maxW="container.xl">
         <HStack spacing={8} w="100%">
           <VStack alignItems="start" w="50%">
             {friends.map((friend) => (
@@ -109,8 +180,4 @@ const Conversation = () => {
           </VStack>
         </HStack>
       </Container>
-    </>
-  );
-};
-
-export default Conversation;
+*/

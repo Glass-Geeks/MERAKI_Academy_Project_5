@@ -20,6 +20,7 @@ import {
   setRole
 } from "../store/auth/index";
 import axios from "axios";
+import Nav from "../Navbar/Nav";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -64,7 +65,12 @@ const Login = () => {
   };
 
   return (
-    <Box maxW="md" mx="auto" mt="85">
+    <>
+    <Nav/>
+    <br></br>
+    <br></br>
+    <br></br>
+    <Box maxW="md" mx="auto"  >
       <Heading as="h2" textAlign="center" mb="8">
         Login
       </Heading>
@@ -116,6 +122,7 @@ const Login = () => {
         )}
       </Box>
     </Box>
+    </>
   );
 };
 

@@ -92,7 +92,7 @@ const Nav = ({ links }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box boxShadow="md" px={4} bg={bg} position="fixed" w="100%" zIndex={100}>
+    <Box boxShadow="md" px={4} bg={bg} position="fixed" w="100%" zIndex={100} mb="85px">
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Link to={"/"}>
           <Heading size="md">Logo</Heading>

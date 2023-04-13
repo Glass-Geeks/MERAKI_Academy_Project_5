@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllFriends, setAllFriendRequests } from "../store/friends/index";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -22,7 +23,7 @@ const Friends = () => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.friends.allFriends);
   const friendRequests = useSelector((state) => state.friends.friendRequests);
-  
+  const navigate = useNavigate()
 
   const getAllFriends = async () => {
     const id = localStorage.getItem("userId");
@@ -74,9 +75,7 @@ const Friends = () => {
   return (<>  
   <Nav/>
     <ChakraProvider>
-      <br />
-      <br />
-      <br />
+     
       <CSSReset />
       <VStack spacing={4} w="full">
         {friends.map((friend) => (
@@ -102,7 +101,9 @@ const Friends = () => {
                   {friend.first_name} {friend.last_name}
                 </Text>
                 <HStack>
-                  <Button size="sm" colorScheme="teal">
+                  <Button size="sm" colorScheme="teal" onClick={()=>{
+                    navigate(`/friends/${friend.connection_id}`)
+                  }}>
                     Message
                   </Button>
                   <Button size="sm" colorScheme="red" onClick={()=>{

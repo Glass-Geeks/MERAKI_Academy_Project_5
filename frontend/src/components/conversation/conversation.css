@@ -3,3 +3,17 @@
     margin-top: 150px;
 }
  */
+.messagePage{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.hr{
+    height: 100vh;
+    width: 1px;
+    color: grey;
+    background-color: grey;
+    border-radius: 5px;
+    border-color: black;
+    border-style: solid;
+}
