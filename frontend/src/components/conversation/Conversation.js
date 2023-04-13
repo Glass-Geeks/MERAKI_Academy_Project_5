@@ -14,6 +14,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import Nav from "../Navbar/Nav";
 
 const Conversation = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
@@ -66,9 +67,10 @@ const Conversation = () => {
   };
   return (
     <>
-    <br/>
-    <br/>
-    <br/>
+      <Nav />
+      <br />
+      <br />
+      <br />
       <Container maxW="container.xl">
         <HStack spacing={8} w="100%">
           <VStack alignItems="start" w="50%">

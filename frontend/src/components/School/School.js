@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SchoolNav from "./SchoolNav";
 import "./school.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -36,9 +35,8 @@ const School = () => {
   console.log(typeof establish_date);
   return (
     <>
-      
-      <Container>
-        <Nav/>
+      <div>
+        <Nav />
         {Object.keys(school).length ? (
           <Row>
             <Col>
@@ -69,9 +67,11 @@ const School = () => {
             <Tea_stu_card data={teachers} />
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };
 
 export default School;
+
+
