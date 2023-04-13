@@ -88,24 +88,30 @@ const Register = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <form className="registerForm" onSubmit={handleSubmit}>
-          <div className="formContainer">
-            <h1>Sign Up</h1>
-
-            <p>Please fill in this form to create an account</p>
-
-            <hr />
-
-            <label>
-              <b>First Name</b>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter First Name"
-              name="first_name"
-              value={first_name}
-              onChange={handleInputChange}
-            ></input>
+        <Box
+          as="form"
+          onSubmit={handleSubmit}
+          w={["90%", "85%", "80%", "60%", "45%"]}
+          maxW="800px"
+          bg="white"
+          borderRadius="md"
+          p={[4, 6]}
+          boxShadow="lg"
+        >
+          <VStack spacing={6}>
+            <Heading as="h1" size="lg" textAlign="center">
+              Sign Up
+            </Heading>
+            <FormControl id="first_name">
+              <FormLabel>First Name</FormLabel>
+              <Input
+                type="text"
+                name="first_name"
+                value={first_name}
+                onChange={handleInputChange}
+                placeholder="Enter First Name"
+              />
+            </FormControl>
 
             <label>
               <b>Last Name</b>
@@ -182,8 +188,8 @@ const Register = () => {
             <button type="submit" className="signupbtn" disabled={isLoading}>
               Sign Up
             </button>
-          </div>
-        </form>
+          </VStack>
+        </Box>
       </Box>
     </>
   );
