@@ -10,6 +10,9 @@ const Admin = () => {
   return (
     <>
       <Nav />
+      <br/>
+      <br/>
+      <br/>
       <div className="admin-page">
         <div className='left-admin'>
           <SideList />

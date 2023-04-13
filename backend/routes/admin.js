@@ -12,4 +12,5 @@ const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 
 adminRouter.post("/school", createNewSchool);
+adminRouter.get("/users", getAllUsersInfo);
 module.exports = adminRouter;
