@@ -7,6 +7,7 @@ import {
   setUserId,
   setLogout,
   setUserName,
+  setRole
 } from "../store/auth/index";
 import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
@@ -20,13 +21,8 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
   const dispatch = useDispatch();
-  const state = useSelector((state) => {
-    return {
-      auth: state.auth,
-    };
-  });
 
-  console.log(state);
+
 
   const login = async (e) => {
     e.preventDefault();
@@ -38,6 +34,7 @@ const Login = () => {
         setMessage("");
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
+        dispatch(setRole(result.data.role));
         dispatch(setUserName(result.data.first_name));
 
         navigate("/");

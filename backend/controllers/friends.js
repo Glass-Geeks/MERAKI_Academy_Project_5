@@ -9,6 +9,9 @@ const createFriendConnection = async (req, res) => {
   const QUERY = `INSERT INTO connection (user_id,friend_id) VALUES($1,$2) RETURNING *`;
   try {
     const response = await pool.query(QUERY, VALUE);
+    const roomId = response.rows[0].connection_id;
+    const chatRoom = new messageSchema({ roomId });
+    await chatRoom.save();
     res.status(201).json({
       success: true,
       Message: "Connection Send",
@@ -80,9 +83,7 @@ const answerFriendRequest = async (req, res) => {
   const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id= $2 AND friend_id = $1 RETURNING * `;
   try {
     const response = await pool.query(QUERY, VALUE);
-    const roomId = response.rows[0].connection_id;
-    const chatRoom = new messageSchema({ roomId });
-    await chatRoom.save();
+   
     res.status(200).json({
       success: true,
       Message: "Connection Response",
