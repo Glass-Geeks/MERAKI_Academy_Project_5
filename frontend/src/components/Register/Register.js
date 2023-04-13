@@ -113,81 +113,74 @@ const Register = () => {
               />
             </FormControl>
 
-            <label>
-              <b>Last Name</b>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter Last Name"
-              name="last_name"
-              value={last_name}
-              onChange={handleInputChange}
-            ></input>
+            <FormControl id="last_name">
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                type="text"
+                name="last_name"
+                value={last_name}
+                onChange={handleInputChange}
+                placeholder="Enter Last Name"
+              />
+            </FormControl>
 
-            <label>
-              <b>Date of Birth</b>
-            </label>
-            <input
-              type="date"
-              name="dob"
-              value={dob}
-              onChange={handleInputChange}
-            ></input>
+            <FormControl id="dob">
+              <FormLabel>Date of Birth</FormLabel>
+              <Input
+                type="date"
+                name="dob"
+                value={dob}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl id="user_image">
+              <FormLabel>Your Image</FormLabel>
+              <Input type="file" name="user_image" onChange={processFile} />
+            </FormControl>
 
-            <label>
-              <b>Your Image</b>
-            </label>
-            <input type="file" name="user_image" onChange={processFile}></input>
+            <FormControl id="email">
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleInputChange}
+                placeholder="Enter Email"
+              />
+            </FormControl>
 
-            <label>
-              <b>Email</b>
-            </label>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              name="email"
-              value={email}
-              onChange={handleInputChange}
-            ></input>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+                placeholder="Enter Password"
+              />
+            </FormControl>
 
-            <label>
-              <b>Password</b>
-            </label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              name="password"
-              value={password}
-              onChange={handleInputChange}
-            ></input>
+            <FormControl id="role">
+              <FormLabel>I am a?</FormLabel>
+              <RadioGroup
+                onChange={(value) => setUserData({ ...userData, role: value })}
+                value={role}
+              >
+                <HStack spacing={6}>
+                  <Radio value="TEACHER">Teacher</Radio>
+                  <Radio value="STUDENT">Student</Radio>
+                </HStack>
+              </RadioGroup>
+            </FormControl>
 
-            <p>You are ?</p>
-            <input
-              type="radio"
-              id="teacher"
-              name="role"
-              value="TEACHER"
-              onClick={(event) => {
-                handleInputChange(event);
-              }}
-            />
-            <label htmlFor="teacher">Teacher</label>
-            <br />
-            <input
-              type="radio"
-              id="student"
-              name="role"
-              value="STUDENT"
-              onClick={(event) => {
-                handleInputChange(event);
-              }}
-            />
-            <label htmlFor="student">Student</label>
-            <br />
-
-            <button type="submit" className="signupbtn" disabled={isLoading}>
+            <Button
+              type="submit"
+              w="100%"
+              colorScheme="blue"
+              disabled={isLoading}
+            >
               Sign Up
-            </button>
+            </Button>
           </VStack>
         </Box>
       </Box>
