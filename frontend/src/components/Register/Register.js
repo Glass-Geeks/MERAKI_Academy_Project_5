@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Register.css"
+import {
+  Box,
+  VStack,
+  HStack,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Radio,
+  RadioGroup,
+  Button,
+  InputGroup,
+  InputRightAddon,
+} from "@chakra-ui/react";
 import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -18,11 +30,10 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { email, first_name, last_name, role, password, user_image, dob } =
     userData;
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
-    console.log({ ...userData, [name]: value });
   };
 
   const processFile = async (e) => {
@@ -59,7 +70,7 @@ const navigate = useNavigate()
     axios
       .post(`${API_LINK}/users/register`, user)
       .then((result) => {
-        navigate("/login")
+        navigate("/login");
         console.log(result);
       })
       .catch((err) => {
@@ -69,104 +80,110 @@ const navigate = useNavigate()
 
   return (
     <>
-      <div className="registerPage">
-        <form className="registerForm" onSubmit={handleSubmit}>
-          <div className="formContainer">
-            <h1>Sign Up</h1>
-
-            <p>Please fill in this form to create an account</p>
-
-            <hr />
-
-            <label>
-              <b>First Name</b>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter First Name"
-              name="first_name"
-              value={first_name}
-              onChange={handleInputChange}
-            ></input>
-
-            <label>
-              <b>Last Name</b>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter Last Name"
-              name="last_name"
-              value={last_name}
-              onChange={handleInputChange}
-            ></input>
-
-            <label>
-              <b>Date of Birth</b>
-            </label>
-            <input
-              type="date"
-              name="dob"
-              value={dob}
-              onChange={handleInputChange}
-            ></input>
-
-            <label>
-              <b>Your Image</b>
-            </label>
-            <input type="file" name="user_image" onChange={processFile}></input>
-
-            <label>
-              <b>Email</b>
-            </label>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              name="email"
-              value={email}
-              onChange={handleInputChange}
-            ></input>
-
-            <label>
-              <b>Password</b>
-            </label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              name="password"
-              value={password}
-              onChange={handleInputChange}
-            ></input>
-
-            <p>You are ?</p>
-            <input
-              type="radio"
-              id="teacher"
-              name="role"
-              value="TEACHER"
-              onClick={(event) => {
-                handleInputChange(event);
-              }}
-            />
-            <label htmlFor="teacher">Teacher</label>
-            <br />
-            <input
-              type="radio"
-              id="student"
-              name="role"
-              value="STUDENT"
-              onClick={(event) => {
-                handleInputChange(event);
-              }}
-            />
-            <label htmlFor="student">Student</label>
-            <br />
-
-            <button type="submit" className="signupbtn" disabled={isLoading}>
+      <Box
+        w="100%"
+        minH="100vh"
+        bg="gray.100"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box
+          as="form"
+          onSubmit={handleSubmit}
+          w={["90%", "85%", "80%", "60%", "45%"]}
+          maxW="800px"
+          bg="white"
+          borderRadius="md"
+          p={[4, 6]}
+          boxShadow="lg"
+        >
+          <VStack spacing={6}>
+            <Heading as="h1" size="lg" textAlign="center">
               Sign Up
-            </button>
-          </div>
-        </form>
-      </div>
+            </Heading>
+            <FormControl id="first_name">
+              <FormLabel>First Name</FormLabel>
+              <Input
+                type="text"
+                name="first_name"
+                value={first_name}
+                onChange={handleInputChange}
+                placeholder="Enter First Name"
+              />
+            </FormControl>
+
+            <FormControl id="last_name">
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                type="text"
+                name="last_name"
+                value={last_name}
+                onChange={handleInputChange}
+                placeholder="Enter Last Name"
+              />
+            </FormControl>
+
+            <FormControl id="dob">
+              <FormLabel>Date of Birth</FormLabel>
+              <Input
+                type="date"
+                name="dob"
+                value={dob}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl id="user_image">
+              <FormLabel>Your Image</FormLabel>
+              <Input type="file" name="user_image" onChange={processFile} />
+            </FormControl>
+
+            <FormControl id="email">
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleInputChange}
+                placeholder="Enter Email"
+              />
+            </FormControl>
+
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+                placeholder="Enter Password"
+              />
+            </FormControl>
+
+            <FormControl id="role">
+              <FormLabel>I am a?</FormLabel>
+              <RadioGroup
+                onChange={(value) => setUserData({ ...userData, role: value })}
+                value={role}
+              >
+                <HStack spacing={6}>
+                  <Radio value="TEACHER">Teacher</Radio>
+                  <Radio value="STUDENT">Student</Radio>
+                </HStack>
+              </RadioGroup>
+            </FormControl>
+
+            <Button
+              type="submit"
+              w="100%"
+              colorScheme="blue"
+              disabled={isLoading}
+            >
+              Sign Up
+            </Button>
+          </VStack>
+        </Box>
+      </Box>
     </>
   );
 };
