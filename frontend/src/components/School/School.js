@@ -31,6 +31,7 @@ const School = () => {
     const teacherData = await axios.get(
       `${API_LINK}/users_schools/teacher/${id}`
     );
+console.log(teacherData)
     setSchool({ ...data.data.school[0] });
     setStudents(stuData.data.result);
     setTeachers(teacherData.data.result);
