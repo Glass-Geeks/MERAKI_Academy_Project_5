@@ -9,9 +9,9 @@ import Friends from "./components/Friends/Friends";
 import Conversation from "./components/conversation/Conversation";
 import { NavBar } from "./components/Styled/Navbar.styled";
 import Nav from "./components/Navbar/Nav";
+import Admin from "./components/Admin/Admin";
 
 function App() {
-  console.log('process.env.REACT_APP_API_LINK :>> ', process.env.REACT_APP_API_LINK);
   return (
     <div className="App">
       <Nav></Nav>
@@ -22,7 +22,10 @@ function App() {
         <Route path="/school/:id" element={<School />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/friends/:id" element={<Conversation />} />
+        <Route path="/admin" element={<Admin />} />
+        
         <Route path="*" element={<Err404 />} />
+
       </Routes>
     </div>
   );

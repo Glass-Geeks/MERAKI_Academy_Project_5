@@ -63,31 +63,37 @@ const login = (req, res) => {
     .query(query, data)
     .then((result) => {
       if (result.rows.length) {
-        bcrypt.compare(password, result.rows[0].password, (err, response) => {
-          if (err) res.json(err);
-          if (response) {
-            const { role, user_id } = result.rows[0];
-            const token = generateToken(role, user_id);
+        bcrypt.compare(
+          password,
+          result.rows[0].password,
+          async (err, response) => {
+            if (err) res.json(err);
+            if (response) {
+              const { role, user_id } = result.rows[0];
+              const token = generateToken(role, user_id);
 
-            if (token) {
-              return res.status(200).json({
-                success: true,
-                message: `Valid login credentials`,
-                token,
-                userId: result.rows[0].user_id,
-                first_name: result.rows[0].first_name,
-                
-              });
+              if (token) {
+                const role_id = result.rows[0].role
+                const role = await pool.query(`SELECT role FROM role WHERE role_id = ${role_id}`);
+                return res.status(200).json({
+                  success: true,
+                  message: `Valid login credentials`,
+                  token,
+                  userId: result.rows[0].user_id,
+                  first_name: result.rows[0].first_name,
+                  role : role.rows[0].role
+                });
+              } else {
+                throw Error;
+              }
             } else {
-              throw Error;
+              res.status(403).json({
+                success: false,
+                message: `The email doesn’t exist or the password you’ve entered is incorrect`,
+              });
             }
-          } else {
-            res.status(403).json({
-              success: false,
-              message: `The email doesn’t exist or the password you’ve entered is incorrect`,
-            });
           }
-        });
+        );
       } else throw Error;
     })
     .catch((err) => {

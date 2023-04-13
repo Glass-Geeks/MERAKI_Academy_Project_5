@@ -13,11 +13,11 @@ const Nav = ({ links }) => {
   //contact
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const state = useSelector((state) => {
-    return {
-      auth: state.auth,
-    };
-  });
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user_id = useSelector((state) => state.auth.userId);
+  const role = useSelector((state) => state.auth.role);
+
+  
   const handleClick = () => {
     localStorage.clear()
     dispatch(setLogout())
@@ -27,14 +27,14 @@ const Nav = ({ links }) => {
     <nav className="navbar">
       <Link to={"/"} className="logo">Logo</Link>
       <ul className="nav-links">
-        <li><Link to={"/"}>Home</Link></li>
-        {state.auth.isLoggedIn&&<li><Link>Messages</Link></li>}
-        {state.auth.isLoggedIn&&<li><Link to={"/friends"}>Friends</Link></li>}
-        {state.auth.isLoggedIn ? <li className="dropdown"><span>Profile</span> <div className="dropdown-content"><li><Link to={"/login"} onClick={handleClick}>Logout</Link></li><li>Edit Profile</li>
+        {role === 'ADMIN' && <li><Link to={"/admin"}>Dashboard</Link></li>}
+        {isLoggedIn&&<li><Link to={`/friends/${user_id}`}>Messages</Link></li>}
+        {isLoggedIn&&<li><Link to={'/friends'}>Friends</Link></li>}
+        {isLoggedIn ? <li className="dropdown"><span>Profile</span> <div className="dropdown-content"><li><Link to={"/login"} onClick={handleClick}>Logout</Link></li><li>Edit Profile</li>
         </div>
         </li> : <li><Link to={"/login"}>Login</Link></li>}
 
-        {state.auth.isLoggedIn ? null : <li><Link to={"/register"}>Register</Link></li>}
+        {isLoggedIn ? null : <li><Link to={"/register"}>Register</Link></li>}
 
       </ul>
 
