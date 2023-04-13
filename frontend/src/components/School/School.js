@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import SchoolNav from "./SchoolNav";
-import "./school.css";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import Tea_stu_card from "./Tea_stu_card";
-import { Container } from "../Styled/Container.Styled";
-import { Row } from "../Styled/Row.Styled";
-import { Col } from "../Styled/Column.Styled";
+import axios from "axios";
 import Nav from "../Navbar/Nav";
+import {
+  Box,
+  VStack,
+  Heading,
+  Image,
+  Container,
+  SimpleGrid,
+} from "@chakra-ui/react";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -17,9 +20,11 @@ const School = () => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const { establish_date, school_image, school_name } = school;
+
   useEffect(() => {
     getSchoolById();
   }, []);
+
   const getSchoolById = async () => {
     const data = await axios.get(`${API_LINK}/schools/${id}`);
     const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
@@ -30,45 +35,45 @@ const School = () => {
     setStudents(stuData.data.result);
     setTeachers(teacherData.data.result);
   };
-  console.log("school :>> ", school);
-  console.log("school :>> ", teachers);
-  console.log("school :>> ", students);
-  console.log(typeof establish_date);
+
   return (
     <>
-      
-      <Container>
-        <Nav/>
+      <Nav />
+      <br />
+      <br />
+      <Container maxW="container.xl" pt="8">
         {Object.keys(school).length ? (
-          <Row>
-            <Col>
-              <Row>
-                <img
-                  className="school-img"
-                  src={
-                    "https://assets-global.website-files.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
-                  }
-                  alt="school"
-                />
-              </Row>
-              <Row>
-                <h2>{school_name}</h2>
-              </Row>
-            </Col>
-          </Row>
+          <VStack spacing={4} alignItems="center">
+            <Image
+              src={
+                "https://assets-global.website-files.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
+              }
+              alt="school"
+              w="100%"
+              h="auto"
+              borderRadius="md"
+              boxShadow="md"
+            />
+            <Heading>{school_name}</Heading>
+          </VStack>
         ) : (
-          <h1>loading</h1>
+          <Heading>Loading</Heading>
         )}
-        <Row className="student_teacher_card">
-          <Col>
-            <p>student</p>
+
+        <SimpleGrid columns={[1, null, 2]} spacing={8} mt="8">
+          <Box>
+            <Heading size="md" mb="4">
+              Students
+            </Heading>
             <Tea_stu_card data={students} />
-          </Col>
-          <Col>
-            <p>teacher</p>
+          </Box>
+          <Box>
+            <Heading size="md" mb="4">
+              Teachers
+            </Heading>
             <Tea_stu_card data={teachers} />
-          </Col>
-        </Row>
+          </Box>
+        </SimpleGrid>
       </Container>
     </>
   );

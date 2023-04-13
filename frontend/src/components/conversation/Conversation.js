@@ -4,11 +4,26 @@ import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { v4 } from "uuid";
+
 import { Box,Container,VStack,HStack,Image,Text,Input, Button,} from "@chakra-ui/react";
 import { Avatar, Divider, List, Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./conversation.css"
+
+import {
+  Box,
+  Container,
+  VStack,
+  HStack,
+  Image,
+  Text,
+  Input,
+  Button,
+} from "@chakra-ui/react";
+import Nav from "../Navbar/Nav";
+
+
 const Conversation = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const sender = useSelector((state) => state.auth.userName);
@@ -61,6 +76,7 @@ const Conversation = () => {
   };
   return (
     <>
+
     <br></br>
     <div className="messagePage">
     <div
@@ -141,6 +157,13 @@ export default Conversation;
 
 /*
 <Container maxW="container.xl">
+
+      <Nav />
+      <br />
+      <br />
+      <br />
+      <Container maxW="container.xl">
+
         <HStack spacing={8} w="100%">
           <VStack alignItems="start" w="50%">
             {friends.map((friend) => (
