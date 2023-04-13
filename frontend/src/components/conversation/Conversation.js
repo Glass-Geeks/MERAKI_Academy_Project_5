@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import "./conversation.css";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Container } from "../Styled/Container.Styled";
-import { Col } from "../Styled/Column.Styled";
-import {v4} from 'uuid';
+import { v4 } from "uuid";
+import {
+  Box,
+  Container,
+  VStack,
+  HStack,
+  Image,
+  Text,
+  Input,
+  Button,
+} from "@chakra-ui/react";
+
 const Conversation = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const sender = useSelector((state) => state.auth.userName);
@@ -58,35 +66,45 @@ const Conversation = () => {
   };
   return (
     <>
-      <Container className="conversation-page">
-        <Col>
-          {friends.map((friend) => (
-            <div className="friend" key={v4()}>
-              <img src={friend.user_image} alt="" width={"20px"} />
-              <p>
-                {friend.first_name} {friend.last_name}
-              </p>
-            </div>
-          ))}
-        </Col>
-        <Col>
-          <div>
-            {messages.map((message) => (
-              <p key={v4()}>
-                {message.sender} {message.message}
-              </p>
+      <Container maxW="container.xl" mt="100px">
+        <HStack spacing={8} w="100%">
+          <VStack alignItems="start" w="50%">
+            {friends.map((friend) => (
+              <HStack key={v4()} spacing={4} alignItems="center">
+                <Image
+                  boxSize="40px"
+                  borderRadius="full"
+                  src={friend.user_image}
+                  alt=""
+                />
+                <Text fontWeight="bold">
+                  {friend.first_name} {friend.last_name}
+                </Text>
+              </HStack>
             ))}
-          </div>
-          <div>
-            <input
-              style={{ border: "2px solid black" }}
-              type="text"
-              onChange={(e) => setMessage(e.target.value)}
-              value={message}
-            />{" "}
-            <button onClick={sendMessage}>send</button>
-          </div>
-        </Col>
+          </VStack>
+          <VStack alignItems="start" w="50%">
+            <VStack alignItems="start" w="100%">
+              {messages.map((message) => (
+                <Text key={v4()} fontWeight="medium">
+                  {message.sender}: {message.message}
+                </Text>
+              ))}
+            </VStack>
+            <HStack w="100%">
+              <Input
+                flexGrow={1}
+                border="2px solid black"
+                type="text"
+                onChange={(e) => setMessage(e.target.value)}
+                value={message}
+              />
+              <Button colorScheme="blue" onClick={sendMessage}>
+                Send
+              </Button>
+            </HStack>
+          </VStack>
+        </HStack>
       </Container>
     </>
   );
