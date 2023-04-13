@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Register.css"
+import {
+  Box,
+  VStack,
+  HStack,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Radio,
+  RadioGroup,
+  Button,
+  InputGroup,
+  InputRightAddon,
+} from "@chakra-ui/react";
 import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -18,11 +30,10 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { email, first_name, last_name, role, password, user_image, dob } =
     userData;
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
-    console.log({ ...userData, [name]: value });
   };
 
   const processFile = async (e) => {
@@ -59,7 +70,7 @@ const navigate = useNavigate()
     axios
       .post(`${API_LINK}/users/register`, user)
       .then((result) => {
-        navigate("/login")
+        navigate("/login");
         console.log(result);
       })
       .catch((err) => {
@@ -69,7 +80,14 @@ const navigate = useNavigate()
 
   return (
     <>
-      <div className="registerPage">
+      <Box
+        w="100%"
+        minH="100vh"
+        bg="gray.100"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <form className="registerForm" onSubmit={handleSubmit}>
           <div className="formContainer">
             <h1>Sign Up</h1>
@@ -166,7 +184,7 @@ const navigate = useNavigate()
             </button>
           </div>
         </form>
-      </div>
+      </Box>
     </>
   );
 };
