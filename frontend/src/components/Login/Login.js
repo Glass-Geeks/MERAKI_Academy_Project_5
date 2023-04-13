@@ -64,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <Box maxW="md" mx="auto" mt="8">
+    <Box maxW="md" mx="auto" mt="85">
       <Heading as="h2" textAlign="center" mb="8">
         Login
       </Heading>
