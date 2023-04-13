@@ -32,22 +32,6 @@ export default function MapContainer() {
     setInfoWindow(pin);
   };
 
-  // const InfoWindow = ({ school }) => (
-  //   <div className="infoPopup">
-  //     <h5>{school.school_name}</h5>
-
-  //     <img src={school.school_image_url} alt={school.school_name} />
-  //     <button>Close</button>
-  //     <button
-  //       onClick={() => {
-  //         navigate(`/school/${school.school_id}`);
-  //       }}
-  //     >
-  //       Go to school
-  //     </button>
-  //   </div>
-  // );
-
   const InfoWindow = ({ school }) => (
     <Box
       className="infoPopup"
@@ -103,7 +87,6 @@ export default function MapContainer() {
 
   return (
     <>
-      
       <div className="mainMap">
         <div style={{ height: "100vh", width: "100%" }}>
           <GoogleMapReact
