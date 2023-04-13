@@ -28,14 +28,14 @@ const createFriendConnection = async (req, res) => {
 const getAllFriends = async (req, res) => {
   const id = req.params.id;
   const VALUE = [id];
-  const QUERY = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image FROM connection AS C 
+  const QUERY = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image,C.friend_id FROM connection AS C 
   INNER JOIN users AS U ON U.user_id = C.user_id
   WHERE C.friend_id = $1  AND C.status = 'Friends'
-  GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image ;`;
-  const QUERY2 = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image FROM connection AS C 
+  GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image,C.friend_id ;`;
+  const QUERY2 = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image,C.friend_id FROM connection AS C 
   INNER JOIN users AS U ON U.user_id = C.friend_id 
   WHERE C.user_id  = $1  AND C.status = 'Friends'
-  GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image ;`;
+  GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image,C.friend_id ;`;
   try {
     const response1 = await pool.query(QUERY, VALUE);
     const response2 = await pool.query(QUERY2, VALUE);

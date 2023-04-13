@@ -28,7 +28,7 @@ const Conversation = () => {
 
   useEffect(() => {
     getFriends();
-    getPastMessages()
+    getPastMessages();
   }, []);
 
   const getFriends = async () => {
@@ -59,14 +59,17 @@ const Conversation = () => {
   const getPastMessages = async () => {
     try {
       const data = await axios.get(`${API_LINK}/message/${id}`);
-      setMessages(data.data.result.messages)
+      setMessages(data.data.result.messages);
     } catch (error) {
-      console.log('error :>> ', error);
+      console.log("error :>> ", error);
     }
   };
   return (
     <>
-      <Container maxW="container.xl" mt="100px">
+    <br/>
+    <br/>
+    <br/>
+      <Container maxW="container.xl">
         <HStack spacing={8} w="100%">
           <VStack alignItems="start" w="50%">
             {friends.map((friend) => (
