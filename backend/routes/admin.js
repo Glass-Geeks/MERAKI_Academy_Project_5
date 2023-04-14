@@ -7,10 +7,16 @@ const {
   createHistoryMove,
   getHistoryMoves,
   authorizeForUsersOrSchool,
+  updateSchool,
+  deleteSchool,
 } = require("../controllers/admin");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
+const { getAllSchools } = require("../controllers/schools");
 
+adminRouter.get("/school", getAllSchools);
 adminRouter.post("/school", createNewSchool);
+adminRouter.put("/school/:id", updateSchool);
+adminRouter.delete("/school/:id", deleteSchool);
 adminRouter.get("/users", getAllUsersInfo);
 module.exports = adminRouter;
