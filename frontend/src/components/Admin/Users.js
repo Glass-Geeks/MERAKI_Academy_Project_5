@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import { Button } from "@chakra-ui/react";
+import PopOver from "./PopOver";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(users);
   useEffect(() => {
     getUsers();
   }, []);
@@ -17,6 +18,7 @@ const Users = () => {
     return Math.abs(age_dt.getUTCFullYear() - 1970);
   }
   const getUsers = async () => {
+    setLoading(true);
     try {
       const users = await axios.get(`${API_LINK}/admin/users`);
       const data = users.data.data;
@@ -29,18 +31,17 @@ const Users = () => {
           Active: element.is_deleted ? "true" : "false",
           Created_at: element.created_at,
           Role: element.role,
-          button : element.user_id
+          button: element.user_id,
         };
         result.push(obj);
       }
+      setLoading(false);
       setUsers(result);
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
-const deleteUser = (id)=>{
-  console.log('id :>> ', id);
-}
+
   const columns = [
     {
       id: "name",
@@ -62,7 +63,14 @@ const deleteUser = (id)=>{
       selector: (row) => row.Created_at,
     },
     { id: "role", sortable: true, name: "Role", selector: (row) => row.Role },
-    { id: "delete",  name: "Delete",button: true, selector: (row) => <button onClick={()=>{deleteUser(row.button)}}>Delete</button> },
+    {
+      id: "delete",
+      name: "Delete",
+      button: true,
+      selector: (row) => (
+        <PopOver text={"Delete"} id={row.button} condition={"DELETE_USER"} />
+      ),
+    },
   ];
 
   return (
