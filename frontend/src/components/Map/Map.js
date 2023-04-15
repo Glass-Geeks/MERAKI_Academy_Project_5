@@ -89,8 +89,7 @@ export default function MapContainer() {
 
   return (
     <>
-
-    <Nav/>
+      <Nav />
       <Header />
 
       <div className="mainMap">
