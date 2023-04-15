@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "@chakra-ui/react";
+import { Button, Skeleton, Stack } from "@chakra-ui/react";
 import DataTable from "react-data-table-component";
 import PopOver from "./PopOver";
 import CreateSchool from "./CreateSchool";
@@ -82,24 +82,36 @@ const Schools = () => {
 
   return (
     <>
-      <DataTable
-        direction="auto"
-        pagination
-        responsive
-        dense={false}
-        progressPending={loading}
-        columns={columns}
-        data={schools}
-      />
-
-      <Button
-        colorScheme="blue"
-        variant="outline"
-        onClick={() => setEditPopup(true)}
-      >
-        Create School
-      </Button>
-      <CreateSchool value={{ setEditPopup, setSchools, schools, editPopup }} />
+      {loading ? (
+        <Stack>
+          <Skeleton height="15px" />
+          <Skeleton height="15px" />
+          <Skeleton height="15px" />
+        </Stack>
+      ) : (
+        <>
+          {" "}
+          <DataTable
+            direction="auto"
+            pagination
+            responsive
+            dense={false}
+            progressPending={loading}
+            columns={columns}
+            data={schools}
+          />
+          <Button
+            colorScheme="blue"
+            variant="outline"
+            onClick={() => setEditPopup(true)}
+          >
+            Create School
+          </Button>
+          <CreateSchool
+            value={{ setEditPopup, setSchools, schools, editPopup }}
+          />
+        </>
+      )}
     </>
   );
 };

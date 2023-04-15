@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { Button } from "@chakra-ui/react";
+import { Button, Skeleton, Stack } from "@chakra-ui/react";
 import PopOver from "./PopOver";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Users = () => {
@@ -74,15 +74,24 @@ const Users = () => {
   ];
 
   return (
-    <DataTable
-      direction="auto"
-      pagination
-      responsive
-      dense={false}
-      progressPending={loading}
-      columns={columns}
-      data={users}
-    />
+    <>
+      {loading ? (
+        <Stack>
+          <Skeleton height="15px" />
+          <Skeleton height="15px" />
+          <Skeleton height="15px" />
+        </Stack>
+      ) : (
+        <DataTable
+          pagination
+          direction="auto"
+          responsive
+          dense={false}
+          columns={columns}
+          data={users}
+        />
+      )}
+    </>
   );
 };
 
