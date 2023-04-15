@@ -4,6 +4,7 @@ import { Button, Skeleton, Stack } from "@chakra-ui/react";
 import DataTable from "react-data-table-component";
 import PopOver from "./PopOver";
 import CreateSchool from "./CreateSchool";
+import { Link } from "react-router-dom";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Schools = () => {
   const [schools, setSchools] = useState([]);
@@ -43,13 +44,17 @@ const Schools = () => {
       id: "School_Id",
       sortable: true,
       name: "School_Id",
-      selector: (row) => row.School_Id,
+      selector: (row) => (
+        <Link to={`/school/${row.School_Id}`}>{row.School_Id}</Link>
+      ),
     },
     {
       id: "School_Name",
       sortable: true,
       name: "School_Name",
-      selector: (row) => row.School_Name,
+      selector: (row) => (
+        <Link to={`/school/${row.School_Id}`}>{row.School_Name}</Link>
+      ),
     },
     {
       id: "Date",
@@ -62,6 +67,7 @@ const Schools = () => {
       name: "Type",
       selector: (row) => row.Type,
     },
+    // TODO Button (tree dots) drop down (Auth & Edit & Delete)
     {
       id: "Edit-school",
       name: "Edit",

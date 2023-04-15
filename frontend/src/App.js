@@ -10,9 +10,6 @@ import Conversation from "./components/conversation/Conversation";
 import Admin from "./components/Admin/Admin";
 import Users from "./components/Admin/Users";
 import Schools from "./components/Admin/Schools";
-import History from "./components/Admin/History";
-import Theme from "./components/Admin/Theme";
-import Authorize from "./components/Admin/Authorize";
 import Basic from "./components/Admin/Basic";
 
 function App() {
@@ -26,12 +23,10 @@ function App() {
         <Route path="/friends" element={<Friends />} />
         <Route path="/friends/:id" element={<Conversation />} />
         <Route path="/admin" element={<Admin />}>
-          <Route path="basic" element={<Basic />} />
+          <Route path="" element={<Basic />} />
           <Route path="users" element={<Users />} />
           <Route path="schools" element={<Schools />} />
-          <Route path="history" element={<History />} />
-          <Route path="theme" element={<Theme />} />
-          <Route path="authorize" element={<Authorize />} />
+         
         </Route>
 
         <Route path="*" element={<Err404 />} />

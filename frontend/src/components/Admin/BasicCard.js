@@ -7,7 +7,8 @@ import {
   StatNumber,
   useColorModeValue,
 } from "@chakra-ui/react";
-const BasicCard = ({ title, stat, icon }) => {
+import { Link } from "react-router-dom";
+const BasicCard = ({ title, stat, icon, to }) => {
   return (
     <Stat
       px={{ base: 2, md: 4 }}
@@ -17,23 +18,26 @@ const BasicCard = ({ title, stat, icon }) => {
       borderColor={useColorModeValue("gray.800", "gray.500")}
       rounded={"lg"}
     >
-      <Flex justifyContent={"space-between"}>
-        <Box pl={{ base: 2, md: 4 }}>
-          <StatLabel fontWeight={"medium"} isTruncated>
-            {title}
-          </StatLabel>
-          <StatNumber fontSize={"2xl"} fontWeight={"medium"}>
-            {stat}
-          </StatNumber>
-        </Box>
-        <Box
-          my={"auto"}
-          color={useColorModeValue("gray.800", "gray.200")}
-          alignContent={"center"}
-        >
-          {icon}
-        </Box>
-      </Flex>
+      <Link to={to}>
+        {" "}
+        <Flex justifyContent={"space-between"}>
+          <Box pl={{ base: 2, md: 4 }}>
+            <StatLabel fontWeight={"medium"} isTruncated>
+              {title}
+            </StatLabel>
+            <StatNumber fontSize={"2xl"} fontWeight={"medium"}>
+              {stat}
+            </StatNumber>
+          </Box>
+          <Box
+            my={"auto"}
+            color={useColorModeValue("gray.800", "gray.200")}
+            alignContent={"center"}
+          >
+            {icon}
+          </Box>
+        </Flex>
+      </Link>
     </Stat>
   );
 };
