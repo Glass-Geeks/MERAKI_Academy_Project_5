@@ -3,7 +3,7 @@ import { BsPerson } from "react-icons/bs";
 import { FiServer, FiHome, FiMail, FiSettings } from "react-icons/fi";
 import { GoLocation } from "react-icons/go";
 import BasicCard from "./BasicCard";
-import { Box, SimpleGrid, Skeleton, Stack } from "@chakra-ui/react";
+import { Box, SimpleGrid, Skeleton, VStack } from "@chakra-ui/react";
 import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -35,13 +35,13 @@ const Basic = () => {
   return (
     <>
       {isLoading ? (
-        <Stack>
+        <VStack>
           <Skeleton height="15px" />
           <Skeleton height="15px" />
           <Skeleton height="15px" />
-        </Stack>
+        </VStack>
       ) : (
-        <Box>
+        <Box p={4}>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
             <BasicCard
               title={"Users"}

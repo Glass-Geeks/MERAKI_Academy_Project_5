@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Text, Image, Button, VStack } from "@chakra-ui/react";
+
 import Nav from "../Navbar/Nav";
 import Header from "./Header";
 
@@ -42,7 +43,7 @@ export default function MapContainer() {
       borderRadius="md"
       boxShadow="md"
     >
-      <h5 style={{ textAlign: "center" }}>{school.school_name}</h5>
+      <h3 style={{ textAlign: "center", fontSize:"20px" }}>{school.school_name}</h3>
       <img
         className="schoolMapIMG"
         src={school.school_image}
@@ -50,7 +51,7 @@ export default function MapContainer() {
       />
       <Button
         colorScheme="blue"
-        mr="2"
+        
         mt="2"
         onClick={() => navigate(`/school/${school.school_id}`)}
       >
