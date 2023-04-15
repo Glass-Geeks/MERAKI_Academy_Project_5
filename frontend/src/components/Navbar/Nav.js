@@ -99,7 +99,7 @@ const Nav = ({ links }) => {
         </Link>
         <Spacer />
         <Box display={{ base: "none", md: "flex" }}>
-          {role === "ADMIN" && (
+          {role === "ADMIN" && isLoggedIn && (
             <Link to={"/admin"}>
               <Button colorScheme="teal" variant="ghost">
                 Dashboard
