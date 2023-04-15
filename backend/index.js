@@ -16,7 +16,6 @@ const messageSchema = require("./module/messageSchema");
 
 const { Server } = require("socket.io");
 const adminRouter = require("./routes/admin");
-// const { createServer } = require("https");
 
 app.use(cors());
 app.use(express.json());
@@ -37,7 +36,7 @@ const server = app.listen(PORT, () =>
 // http://localhost:3000
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -49,17 +48,17 @@ io.on("connection", (socket) => {
     socket.join(data);
     console.log("rooms", socket.rooms);
   });
-  socket.on("SEND_MESSAGE",async (data) => {
-    console.log('data :>> ', data);
+  socket.on("SEND_MESSAGE", async (data) => {
+    console.log("data :>> ", data);
     const content = { sender: data.sender, message: data.message };
-    const roomId = data.roomId
+    const roomId = data.roomId;
     await messageSchema
-    .findOneAndUpdate(
-      { roomId: roomId },
-      { $push: { messages: content } },
-      { new: true }
-    )
-    .exec();
+      .findOneAndUpdate(
+        { roomId: roomId },
+        { $push: { messages: content } },
+        { new: true }
+      )
+      .exec();
     socket.to(roomId).emit("RECEIVE_MESSAGE", content);
   });
 
@@ -67,11 +66,3 @@ io.on("connection", (socket) => {
     console.log("User Disconnected", socket.id);
   });
 });
-
-// server.listen(PORT, () =>
-//   console.log(`Example app listening on port ${PORT}!`)
-// );
-
-/* 
- 
-*/
