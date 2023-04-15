@@ -9,6 +9,7 @@ const {
   authorizeForUsersOrSchool,
   updateSchool,
   deleteSchool,
+  getBasicNumbers,
 } = require("../controllers/admin");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
@@ -19,4 +20,5 @@ adminRouter.post("/school", createNewSchool);
 adminRouter.put("/school/:id", updateSchool);
 adminRouter.delete("/school/:id", deleteSchool);
 adminRouter.get("/users", getAllUsersInfo);
+adminRouter.get("/numbers", getBasicNumbers);
 module.exports = adminRouter;

@@ -1,4 +1,5 @@
 const { pool } = require("../module/db");
+const messageSchema = require("../module/messageSchema");
 
 const createNewSchool = async (req, res) => {
   const {
@@ -111,6 +112,33 @@ const deleteSchool = async (req, res) => {
     });
   }
 };
+const getBasicNumbers = async (req, res) => {
+  const stuQuery = `SELECT * FROM users AS u INNER JOIN role AS r ON r.role_id = u.role WHERE r.role = 'STUDENT';`;
+  const teachersQuery = `SELECT * FROM users AS u INNER JOIN role AS r ON r.role_id = u.role WHERE r.role = 'TEACHER';`;
+  const SchoolsQuery = `SELECT * FROM schools`;
+  const usersQuery = `SELECT * FROM users`;
+  const adminsQuery = `SELECT * FROM users AS u INNER JOIN role AS r ON r.role_id = u.role WHERE r.role = 'ADMIN';`;
+  try {
+    const resRoom = await messageSchema.find({});
+    const resTea = await pool.query(teachersQuery);
+    const resStu = await pool.query(stuQuery);
+    const resAdmin = await pool.query(adminsQuery);
+    const resUsers = await pool.query(usersQuery);
+    const resSchools = await pool.query(SchoolsQuery);
+    const result = {
+      students: resStu.rowCount,
+      teachers: resTea.rowCount,
+      rooms: resRoom.length,
+      admins: resAdmin.rowCount,
+      schools: resSchools.rowCount,
+      users: resUsers.rowCount,
+    };
+
+    res.status(200).json({ success: true, result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 module.exports = {
   createNewSchool,
   getAllUsersInfo,
@@ -120,4 +148,5 @@ module.exports = {
   authorizeForUsersOrSchool,
   updateSchool,
   deleteSchool,
+  getBasicNumbers,
 };
