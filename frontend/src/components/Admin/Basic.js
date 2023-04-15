@@ -46,21 +46,25 @@ const Basic = () => {
             <BasicCard
               title={"Users"}
               stat={users}
+              to={"users"}
               icon={<BsPerson size={"3em"} />}
             />
             <BasicCard
               title={"Schools"}
               stat={schools}
+              to={"schools"}
               icon={<FiHome size={"3em"} />}
             />
             <BasicCard
               title={"Teachers"}
               stat={teachers}
+              to={"users"}
               icon={<BsPerson size={"3em"} />}
             />
             <BasicCard
               title={"Students"}
               stat={students}
+              to={"users"}
               icon={<BsPerson size={"3em"} />}
             />
             <BasicCard
@@ -71,6 +75,7 @@ const Basic = () => {
             <BasicCard
               title={"Total admin"}
               stat={admins}
+              to={"users"}
               icon={<FiSettings size={"3em"} />}
             />
           </SimpleGrid>
