@@ -8,7 +8,7 @@ import { OutletContext } from "./Conversation";
 const Messages = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const { connection_id, user_id } = useParams();
-  const {friendId} = useContext(OutletContext)
+  const { friendId } = useContext(OutletContext);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const socket = io(API_LINK, { autoConnect: false });
@@ -19,49 +19,51 @@ const Messages = () => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const scrollRef = useRef();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const message = {
-      sender: user_id,
-      text: newMessage,
-      conversationId: currentChat._id,
-    };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const message = {
+  //     sender: user_id,
+  //     text: newMessage,
+  //     conversationId: currentChat._id,
+  //   };
 
-    const receiverId = currentChat.members.find((member) => member !== user_id);
+  //   const receiverId = currentChat.members.find((member) => member !== user_id);
 
-    socket.current.emit("sendMessage", {
-      senderId: user_id,
-      receiverId,
-      text: newMessage,
-    });
+  //   socket.current.emit("sendMessage", {
+  //     senderId: user_id,
+  //     receiverId,
+  //     text: newMessage,
+  //   });
 
-    try {
-      const res = await axios.post("/messages", message);
-      setMessages([...messages, res.data]);
-      setNewMessage("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  //   try {
+  //     const res = await axios.post("/messages", message);
+  //     setMessages([...messages, res.data]);
+  //     setNewMessage("");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+console.log('friendId :>> ', friendId);
+  // useEffect(() => {
+  //   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   useEffect(() => {
     getPastMessages();
   }, []);
   useEffect(() => {
-    socket.connect().emit("JOIN_ROOM", connection_id);
+    // socket.emit("JOIN_ROOM", connection_id);
     socket.connect().on("RECEIVE_MESSAGE", (data) => {
+      console.log("data :>> ", data);
       setMessages([...messages, data]);
     });
-  });
+  }, [messages]);
   const sendMessage = () => {
     const messageContent = {
-      roomId: connection_id,
       sender: user_id,
+      receiverId: friendId,
       message,
+      roomId: connection_id,
     };
     socket.connect().emit("SEND_MESSAGE", messageContent);
     setMessage("");

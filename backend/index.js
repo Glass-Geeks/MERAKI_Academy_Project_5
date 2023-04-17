@@ -2,7 +2,6 @@ const express = require("express");
 require("dotenv").config();
 const db = require("./module/db");
 const mongodb = require("./module/mongoDB");
-
 const cors = require("cors");
 const app = express();
 
@@ -47,19 +46,20 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
+  return users.find((user) => user.userId == userId);
+};
+const getMyId = (userId) => {
+  return users.find((user) => user.userId == userId);
 };
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
-
 io.on("connection", (socket) => {
   //when connect
   console.log("a user connected.");
-
   //take userId and socketId from user
   socket.on("ADD_USER", (userId) => {
     addUser(userId, socket.id);
@@ -69,21 +69,31 @@ io.on("connection", (socket) => {
 
   //send and get message
 
-  socket.on("SEND_MESSAGE", async ({ sender, receiverId, message }) => {
-    const user = getUser(receiverId);
-    const content = { sender, receiverId, message };
-    await messageSchema
-      .findOneAndUpdate(
-        { roomId: roomId },
-        { $push: { messages: content } },
-        { new: true }
-      )
-      .exec();
-    io.to(user.socketId).emit("RECEIVE_MESSAGE", {
-      sender,
-      message,
-    });
-  });
+  socket.on(
+    "SEND_MESSAGE",
+    async ({ sender, receiverId, text, connection_id }) => {
+      const user = getUser(receiverId);
+      const myId = getMyId(sender);
+      const content = { sender, receiverId, text };
+      console.log("content :>> ", content);
+      try {
+        await messageSchema
+          .findOneAndUpdate(
+            { connection_id },
+            { $push: { messages: content } },
+            { new: true }
+          )
+          .exec();
+
+        io.to([user?.socketId, myId.socketId]).emit("RECEIVE_MESSAGE", {
+          sender,
+          text,
+        });
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    }
+  );
 
   //when disconnect
   socket.on("disconnect", () => {
