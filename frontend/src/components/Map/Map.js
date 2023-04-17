@@ -200,21 +200,24 @@ export default function MapContainer() {
         overflowY="auto"
       >
         {pins.map((pin) => (
-          <Box className="sidebarBox"
+          <Box
+            className="sidebarBox"
+            w="100%"
             key={pin.school.school_id}
             onClick={() => handleClick(pin)}
             cursor="pointer"
           >
-            <Text fontSize="lg" fontWeight="bold">
-              {pin.school.school_name}
-            </Text>
             <Image
+              className="sidebarIMG"
               src={pin.school.school_image}
               alt={pin.school.school_name}
               width="100px"
               height="100px"
               objectFit="cover"
             />
+            <Text fontSize="lg" fontWeight="bold">
+              {pin.school.school_name}
+            </Text>
           </Box>
         ))}
       </VStack>
