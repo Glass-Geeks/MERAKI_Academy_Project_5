@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 import {
   Box,
   Text,
@@ -53,60 +54,6 @@ export default function MapContainer() {
   };
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
-  };
-
-  const Sidebar = () => {
-    return (
-      <VStack
-        w={{ base: "100%", md: "350px" }}
-        h={{ base: "auto", md: "100vh" }}
-        bg="white"
-        p="4"
-        spacing="4"
-        divider={<Box border="1px" borderColor="gray.300" w="100%" />}
-        overflowY="auto"
-      >
-        <Input
-          placeholder="Search for schools"
-          value={searchInput}
-          onChange={handleSearchInputChange}
-          bg="white"
-          borderRadius="md"
-          boxShadow="sm"
-          mb={4}
-          _placeholder={{ color: "gray.400" }}
-          _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
-        />
-
-        {pins
-          .filter((pin) =>
-            pin.school.school_name
-              .toLowerCase()
-              .includes(searchInput.toLowerCase())
-          )
-          .map((pin) => (
-            <Box
-              className="sidebarBox"
-              w="100%"
-              key={pin.school.school_id}
-              onClick={() => handleClick(pin)}
-              cursor="pointer"
-            >
-              <Image
-                className="sidebarIMG"
-                src={pin.school.school_image}
-                alt={pin.school.school_name}
-                width="100px"
-                height="100px"
-                objectFit="cover"
-              />
-              <Text fontSize="lg" fontWeight="bold">
-                {pin.school.school_name}
-              </Text>
-            </Box>
-          ))}
-      </VStack>
-    );
   };
 
   const InfoWindow = ({ school }) => (
@@ -167,7 +114,12 @@ export default function MapContainer() {
       <Nav />
       <Header />
       <Flex className="mainMap">
-        <Sidebar />
+        <Sidebar
+          pins={pins}
+          handleClick={handleClick}
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+        />
         <Box flex="1" h="100vh">
           <GoogleMapReact
             bootstrapURLKeys={{
