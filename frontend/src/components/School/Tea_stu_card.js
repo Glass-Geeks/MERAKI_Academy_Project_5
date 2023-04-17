@@ -12,15 +12,7 @@ const API_LINK = process.env.REACT_APP_API_LINK;
 
 const Tea_stu_card = ({ data }) => {
   const dispatch = useDispatch();
-  // const getAllFriends = async () => {
-  //   try {
-  //     const response = await axios.get(`${API_LINK}/friends/${id}`);
-  //     dispatch(setAllFriends(response.data.connection));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
+ 
   const [friends, setFriends] = useState("");
 
   useEffect(() => {
@@ -58,7 +50,7 @@ const Tea_stu_card = ({ data }) => {
           <VStack align="stretch" spacing={4}>
             {data.map((item) => (
               <HStack
-                key={item.id}
+                key={item.first_name}
                 p="4"
                 bg="white"
                 borderRadius="md"
