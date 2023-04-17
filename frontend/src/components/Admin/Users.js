@@ -28,7 +28,7 @@ const Users = () => {
         const obj = {
           UserName: element.first_name + " " + element.last_name,
           Age: calculate_age(new Date(element.dob)),
-          Active: element.is_deleted ? "true" : "false",
+          Active: element.is_deleted ? "false" : "true",
           Created_at: element.created_at,
           Role: element.role,
           button: element.user_id,
