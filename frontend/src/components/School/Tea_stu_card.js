@@ -10,10 +10,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const id = localStorage.getItem("userId");
 const API_LINK = process.env.REACT_APP_API_LINK;
 
-const Tea_stu_card = ({ data }) => {
+const Tea_stu_card = ({ data, friends, requestedFriends, receivedFriends }) => {
   const dispatch = useDispatch();
  
-  const [friends, setFriends] = useState("");
+console.log(friends)
+console.log(requestedFriends)
+console.log(receivedFriends)
 
   useEffect(() => {
     // getAllFriends();
