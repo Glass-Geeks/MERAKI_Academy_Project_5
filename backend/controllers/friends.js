@@ -54,10 +54,11 @@ const getAllFriends = async (req, res) => {
   }
 };
 
-const getFriendRequests = async (req, res) => {
+const getFriendRequestsToUser = async (req, res) => {
   const id = req.params.id;
   const VALUE = [id];
   const QUERY = `SELECT * FROM connection WHERE friend_id=$1 AND status = 'Pending' `;
+  
 
   try {
     const response = await pool.query(QUERY, VALUE);
@@ -75,6 +76,30 @@ const getFriendRequests = async (req, res) => {
     });
   }
 };
+
+const getFriendRequestsForUser =async (req,res)=>{
+  const id = req.params.id;
+  const VALUE = [id];
+  const QUERY = `SELECT * FROM connection WHERE user_id=$1 AND status = 'Pending' `;
+  
+
+  try {
+    const response = await pool.query(QUERY, VALUE);
+
+    res.status(200).json({
+      success: true,
+      Message: "Connection Status",
+      connection: response.rows,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      err: err.message,
+    });
+  }
+};
+
 
 const answerFriendRequest = async (req, res) => {
   const id = req.params.id;
@@ -120,7 +145,8 @@ const deleteFriendRequest = async (req, res) => {
 module.exports = {
   createFriendConnection,
   getAllFriends,
-  getFriendRequests,
+  getFriendRequestsToUser,
   answerFriendRequest,
   deleteFriendRequest,
+  getFriendRequestsForUser
 };
