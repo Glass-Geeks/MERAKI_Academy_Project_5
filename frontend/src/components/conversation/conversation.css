@@ -1,15 +1,10 @@
-/* 
-.conversation-page{
-    margin-top: 150px;
-}
- */
 .messagePage {
   display: grid;
   height: 100vh;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr;
 }
-.hr {
+ .hr {
   height: 100vh;
   width: 1px;
   color: grey;

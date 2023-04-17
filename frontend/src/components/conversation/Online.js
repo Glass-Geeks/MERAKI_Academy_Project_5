@@ -3,7 +3,6 @@ import axios from "axios";
 import { OutletContext } from "./Conversation";
 import { useParams } from "react-router-dom";
 const Online = () => {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const {user_id} = useParams()
   const {
     friendId,

@@ -3,19 +3,19 @@ const messageSchema = require("../module/messageSchema");
 
 const createFriendConnection = async (req, res) => {
   const userID = req.params.id;
-
   const { friend_id } = req.body;
   const VALUE = [userID, friend_id];
   const QUERY = `INSERT INTO connection (user_id,friend_id) VALUES($1,$2) RETURNING *`;
   try {
     const response = await pool.query(QUERY, VALUE);
-    const roomId = response.rows[0].connection_id;
-    const chatRoom = new messageSchema({ roomId });
-    await chatRoom.save();
+    const connection_id = response.rows[0].connection_id;
+    const chatRoom = new messageSchema({ connection_id });
+    const data = await chatRoom.save();
     res.status(201).json({
       success: true,
       Message: "Connection Send",
       connection: response.rows,
+      chatTable: data,
     });
   } catch (err) {
     res.status(500).json({
@@ -83,7 +83,7 @@ const answerFriendRequest = async (req, res) => {
   const QUERY = `UPDATE Connection SET status='Friends' WHERE user_id= $2 AND friend_id = $1 RETURNING * `;
   try {
     const response = await pool.query(QUERY, VALUE);
-   
+
     res.status(200).json({
       success: true,
       Message: "Connection Response",
