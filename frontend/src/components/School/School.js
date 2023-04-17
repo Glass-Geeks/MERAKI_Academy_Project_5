@@ -20,21 +20,38 @@ const School = () => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const { establish_date, school_image, school_name } = school;
-
+  const [friends, setFriends] = useState([])
+  const [requestedFriends, setRequestedFriends] = useState([])
+  const [receivedFriends, setReceivedFriends] = useState([])
+const userId = localStorage.getItem("userId")
   useEffect(() => {
     getSchoolById();
   }, []);
 
   const getSchoolById = async () => {
-    const data = await axios.get(`${API_LINK}/schools/${id}`);
-    const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
-    const teacherData = await axios.get(
-      `${API_LINK}/users_schools/teacher/${id}`
-    );
-console.log(teacherData)
-    setSchool({ ...data.data.school[0] });
-    setStudents(stuData.data.result);
-    setTeachers(teacherData.data.result);
+    try{
+      const data = await axios.get(`${API_LINK}/schools/${id}`);
+      const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
+      const teacherData = await axios.get(
+        `${API_LINK}/users_schools/teacher/${id}`
+      );
+     const friendsData = await axios.get(`${API_LINK}/friends/${userId}`)
+     const requestedFriendsData = await axios.get(`${API_LINK}/friends/requests/${userId}`)
+     const receivedFriendsData= await axios.get(`${API_LINK}/friends/requests/forUser/${userId}`)
+  
+      setSchool({ ...data.data.school[0] });
+      setStudents(stuData.data.result);
+      setTeachers(teacherData.data.result);
+      setFriends(friendsData.data)
+      setRequestedFriends(requestedFriendsData.data)
+      setReceivedFriends(receivedFriendsData.data)
+      // console.log(friendsData.data)
+      // console.log(requestedFriendsData.data)
+      // console.log(receivedFriendsData.data)
+    }
+    catch(err){
+      console.log(err)
+    }
   };
 
   return (
@@ -66,13 +83,13 @@ console.log(teacherData)
             <Heading size="md" mb="4">
               Students
             </Heading>
-            <Tea_stu_card data={students} />
+            <Tea_stu_card data={students} friends = {friends} requestedFriends={requestedFriends} receivedFriends={receivedFriends}  />
           </Box>
           <Box>
             <Heading size="md" mb="4">
               Teachers
             </Heading>
-            <Tea_stu_card data={teachers} />
+            <Tea_stu_card data={teachers} friends = {friends} requestedFriends={requestedFriends} receivedFriends={receivedFriends}/>
           </Box>
         </SimpleGrid>
       </Container>
