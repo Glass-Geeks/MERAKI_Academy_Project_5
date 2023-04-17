@@ -10,7 +10,7 @@ export default function Header() {
       color="white"
       textAlign="center"
       borderRadius="md"
-      mb={6}
+      mb={2}
       boxShadow="md"
     >
           <br />
