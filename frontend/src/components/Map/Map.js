@@ -1,4 +1,3 @@
-
 import "./map.css";
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
@@ -13,6 +12,7 @@ import {
   Flex,
   useDisclosure,
   Drawer,
+  Input,
   DrawerBody,
   DrawerHeader,
   DrawerOverlay,
@@ -40,6 +40,7 @@ const AnyReactComponent = ({ onClick, zoom }) => {
 };
 
 export default function MapContainer() {
+  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pins, setPins] = useState([]);
@@ -49,6 +50,9 @@ export default function MapContainer() {
   const handleClick = (pin) => {
     setPinClicked(true);
     setInfoWindow(pin);
+  };
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
   };
 
   const Sidebar = () => {
@@ -62,27 +66,45 @@ export default function MapContainer() {
         divider={<Box border="1px" borderColor="gray.300" w="100%" />}
         overflowY="auto"
       >
-        {pins.map((pin) => (
-          <Box
-            className="sidebarBox"
-            w="100%"
-            key={pin.school.school_id}
-            onClick={() => handleClick(pin)}
-            cursor="pointer"
-          >
-            <Image
-              className="sidebarIMG"
-              src={pin.school.school_image}
-              alt={pin.school.school_name}
-              width="100px"
-              height="100px"
-              objectFit="cover"
-            />
-            <Text fontSize="lg" fontWeight="bold">
-              {pin.school.school_name}
-            </Text>
-          </Box>
-        ))}
+        <Input
+          placeholder="Search for schools"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+          bg="white"
+          borderRadius="md"
+          boxShadow="sm"
+          mb={4}
+          _placeholder={{ color: "gray.400" }}
+          _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+        />
+
+        {pins
+          .filter((pin) =>
+            pin.school.school_name
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          )
+          .map((pin) => (
+            <Box
+              className="sidebarBox"
+              w="100%"
+              key={pin.school.school_id}
+              onClick={() => handleClick(pin)}
+              cursor="pointer"
+            >
+              <Image
+                className="sidebarIMG"
+                src={pin.school.school_image}
+                alt={pin.school.school_name}
+                width="100px"
+                height="100px"
+                objectFit="cover"
+              />
+              <Text fontSize="lg" fontWeight="bold">
+                {pin.school.school_name}
+              </Text>
+            </Box>
+          ))}
       </VStack>
     );
   };
@@ -157,18 +179,24 @@ export default function MapContainer() {
             yesIWantToUseGoogleMapApiInternals={true}
             onClick={() => setInfoWindow(null)}
           >
-            {pins.map((pin) => (
-              <AnyReactComponent
-                key={pin.school.school_id}
-                lat={pin.lat}
-                lng={pin.lng}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClick(pin);
-                }}
-                zoom={defaultProps.zoom}
-              />
-            ))}
+            {pins
+              .filter((pin) =>
+                pin.school.school_name
+                  .toLowerCase()
+                  .includes(searchInput.toLowerCase())
+              )
+              .map((pin) => (
+                <AnyReactComponent
+                  key={pin.school.school_id}
+                  lat={pin.lat}
+                  lng={pin.lng}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClick(pin);
+                  }}
+                  zoom={defaultProps.zoom}
+                />
+              ))}
             {pinClicked && infoWindow && (
               <InfoWindow
                 className="infoPopup"
