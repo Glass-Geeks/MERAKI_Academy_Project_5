@@ -16,7 +16,6 @@
 }
 
 .mainMap {
-  
   height: 100vh;
 }
 
@@ -27,8 +26,16 @@
   padding: 5px;
 }
 
-
 .sidebarBox {
   display: flex;
-  justify-content: space-between;
+  /* border: red solid 2px; */
+  align-items: center;
+  
+
+}
+
+.sidebarIMG {
+border-radius: 50%;
+padding:  5px;
+margin: 5px;
 }
