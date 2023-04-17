@@ -34,6 +34,21 @@ const server = app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
 // http://localhost:3000
+
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -42,13 +57,53 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("rooms", socket.rooms);
-  socket.on("JOIN_ROOM", (data) => {
+  //when connect
+  console.log("a user connected.");
+
+  //take userId and socketId from user
+  socket.on("ADD_USER", (userId) => {
+    addUser(userId, socket.id);
+    console.log("users :>> ", users);
+    io.emit("GET_USERS", users);
+  });
+
+  //send and get message
+
+  socket.on("SEND_MESSAGE", async ({ sender, receiverId, message }) => {
+    const user = getUser(receiverId);
+    const content = { sender, receiverId, message };
+    await messageSchema
+      .findOneAndUpdate(
+        { roomId: roomId },
+        { $push: { messages: content } },
+        { new: true }
+      )
+      .exec();
+    io.to(user.socketId).emit("RECEIVE_MESSAGE", {
+      sender,
+      message,
+    });
+  });
+
+  //when disconnect
+  socket.on("disconnect", () => {
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    console.log("users :>> ", users);
+    io.emit("GET_USERS", users);
+  });
+});
+
+/* 
+
+ socket.on("JOIN_ROOM", (data) => {
     console.log("data :>> ", data);
     socket.join(data);
     console.log("rooms", socket.rooms);
   });
-  socket.on("SEND_MESSAGE", async (data) => {
+
+
+   socket.on("SEND_MESSAGE", async (data) => {
     console.log("data :>> ", data);
     const content = { sender: data.sender, message: data.message };
     const roomId = data.roomId;
@@ -61,8 +116,4 @@ io.on("connection", (socket) => {
       .exec();
     socket.to(roomId).emit("RECEIVE_MESSAGE", content);
   });
-
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-});
+*/

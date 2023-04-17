@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-
-const messageSchema = new mongoose.Schema({
-messages:[{ type: Object}],
-roomId : {type:String}
-})
-module.exports = mongoose.model('message', messageSchema)
+const messageSchema = new mongoose.Schema(
+  {
+    messages: [{ type: Object }],
+    roomId: { type: String },
+  },
+  { timestamps: true }
+);
+module.exports = mongoose.model("message", messageSchema);
