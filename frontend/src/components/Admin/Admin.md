@@ -44,3 +44,7 @@
 1. **calculate_age()**: this function processes the date of birth of a user from the database and converts it to the user's age in years.
 
 2. **getUsers()**: this function retrieves all the information about users from the backend server for display on the admin panel, including username, age, active status, creation date, role, and a button for editing the user information.
+
+
+----------------------------
+*Mousa Ibrahim*
