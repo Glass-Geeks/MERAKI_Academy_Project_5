@@ -11,18 +11,22 @@ import Admin from "./components/Admin/Admin";
 import Users from "./components/Admin/Users";
 import Schools from "./components/Admin/Schools";
 import Basic from "./components/Admin/Basic";
-
+import HomePage from "./components/Home/Home";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<MapContainer />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/school/:id" element={<School />} />
         <Route path="/friends" element={<Friends />} />
-        <Route path="/messages/:user_id/:connection_id" element={<Conversation />}>
+        <Route
+          path="/messages/:user_id/:connection_id"
+          element={<Conversation />}
+        >
           {/* <Route path=":connection_id" element={<Messages />} /> */}
         </Route>
         <Route path="/admin" element={<Admin />}>

@@ -23,6 +23,7 @@ const School = () => {
   const [friends, setFriends] = useState([]);
   const [requested, setRequested] = useState([]);
   const [received, setReceived] = useState([]);
+
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     getSchoolById();
@@ -31,6 +32,7 @@ const School = () => {
   const getSchoolById = async () => {
     try {
       const data = await axios.get(`${API_LINK}/schools/${id}`);
+      console.log(data);
       const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
@@ -67,9 +69,7 @@ const School = () => {
         {Object.keys(school).length ? (
           <VStack spacing={4} alignItems="center">
             <Image
-              src={
-                "https://assets-global.website-files.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
-              }
+              src={school_image}
               alt="school"
               w="100%"
               h="auto"
@@ -93,6 +93,7 @@ const School = () => {
               requested={requested}
               received={received}
               func={getSchoolById}
+
             />
           </Box>
           <Box>
