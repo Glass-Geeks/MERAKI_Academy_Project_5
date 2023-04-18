@@ -12,6 +12,7 @@ import Users from "./components/Admin/Users";
 import Schools from "./components/Admin/Schools";
 import Basic from "./components/Admin/Basic";
 import HomePage from "./components/Home/Home";
+import ChatBox from "./components/conversation/ChatBox";
 
 function App() {
   return (
@@ -23,11 +24,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/school/:id" element={<School />} />
         <Route path="/friends" element={<Friends />} />
-        <Route
-          path="/messages/:user_id/:connection_id"
-          element={<Conversation />}
-        >
-          {/* <Route path=":connection_id" element={<Messages />} /> */}
+        <Route path="/messages/:user_id" element={<Conversation />}>
+          <Route path=":connection_id" element={<ChatBox />} />
         </Route>
         <Route path="/admin" element={<Admin />}>
           <Route path="" element={<Basic />} />

@@ -31,22 +31,24 @@ const chat = (socket, io) => {
     "SEND_MESSAGE",
     async ({ sender, receiverId, text, connection_id }) => {
       const user = getUser(receiverId);
-      const myId = getMyId(sender)
+      const myId = getMyId(sender);
       const content = { sender, receiverId, text };
-     try {
-      const messages =  await messageSchema
-      .findOneAndUpdate(
-        { connection_id },
-        { $push: { messages: content } },
-        { new: true }
-      )
-      .exec();
-      io.to([user?.socketId, myId.socketId]).emit("RECEIVE_MESSAGE", messages);
-     } catch (error) {
-      console.log('error :>> ', error);
-     }
-    
-    
+      try {
+        const messages = await messageSchema
+          .findOneAndUpdate(
+            { connection_id },
+            { $push: { messages: content } },
+            { new: true }
+          )
+          .exec();
+        user
+          ? io
+              .to([user.socketId, myId.socketId])
+              .emit("RECEIVE_MESSAGE", messages)
+          : io.to([myId.socketId]).emit("RECEIVE_MESSAGE", messages);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
     }
   );
 
