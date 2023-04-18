@@ -1,0 +1,76 @@
+/* LandingPage.css */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.hero-section {
+  position: relative;
+  background-image: url("../alexis-brown-omeaHbEFlN4-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  border-radius: 5px;
+  font-size: 2rem;
+  line-height: 1.5;
+}
+
+.story-section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 5rem;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+.explore-button {
+  background-color: #1c7aed;
+  color: #ffffff;
+  font-size: 1.2rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.explore-button:hover {
+  background-color: #1466c0;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.story-section h2 {
+  font-size: 2.5rem; /* Add this line */
+  margin-bottom: 1.5rem; /* Add this line */
+}
+
+.story-section p {
+  font-size: 1.2rem; /* Add this line */
+  line-height: 1.6; /* Add this line */
+  text-align: justify; /* Add this line */
+}
