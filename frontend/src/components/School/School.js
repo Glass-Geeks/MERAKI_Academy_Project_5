@@ -21,8 +21,9 @@ const School = () => {
   const [teachers, setTeachers] = useState([]);
   const { establish_date, school_image, school_name } = school;
   const [friends, setFriends] = useState([]);
-  const [requestedFriends, setRequestedFriends] = useState([]);
-  const [receivedFriends, setReceivedFriends] = useState([]);
+  const [requested, setRequested] = useState([]);
+  const [received, setReceived] = useState([]);
+
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     getSchoolById();
@@ -36,23 +37,24 @@ const School = () => {
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
       );
-      const friendsData = await axios.get(`${API_LINK}/friends/${userId}`);
-      const requestedFriendsData = await axios.get(
+      const friendsData = await axios.get(
+        `${API_LINK}/users_schools/friends/${userId}`
+      );
+      const receivedData = await axios.get(
         `${API_LINK}/friends/requests/${userId}`
       );
-      const receivedFriendsData = await axios.get(
+      const requestedData = await axios.get(
         `${API_LINK}/friends/requests/forUser/${userId}`
       );
-
+      const friend_arr = friendsData.data.result;
+      const received_arr = receivedData.data.connection;
+      const requested_arr = requestedData.data.connection;
       setSchool({ ...data.data.school[0] });
       setStudents(stuData.data.result);
       setTeachers(teacherData.data.result);
-      setFriends(friendsData.data);
-      setRequestedFriends(requestedFriendsData.data);
-      setReceivedFriends(receivedFriendsData.data);
-      // console.log(friendsData.data)
-      // console.log(requestedFriendsData.data)
-      // console.log(receivedFriendsData.data)
+      setFriends(friend_arr.map((friend) => friend.friend_id));
+      setRequested(requested_arr.map((received) => received.user_id));
+      setReceived(received_arr.map((received) => received.user_id));
     } catch (err) {
       console.log(err);
     }
@@ -88,8 +90,10 @@ const School = () => {
             <Tea_stu_card
               data={students}
               friends={friends}
-              requestedFriends={requestedFriends}
-              receivedFriends={receivedFriends}
+              requested={requested}
+              received={received}
+              func={getSchoolById}
+
             />
           </Box>
           <Box>
@@ -99,8 +103,9 @@ const School = () => {
             <Tea_stu_card
               data={teachers}
               friends={friends}
-              requestedFriends={requestedFriends}
-              receivedFriends={receivedFriends}
+              requested={requested}
+              received={received}
+              func={getSchoolById}
             />
           </Box>
         </SimpleGrid>

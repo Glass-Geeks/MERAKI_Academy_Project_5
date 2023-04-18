@@ -62,7 +62,7 @@ const getFriendRequestsToUser = async (req, res) => {
   const VALUE = [id];
   const QUERY = `SELECT u.first_name,u.last_name,u.user_image,c.created_at,c.user_id FROM connection AS c
   INNER JOIN users AS u ON  c.user_id = u.user_id
-  WHERE friend_id=$1 AND status = 'Pending' ;`;
+  WHERE c.friend_id=$1 AND c.status = 'Pending' ;`;
 
   try {
     const response = await pool.query(QUERY, VALUE);
@@ -84,7 +84,9 @@ const getFriendRequestsToUser = async (req, res) => {
 const getFriendRequestsForUser = async (req, res) => {
   const id = req.params.id;
   const VALUE = [id];
-  const QUERY = `SELECT * FROM connection WHERE user_id=$1 AND status = 'Pending' `;
+  const QUERY = `SELECT u.first_name,u.last_name,u.user_image,c.created_at,c.friend_id AS user_id  FROM connection AS c
+  INNER JOIN users AS u ON  c.friend_id= u.user_id 
+  WHERE c.user_id =$1 AND c.status = 'Pending' ;`;
 
   try {
     const response = await pool.query(QUERY, VALUE);

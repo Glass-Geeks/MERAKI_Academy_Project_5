@@ -33,15 +33,20 @@ const chat = (socket, io) => {
       const user = getUser(receiverId);
       const myId = getMyId(sender)
       const content = { sender, receiverId, text };
-     
-     const messages =  await messageSchema
-        .findOneAndUpdate(
-          { connection_id },
-          { $push: { messages: content } },
-          { new: true }
-        )
-        .exec();
-      io.to([user.socketId, myId.socketId]).emit("RECEIVE_MESSAGE", messages);
+     try {
+      const messages =  await messageSchema
+      .findOneAndUpdate(
+        { connection_id },
+        { $push: { messages: content } },
+        { new: true }
+      )
+      .exec();
+      io.to([user?.socketId, myId.socketId]).emit("RECEIVE_MESSAGE", messages);
+     } catch (error) {
+      console.log('error :>> ', error);
+     }
+    
+    
     }
   );
 
