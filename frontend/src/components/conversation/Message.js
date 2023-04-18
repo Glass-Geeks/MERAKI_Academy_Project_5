@@ -1,20 +1,18 @@
 import { format } from "timeago.js";
-const Message = ({ message, own }) => {
- 
- 
+const Message = ({ message, own, img }) => {
+  console.log("img :>> ", img);
   return (
     <div className={own ? "message own" : "message"}>
-    <div className="messageTop">
-      <img
-        className="messageImg"
-        src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-        alt=""
-      />
-      <p className="messageText">{message.text}</p>
+      <div className="messageTop">
+        {own ? (
+          <img className="messageImg" src={img.myImg} alt="" />
+        ) : (
+          <img className="messageImg" src={img.friendImg} alt="" />
+        )}
+        <p className="messageText">{message.text}</p>
+      </div>
+      <div className="messageBottom">{format(message.createdAt)}</div>
     </div>
-    <div className="messageBottom">{format(message.createdAt)}</div>
-  </div>
-     
   );
 };
 
