@@ -20,13 +20,12 @@ const API_LINK = process.env.REACT_APP_API_LINK;
 const Friends = () => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.friends.allFriends);
+  const id = useSelector((state) => state.auth.userId);
   const friendRequests = useSelector((state) => state.friends.friendRequests);
 
   const navigate = useNavigate();
 
   const getAllFriends = async () => {
-    const id = localStorage.getItem("userId");
-
     try {
       const response = await axios.get(`${API_LINK}/friends/${id}`);
       dispatch(setAllFriends(response.data.connection));
@@ -37,7 +36,6 @@ const Friends = () => {
   };
 
   const getAllFriendRequests = async () => {
-    const id = localStorage.getItem("userId");
     try {
       const response = await axios.get(`${API_LINK}/friends/requests/${id}`);
       dispatch(setAllFriendRequests(response.data.connection));
@@ -48,16 +46,10 @@ const Friends = () => {
   };
 
   const deleteFriend = async (friendId) => {
-    const friend_id = {
-      friend_id: friendId,
-    };
-
-    const id = localStorage.getItem("userId");
-
     try {
-      const response = await axios.delete(`${API_LINK}/friends/delete/${id}`, {
-        data: friend_id,
-      });
+      const response = await axios.delete(
+        `${API_LINK}/friends/delete/${id}?friend_id=${friendId}`
+      );
       console.log(response.data);
       await getAllFriends();
     } catch (err) {

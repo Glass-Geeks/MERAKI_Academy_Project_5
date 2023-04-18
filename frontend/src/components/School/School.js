@@ -20,37 +20,41 @@ const School = () => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const { establish_date, school_image, school_name } = school;
-  const [friends, setFriends] = useState([])
-  const [requestedFriends, setRequestedFriends] = useState([])
-  const [receivedFriends, setReceivedFriends] = useState([])
-const userId = localStorage.getItem("userId")
+  const [friends, setFriends] = useState([]);
+  const [requested, setRequested] = useState([]);
+  const [received, setReceived] = useState([]);
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     getSchoolById();
   }, []);
 
   const getSchoolById = async () => {
-    try{
+    try {
       const data = await axios.get(`${API_LINK}/schools/${id}`);
       const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
       );
-     const friendsData = await axios.get(`${API_LINK}/friends/${userId}`)
-     const requestedFriendsData = await axios.get(`${API_LINK}/friends/requests/${userId}`)
-     const receivedFriendsData= await axios.get(`${API_LINK}/friends/requests/forUser/${userId}`)
-  
+      const friendsData = await axios.get(
+        `${API_LINK}/users_schools/friends/${userId}`
+      );
+      const receivedData = await axios.get(
+        `${API_LINK}/friends/requests/${userId}`
+      );
+      const requestedData = await axios.get(
+        `${API_LINK}/friends/requests/forUser/${userId}`
+      );
+      const friend_arr = friendsData.data.result;
+      const received_arr = receivedData.data.connection;
+      const requested_arr = requestedData.data.connection;
       setSchool({ ...data.data.school[0] });
       setStudents(stuData.data.result);
       setTeachers(teacherData.data.result);
-      setFriends(friendsData.data)
-      setRequestedFriends(requestedFriendsData.data)
-      setReceivedFriends(receivedFriendsData.data)
-      // console.log(friendsData.data)
-      // console.log(requestedFriendsData.data)
-      // console.log(receivedFriendsData.data)
-    }
-    catch(err){
-      console.log(err)
+      setFriends(friend_arr.map((friend) => friend.friend_id));
+      setRequested(requested_arr.map((received) => received.user_id));
+      setReceived(received_arr.map((received) => received.user_id));
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -83,13 +87,25 @@ const userId = localStorage.getItem("userId")
             <Heading size="md" mb="4">
               Students
             </Heading>
-            <Tea_stu_card data={students} friends = {friends} requestedFriends={requestedFriends} receivedFriends={receivedFriends}  />
+            <Tea_stu_card
+              data={students}
+              friends={friends}
+              requested={requested}
+              received={received}
+              func={getSchoolById}
+            />
           </Box>
           <Box>
             <Heading size="md" mb="4">
               Teachers
             </Heading>
-            <Tea_stu_card data={teachers} friends = {friends} requestedFriends={requestedFriends} receivedFriends={receivedFriends}/>
+            <Tea_stu_card
+              data={teachers}
+              friends={friends}
+              requested={requested}
+              received={received}
+              func={getSchoolById}
+            />
           </Box>
         </SimpleGrid>
       </Container>

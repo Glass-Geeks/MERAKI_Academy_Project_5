@@ -2,7 +2,7 @@ const { pool } = require("../module/db");
 
 const getAllStudentBySchoolId = async (req, res) => {
   const { id } = req.params;
-  const QUERY = `SELECT users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
+  const QUERY = `SELECT users.user_id, users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
   INNER JOIN schools ON schools.school_id = user_school.school_id
   WHERE role.role = 'STUDENT' AND schools.school_id = ${id}`;
   try {
@@ -21,7 +21,7 @@ const getAllStudentBySchoolId = async (req, res) => {
 };
 const getAllTeachersBySchoolId = async (req, res) => {
   const { id } = req.params;
-  const QUERY = `SELECT users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year  FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
+  const QUERY = `SELECT users.user_id, users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year  FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
   INNER JOIN schools ON schools.school_id = user_school.school_id
   WHERE role.role = 'TEACHER' AND schools.school_id =${id}`;
   try {
@@ -56,8 +56,31 @@ const signUserWithSchool = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+const getAllFriendsId = async (req, res) => {
+  const { id } = req.params;
+  const QUERY = `SELECT DISTINCT ON (C.connection_id) C.connection_id,
+  CASE WHEN C.friend_id = $1 THEN C.user_id ELSE C.friend_id END AS friend_id
+  FROM connection AS C 
+  INNER JOIN users AS U ON U.user_id = CASE WHEN C.friend_id = $1 THEN C.user_id ELSE C.friend_id END
+  WHERE (C.friend_id = $1 OR C.user_id = $1) AND C.status = 'Friends'
+  GROUP BY C.connection_id,friend_id ;`;
+  const VALUE = [id];
+  try {
+    const result = await pool.query(QUERY, VALUE);
+    res.status(200).json({
+      success: true,
+      message: "here's all your friend id",
+      result: result.rows,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
 module.exports = {
   getAllStudentBySchoolId,
   getAllTeachersBySchoolId,
   signUserWithSchool,
+  getAllFriendsId
 };
