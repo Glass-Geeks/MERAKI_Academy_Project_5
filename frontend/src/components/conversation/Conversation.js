@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Nav from "../Navbar/Nav";
 import { Link, useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -8,6 +8,8 @@ import { v4 } from "uuid";
 
 import "./conversation.css";
 import axios from "axios";
+import Message from "./Message";
+import Online from "./Online";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -18,7 +20,8 @@ const Conversation = () => {
   const [friends, setFriends] = useState([]);
   const [online, setOnline] = useState([]);
   const [friendId, setFriendId] = useState("");
-  // const socket = io(API_LINK, { autoConnect: false });
+  const scrollRef = useRef();
+
   const [socket, setSocket] = useState(io(API_LINK, { autoConnect: false }));
 
   const sendMessage = () => {
@@ -27,10 +30,18 @@ const Conversation = () => {
   };
 
   useEffect(() => {
-    if(true){}
-    socket.connect()
+    if (true) {
+    }
+    socket.connect();
     socket.emit("ADD_USER", user_id);
-    // socket.on("GET_USERS",users)
+    socket.on("GET_USERS", (users) => {
+      console.log("users :>> ", users);
+      setOnline(
+        friends.filter((friend) =>
+          users.map((user) => friend.friend_id != user.userId)
+        )
+      );
+    });
     getFriends();
     getMessageList();
     return () => {
@@ -38,14 +49,14 @@ const Conversation = () => {
     };
   }, []);
   useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     socket.on("RECEIVE_MESSAGE", (data) => {
       console.log("data :>> ", data);
-      const newArr = [...messageList, data]
+      const newArr = [...messageList, data];
       console.log(newArr);
       setMessageList(newArr);
     });
   }, [messageList]);
-
 
   const getMessageList = async () => {
     try {
@@ -63,6 +74,7 @@ const Conversation = () => {
       console.log("error :>> ", error);
     }
   };
+  console.log("friends :>> ", friends);
   return (
     <>
       <Nav />
@@ -99,7 +111,7 @@ const Conversation = () => {
               <List
                 dataSource={friends}
                 renderItem={(item) => (
-                  <List.Item key={item}>
+                  <List.Item key={v4()}>
                     <List.Item.Meta
                       avatar={<Avatar src={item.user_image} />}
                       title={<h4>{`${item.first_name}  ${item.last_name}`}</h4>}
@@ -122,9 +134,14 @@ const Conversation = () => {
           <div className="chatBox">
             <div className="chatBoxWrapper">
               <div className="chatBoxTop">
-                {console.log("messageList :>> ", messageList)}
                 {messageList.map((message) => (
-                  <p>{message.text}</p>
+                  <div key={v4()} ref={scrollRef}>
+                    <Message
+                      message={message}
+                      own={message.sender === user_id}
+                    
+                    />
+                  </div>
                 ))}
               </div>
               <div className="chatBoxBottom">
@@ -144,27 +161,11 @@ const Conversation = () => {
           </div>
         </div>
 
-        <div className="Online">
-          {/* <Online /> */}
-          <div className="chatOnline">
-            <h2>Online Friends</h2>
-            {/* 
-      {onlineFriends.map((online) => {
-       
-        return(
-        <div className="chatOnlineFriend">
-          <div className="chatOnlineImgContainer">
-            <img
-              className="chatOnlineImg"
-              src={''}
-              alt=""
-            />
-            <div className="chatOnlineBadge"></div>
-          </div>
-          <span className="chatOnlineName">{online?.first_name} {online?.last_name}</span> 
-        </div>
-      )})} */}
-          </div>
+        <div className="chatOnline">
+          <h2>Online Friends</h2>
+          {online.map((user) => (
+            <Online user={user} />
+          ))}
         </div>
       </div>
     </>

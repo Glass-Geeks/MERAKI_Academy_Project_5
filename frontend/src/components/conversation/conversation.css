@@ -4,7 +4,7 @@
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr;
 }
- .hr {
+.hr {
   height: 100vh;
   width: 1px;
   color: grey;
@@ -79,10 +79,43 @@
   top: 2px;
   right: 2px;
 }
+.message {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
 
-@media screen and (max-width: 768px) {
-  .chatOnlineName {
-    display: none;
-  }
+.messageTop {
+  display: flex;
+}
+
+.messageImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.messageText {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #1877f2;
+  color: white;
+  max-width: 300px;
+}
+
+.messageBottom {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.message.own {
+  align-items: flex-end;
+}
+
+.message.own .messageText {
+  background-color: rgb(245, 241, 241);
+  color: black;
 }
 

@@ -5,5 +5,4 @@ export const Row = styled.div`
   flex-direction: row;
   gap: ${({ gb }) => (gb ? gb : "0px")};
   width: 100%;
-
 `;

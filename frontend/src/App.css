@@ -1,0 +1,14 @@
+.card-body-nav-notification {
+  position: relative;
+}
+.btns-nav-notification {
+  position: absolute;
+  right: 3px;
+  bottom: 5px;
+}
+.date-nav-notification {
+  position: absolute;
+
+  left: 9px;
+  bottom: 15px;
+}

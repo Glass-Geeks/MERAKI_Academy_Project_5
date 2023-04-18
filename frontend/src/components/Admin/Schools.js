@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import PopOver from "./PopOver";
 import CreateSchool from "./CreateSchool";
 import { Link } from "react-router-dom";
+import { format } from "timeago.js";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Schools = () => {
   const [schools, setSchools] = useState([]);
@@ -60,7 +61,7 @@ const Schools = () => {
       id: "Date",
       sortable: true,
       name: "Date",
-      selector: (row) => row.Date,
+      selector: (row) => format(row.Date),
     },
     {
       id: "Type",

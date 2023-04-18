@@ -1,9 +1,9 @@
 const messageSchema = require("../module/messageSchema");
 
 const getAllMessages = async (req, res) => {
-  const roomId = req.params.id;
+  const connection_id = req.params.id;
   try {
-    const result = await messageSchema.findOne({ roomId });
+    const result = await messageSchema.findOne({ connection_id });
     res
       .status(200)
       .json({ success: true, message: "Here is all messages", result });
