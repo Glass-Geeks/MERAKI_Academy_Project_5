@@ -35,8 +35,8 @@ const getAllFriends = async (req, res) => {
   INNER JOIN users AS U ON U.user_id = CASE WHEN C.friend_id = $1 THEN C.user_id ELSE C.friend_id END
   WHERE (C.friend_id = $1 OR C.user_id = $1) AND C.status = 'Friends'
   GROUP BY C.connection_id, U.first_name, U.last_name, U.user_image, friend_id; ;`;
-  // const QUERY2 = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image,C.friend_id,C.user_id FROM connection AS C 
-  // INNER JOIN users AS U ON U.user_id = C.friend_id 
+  // const QUERY2 = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image,C.friend_id,C.user_id FROM connection AS C
+  // INNER JOIN users AS U ON U.user_id = C.friend_id
   // WHERE C.user_id  = $1  AND C.status = 'Friends'
   // GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image,C.friend_id , C.user_id ;`;
   try {
@@ -60,8 +60,9 @@ const getAllFriends = async (req, res) => {
 const getFriendRequestsToUser = async (req, res) => {
   const id = req.params.id;
   const VALUE = [id];
-  const QUERY = `SELECT * FROM connection WHERE friend_id=$1 AND status = 'Pending' `;
-  
+  const QUERY = `SELECT u.first_name,u.last_name,u.user_image,c.created_at,c.user_id FROM connection AS c
+  INNER JOIN users AS u ON  c.user_id = u.user_id
+  WHERE friend_id=$1 AND status = 'Pending' ;`;
 
   try {
     const response = await pool.query(QUERY, VALUE);
@@ -80,11 +81,10 @@ const getFriendRequestsToUser = async (req, res) => {
   }
 };
 
-const getFriendRequestsForUser =async (req,res)=>{
+const getFriendRequestsForUser = async (req, res) => {
   const id = req.params.id;
   const VALUE = [id];
   const QUERY = `SELECT * FROM connection WHERE user_id=$1 AND status = 'Pending' `;
-  
 
   try {
     const response = await pool.query(QUERY, VALUE);
@@ -102,7 +102,6 @@ const getFriendRequestsForUser =async (req,res)=>{
     });
   }
 };
-
 
 const answerFriendRequest = async (req, res) => {
   const id = req.params.id;
@@ -128,9 +127,9 @@ const answerFriendRequest = async (req, res) => {
 
 const deleteFriendRequest = async (req, res) => {
   const id = req.params.id;
-  const { friend_id } = req.body;
+  const { friend_id } = req.query;
   const VALUE = [friend_id, id];
-  const QUERY = `DELETE FROM connection WHERE friend_id = $1 AND user_id=$2`;
+  const QUERY = `DELETE FROM connection WHERE friend_id = $1 AND user_id=$2 `;
   try {
     const response = await pool.query(QUERY, VALUE);
     res.status(200).json({
@@ -151,5 +150,5 @@ module.exports = {
   getFriendRequestsToUser,
   answerFriendRequest,
   deleteFriendRequest,
-  getFriendRequestsForUser
+  getFriendRequestsForUser,
 };

@@ -1,18 +1,23 @@
+const messageSchema = require("./module/messageSchema");
+
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
+  !users.some((user) => user.userId == userId) &&
     users.push({ userId, socketId });
 };
 
 const removeUser = (socketId) => {
-  users = users.filter((user) => user.socketId !== socketId);
+  users = users.filter((user) => user.socketId != socketId);
 };
 
 const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
+  return users.find((user) => user.userId == userId);
 };
-const chat = (socket) => {
+const getMyId = (userId) => {
+  return users.find((user) => user.userId == userId);
+};
+const chat = (socket, io) => {
   //take userId and socketId from user
   socket.on("ADD_USER", (userId) => {
     addUser(userId, socket.id);
@@ -24,22 +29,19 @@ const chat = (socket) => {
 
   socket.on(
     "SEND_MESSAGE",
-    async ({ sender, receiverId, message, connection_id }) => {
+    async ({ sender, receiverId, text, connection_id }) => {
       const user = getUser(receiverId);
-      console.log("user :>> ", user);
-      const content = { sender, receiverId, message };
-      console.log("content :>> ", content);
-      await messageSchema
+      const myId = getMyId(sender)
+      const content = { sender, receiverId, text };
+     
+     const messages =  await messageSchema
         .findOneAndUpdate(
           { connection_id },
           { $push: { messages: content } },
           { new: true }
         )
         .exec();
-      io.to([user?.socketId, socket.id]).emit("RECEIVE_MESSAGE", {
-        sender,
-        message,
-      });
+      io.to([user.socketId, myId.socketId]).emit("RECEIVE_MESSAGE", messages);
     }
   );
 
@@ -51,3 +53,4 @@ const chat = (socket) => {
     io.emit("GET_USERS", users);
   });
 };
+module.exports = { chat };

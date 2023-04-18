@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { setLogout } from "../store/auth/index";
+import { format } from "timeago.js";
+import { v4 } from "uuid";
+import axios from "axios";
 import {
   Box,
   Flex,
@@ -24,13 +27,27 @@ import {
   DrawerHeader,
   DrawerBody,
   VStack,
+  Image,
+  Popover,
+  PopoverTrigger,
+  Portal,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverFooter,
+  Card,
+  CardBody,
+  Text,
 } from "@chakra-ui/react";
 
-import { HamburgerIcon } from "@chakra-ui/icons";
-
-const Nav = ({ links }) => {
+import { HamburgerIcon, BellIcon } from "@chakra-ui/icons";
+const API_LINK = process.env.REACT_APP_API_LINK;
+const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user_id = useSelector((state) => state.auth.userId);
   const role = useSelector((state) => state.auth.role);
@@ -43,15 +60,125 @@ const Nav = ({ links }) => {
 
   const bg = useColorModeValue("gray.100", "gray.900");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  useEffect(() => {
+    getNotification();
+  }, []);
+  const getNotification = async () => {
+    try {
+      const data = await axios.get(`${API_LINK}/friends/requests/${user_id}`);
+      setNotifications(data.data.connection);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+  const deleteFriendShip = async (id) => {
+    try {
+      const result = await axios.delete(
+        `${API_LINK}/friends/delete/${id}?friend_id=${user_id}`
+      );
+      if (result.data.success) getNotification();
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+  const acceptFriendShip = async (id) => {
+    try {
+      const result = await axios.put(
+        `${API_LINK}/friends/requests/${id}/answer`,
+        { friend_id: user_id }
+      );
+      if (result.data.success) getNotification();
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
   return (
-    <Box boxShadow="md" px={4} bg={bg} position="fixed" w="100%" zIndex={100} mb="85px">
+    <Box
+      boxShadow="md"
+      px={4}
+      bg={bg}
+      position="fixed"
+      w="100%"
+      zIndex={100}
+      mb="85px"
+    >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Link to={"/"}>
           <Heading size="md">Logo</Heading>
         </Link>
         <Spacer />
         <Box display={{ base: "none", md: "flex" }}>
+          {isLoggedIn && (
+            <Popover>
+              <PopoverTrigger>
+                <Button
+                  variant="outline"
+                  colorScheme="teal"
+                  rightIcon={<BellIcon />}
+                >
+                  {notifications.length}
+                </Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverHeader>Notification</PopoverHeader>
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <Flex gap="3" direction="column">
+                      {notifications.length ? (
+                        notifications.map((alert) => {
+                          return (
+                            <Card key={v4()} minH={"120"}>
+                              <CardBody className="card-body-nav-notification">
+                                <Flex>
+                                  <Image
+                                    boxSize="2rem"
+                                    borderRadius="full"
+                                    src={alert.user_image}
+                                    alt="Fluffybuns the destroyer"
+                                    mr="12px"
+                                  />
+                                  <Text>
+                                    {alert.first_name} {alert.last_name}
+                                  </Text>
+                                </Flex>
+
+                                <Box className="btns-nav-notification">
+                                  <Flex gap="2">
+                                    <Button
+                                      onClick={() =>
+                                        deleteFriendShip(alert.user_id)
+                                      }
+                                    >
+                                      Decline
+                                    </Button>
+                                    <Button
+                                      onClick={() =>
+                                        acceptFriendShip(alert.user_id)
+                                      }
+                                    >
+                                      Accept
+                                    </Button>
+                                  </Flex>
+                                </Box>
+
+                                <Box className="date-nav-notification">
+                                  <Text>{format(alert.created_at)}</Text>
+                                </Box>
+                              </CardBody>
+                            </Card>
+                          );
+                        })
+                      ) : (
+                        <span>There is no notification for now</span>
+                      )}
+                    </Flex>
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
+          )}
           {role === "ADMIN" && isLoggedIn && (
             <Link to={"/admin"}>
               <Button colorScheme="teal" variant="ghost">

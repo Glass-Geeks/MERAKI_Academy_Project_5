@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { Button, Skeleton, Stack } from "@chakra-ui/react";
+import { format } from "timeago.js";
+
 import PopOver from "./PopOver";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Users = () => {
@@ -27,7 +29,7 @@ const Users = () => {
         const element = data[index];
         const obj = {
           UserName: element.first_name + " " + element.last_name,
-          Age: calculate_age(new Date(element.dob)),
+          Age: `${calculate_age(new Date(element.dob))} Years old`,
           Active: element.is_deleted ? "false" : "true",
           Created_at: element.created_at,
           Role: element.role,
@@ -60,7 +62,7 @@ const Users = () => {
       id: "created_at",
       sortable: true,
       name: "Created_at",
-      selector: (row) => row.Created_at,
+      selector: (row) => format(row.Created_at),
     },
     { id: "role", sortable: true, name: "Role", selector: (row) => row.Role },
     {
