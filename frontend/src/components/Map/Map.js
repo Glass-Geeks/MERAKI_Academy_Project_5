@@ -51,16 +51,14 @@ export default function MapContainer() {
   const [pinClicked, setPinClicked] = useState(false);
   const [infoWindow, setInfoWindow] = useState(null);
 
-
-  const handleClick = (pin, fixed = false) => {
+  const handleClick = (pin) => {
     setPinClicked(true);
-    setInfoWindow({ ...pin, fixed });
+    setInfoWindow({ ...pin, fixed: false });
   };
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
-
 
   useEffect(() => {
     axios
