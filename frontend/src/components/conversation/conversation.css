@@ -4,14 +4,13 @@
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr;
 }
+
 .hr {
   height: 100vh;
   width: 1px;
-  color: grey;
   background-color: grey;
   border-radius: 5px;
-  border-color: black;
-  border-style: solid;
+  border: solid 1px black;
 }
 
 .chatBoxWrapper {
@@ -79,6 +78,7 @@
   top: 2px;
   right: 2px;
 }
+
 .message {
   display: flex;
   flex-direction: column;
@@ -118,4 +118,3 @@
   background-color: rgb(245, 241, 241);
   color: black;
 }
-
