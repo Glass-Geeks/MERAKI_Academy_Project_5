@@ -3,20 +3,34 @@ import { Avatar } from "@chakra-ui/avatar";
 import axios from "axios";
 import { Box, VStack, HStack, Text, Button, Flex } from "@chakra-ui/react";
 import { Skeleton } from "@chakra-ui/skeleton";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import {
+  setFriends,
+  addFriend as pushFriend,
+  removeFriend,
+  setRequested,
+  addRequested,
+  removeRequested,
+  setReceived,
+  addReceived,
+  removeReceived,
+} from "../store/Connection";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
-const Tea_stu_card = ({ data, friends, requested, received, func }) => {
+const Tea_stu_card = ({ data }) => {
   const userId = useSelector((state) => state.auth.userId);
-
+  const friends = useSelector((state) => state.connection.friends);
+  const requested = useSelector((state) => state.connection.requested);
+  const received = useSelector((state) => state.connection.received);
+  const dispatch = useDispatch();
   const addFriend = async (id) => {
     try {
       const request = await axios.post(`${API_LINK}/friends/${userId}`, {
         friend_id: id,
       });
-      if (request.data.success) func();
+      dispatch(addRequested(id));
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -30,7 +44,7 @@ const Tea_stu_card = ({ data, friends, requested, received, func }) => {
       await axios.delete(
         `${API_LINK}/friends/delete/${userId}?friend_id=${id}`
       );
-      if (result.data.success) func();
+      dispatch(removeFriend(id));
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -40,7 +54,7 @@ const Tea_stu_card = ({ data, friends, requested, received, func }) => {
       const result = await axios.delete(
         `${API_LINK}/friends/delete/${userId}?friend_id=${id}`
       );
-      if (result.data.success) func();
+      dispatch(removeRequested(id));
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -51,7 +65,7 @@ const Tea_stu_card = ({ data, friends, requested, received, func }) => {
         `${API_LINK}/friends/requests/${id}/answer`,
         { friend_id: userId }
       );
-      if (result.data.success) func();
+      dispatch(pushFriend(id));
     } catch (error) {
       console.log("error :>> ", error);
     }

@@ -11,7 +11,18 @@ import {
   Container,
   SimpleGrid,
 } from "@chakra-ui/react";
-
+import {
+  setFriends,
+  addFriend,
+  removeFriend,
+  setRequested,
+  addRequested,
+  removeRequested,
+  setReceived,
+  addReceived,
+  removeReceived,
+} from "../store/Connection";
+import { useDispatch, useSelector } from "react-redux";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const School = () => {
@@ -20,11 +31,9 @@ const School = () => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const { establish_date, school_image, school_name } = school;
-  const [friends, setFriends] = useState([]);
-  const [requested, setRequested] = useState([]);
-  const [received, setReceived] = useState([]);
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
-  const userId = localStorage.getItem("userId");
   useEffect(() => {
     getSchoolById();
   }, []);
@@ -46,15 +55,21 @@ const School = () => {
       const requestedData = await axios.get(
         `${API_LINK}/friends/requests/forUser/${userId}`
       );
-      const friend_arr = friendsData.data.result;
-      const received_arr = receivedData.data.connection;
-      const requested_arr = requestedData.data.connection;
+      const friend_arr = friendsData.data.result.map(
+        (friend) => friend.friend_id
+      );
+      const received_arr = receivedData.data.connection.map(
+        (received) => received.user_id
+      );
+      const requested_arr = requestedData.data.connection.map(
+        (received) => received.user_id
+      );
       setSchool({ ...data.data.school[0] });
       setStudents(stuData.data.result);
       setTeachers(teacherData.data.result);
-      setFriends(friend_arr.map((friend) => friend.friend_id));
-      setRequested(requested_arr.map((received) => received.user_id));
-      setReceived(received_arr.map((received) => received.user_id));
+      dispatch(setFriends(friend_arr));
+      dispatch(setRequested(requested_arr));
+      dispatch(setReceived(received_arr));
     } catch (err) {
       console.log(err);
     }
@@ -87,26 +102,13 @@ const School = () => {
             <Heading size="md" mb="4">
               Students
             </Heading>
-            <Tea_stu_card
-              data={students}
-              friends={friends}
-              requested={requested}
-              received={received}
-              func={getSchoolById}
-
-            />
+            <Tea_stu_card data={students} />
           </Box>
           <Box>
             <Heading size="md" mb="4">
               Teachers
             </Heading>
-            <Tea_stu_card
-              data={teachers}
-              friends={friends}
-              requested={requested}
-              received={received}
-              func={getSchoolById}
-            />
+            <Tea_stu_card data={teachers} />
           </Box>
         </SimpleGrid>
       </Container>
