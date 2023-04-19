@@ -36,7 +36,6 @@ import {
   PopoverHeader,
   PopoverCloseButton,
   PopoverBody,
-  PopoverFooter,
   Card,
   CardBody,
   Text,
