@@ -43,8 +43,12 @@ const signUserWithSchool = async (req, res) => {
   const { user_id, start_year, end_year } = req.body;
   const VALUE = [school_id, user_id, start_year, end_year];
   const QUERY = `INSERT INTO user_school (school_id,	user_id	,start_year,	end_year) VALUES ($1,$2,$3,$4) RETURNING *`;
+  const QUERY2 = `SELECT users.user_id, users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year  FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
+  INNER JOIN schools ON schools.school_id = user_school.school_id
+  WHERE role.role = 'TEACHER' AND schools.school_id =${school_id} AND users.user_id =${user_id} ;`;
   try {
-    const result = await pool.query(QUERY, VALUE);
+    await pool.query(QUERY, VALUE);
+    const result = await pool.query(QUERY2);
     res.status(201).json({
       success: true,
       message: "The Connection has been set",
@@ -82,5 +86,5 @@ module.exports = {
   getAllStudentBySchoolId,
   getAllTeachersBySchoolId,
   signUserWithSchool,
-  getAllFriendsId
+  getAllFriendsId,
 };
