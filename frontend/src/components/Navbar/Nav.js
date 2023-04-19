@@ -106,78 +106,78 @@ const Nav = () => {
           <Heading size="md">Logo</Heading>
         </Link>
         <Spacer />
-        <Box display={{ base: "none", md: "flex" }}>
-          {isLoggedIn && (
-            <Popover>
-              <PopoverTrigger>
-                <Button
-                  variant="outline"
-                  colorScheme="teal"
-                  rightIcon={<BellIcon />}
-                >
-                  {notifications.length}
-                </Button>
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverHeader>Notification</PopoverHeader>
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    <Flex gap="3" direction="column">
-                      {notifications.length ? (
-                        notifications.map((alert) => {
-                          return (
-                            <Card key={v4()} minH={"120"}>
-                              <CardBody className="card-body-nav-notification">
-                                <Flex>
-                                  <Image
-                                    boxSize="2rem"
-                                    borderRadius="full"
-                                    src={alert.user_image}
-                                    alt="Fluffybuns the destroyer"
-                                    mr="12px"
-                                  />
-                                  <Text>
-                                    {alert.first_name} {alert.last_name}
-                                  </Text>
+        {isLoggedIn && (
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                variant="outline"
+                colorScheme="teal"
+                rightIcon={<BellIcon />}
+              >
+                {notifications.length}
+              </Button>
+            </PopoverTrigger>
+            <Portal>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverHeader>Notification</PopoverHeader>
+                <PopoverCloseButton />
+                <PopoverBody>
+                  <Flex gap="3" direction="column">
+                    {notifications.length ? (
+                      notifications.map((alert) => {
+                        return (
+                          <Card key={v4()} minH={"120"}>
+                            <CardBody className="card-body-nav-notification">
+                              <Flex>
+                                <Image
+                                  boxSize="2rem"
+                                  borderRadius="full"
+                                  src={alert.user_image}
+                                  alt="Fluffybuns the destroyer"
+                                  mr="12px"
+                                />
+                                <Text>
+                                  {alert.first_name} {alert.last_name}
+                                </Text>
+                              </Flex>
+
+                              <Box className="btns-nav-notification">
+                                <Flex gap="2">
+                                  <Button
+                                    onClick={() =>
+                                      deleteFriendShip(alert.user_id)
+                                    }
+                                  >
+                                    Decline
+                                  </Button>
+                                  <Button
+                                    onClick={() =>
+                                      acceptFriendShip(alert.user_id)
+                                    }
+                                  >
+                                    Accept
+                                  </Button>
                                 </Flex>
+                              </Box>
 
-                                <Box className="btns-nav-notification">
-                                  <Flex gap="2">
-                                    <Button
-                                      onClick={() =>
-                                        deleteFriendShip(alert.user_id)
-                                      }
-                                    >
-                                      Decline
-                                    </Button>
-                                    <Button
-                                      onClick={() =>
-                                        acceptFriendShip(alert.user_id)
-                                      }
-                                    >
-                                      Accept
-                                    </Button>
-                                  </Flex>
-                                </Box>
-
-                                <Box className="date-nav-notification">
-                                  <Text>{format(alert.created_at)}</Text>
-                                </Box>
-                              </CardBody>
-                            </Card>
-                          );
-                        })
-                      ) : (
-                        <span>There is no notification for now</span>
-                      )}
-                    </Flex>
-                  </PopoverBody>
-                </PopoverContent>
-              </Portal>
-            </Popover>
-          )}
+                              <Box className="date-nav-notification">
+                                <Text>{format(alert.created_at)}</Text>
+                              </Box>
+                            </CardBody>
+                          </Card>
+                        );
+                      })
+                    ) : (
+                      <span>There is no notification for now</span>
+                    )}
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
+            </Portal>
+          </Popover>
+        )}
+        <Box display={{ base: "none", md: "flex" }}>
           {role === "ADMIN" && isLoggedIn && (
             <Link to={"/admin"}>
               <Button colorScheme="teal" variant="ghost">
@@ -210,7 +210,10 @@ const Nav = () => {
                     Logout
                   </Link>
                 </MenuItem>
-                <MenuItem>Edit Profile</MenuItem>
+
+                <MenuItem>
+                  <Link to={"/profile"}>Edit Profile</Link>
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : (
@@ -277,7 +280,9 @@ const Nav = () => {
                         Logout
                       </RouterLink>
                     </MenuItem>
-                    <MenuItem>Edit Profile</MenuItem>
+                    <MenuItem>
+                      <RouterLink to={"/profile"}>Edit Profile</RouterLink>
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               ) : (
