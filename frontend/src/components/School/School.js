@@ -13,26 +13,25 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import {
-  setFriends,
-  addFriend,
-  removeFriend,
-  setRequested,
-  addRequested,
-  removeRequested,
-  setReceived,
-  addReceived,
-  removeReceived,
-} from "../store/Connection";
+import { setFriends, setRequested, setReceived } from "../store/Connection";
+
 import { useDispatch, useSelector } from "react-redux";
 import SignWithSchool from "./SignWithSchool";
+import {
+  setStudent,
+  setTeacher,
+ 
+} from "../store/schools";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const School = () => {
   const { id } = useParams();
   const [school, setSchool] = useState({});
-  const [students, setStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
+
+  const students = useSelector((state) => state.schools.students);
+
+  const teachers = useSelector((state) => state.schools.teachers);
+
   const { establish_date, school_image, school_name } = school;
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
@@ -40,11 +39,12 @@ const School = () => {
   useEffect(() => {
     getSchoolById();
   }, []);
+  
 
   const getSchoolById = async () => {
     try {
       const data = await axios.get(`${API_LINK}/schools/${id}`);
-     
+
       const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
@@ -68,8 +68,8 @@ const School = () => {
         (received) => received.user_id
       );
       setSchool({ ...data.data.school[0] });
-      setStudents(stuData.data.result);
-      setTeachers(teacherData.data.result);
+      dispatch(setStudent(stuData.data.result))
+      dispatch(setTeacher(teacherData.data.result))
       dispatch(setFriends(friend_arr));
       dispatch(setRequested(requested_arr));
       dispatch(setReceived(received_arr));
@@ -94,9 +94,13 @@ const School = () => {
               borderRadius="md"
               boxShadow="md"
             />
-            <Flex justifyContent='space-between' gap={'40vw'} alignItems='center'>
+            <Flex
+              justifyContent="space-between"
+              gap={"40vw"}
+              alignItems="center"
+            >
               <Heading alignSelf="flex-start">{school_name}</Heading>
-              <SignWithSchool/>
+              <SignWithSchool />
             </Flex>
           </VStack>
         ) : (

@@ -120,6 +120,7 @@ const Tea_stu_card = ({ data }) => {
                   deleteFriendShip,
                   acceptFriendShip,
                   cancelRequest,
+                  userId,
                 })}
               </HStack>
             ))}
@@ -138,6 +139,7 @@ const Condition = ({
   deleteFriendShip,
   acceptFriendShip,
   cancelRequest,
+  userId,
 }) => {
   if (friends.indexOf(item.user_id) >= 0) {
     return (
@@ -188,6 +190,12 @@ const Condition = ({
           decline
         </Button>
       </Flex>
+    );
+  } else if (userId === item.user_id) {
+    return (
+      <Button colorScheme="blue" variant="outline">
+        Edit profile
+      </Button>
     );
   } else {
     return (
