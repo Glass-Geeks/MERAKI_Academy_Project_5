@@ -1,6 +1,5 @@
 import { format } from "timeago.js";
 const Message = ({ message, own, img }) => {
-  console.log("img :>> ", img);
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">

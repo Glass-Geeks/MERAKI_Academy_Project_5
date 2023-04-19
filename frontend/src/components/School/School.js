@@ -10,6 +10,8 @@ import {
   Image,
   Container,
   SimpleGrid,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
 import {
   setFriends,
@@ -23,6 +25,7 @@ import {
   removeReceived,
 } from "../store/Connection";
 import { useDispatch, useSelector } from "react-redux";
+import SignWithSchool from "./SignWithSchool";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const School = () => {
@@ -41,7 +44,7 @@ const School = () => {
   const getSchoolById = async () => {
     try {
       const data = await axios.get(`${API_LINK}/schools/${id}`);
-      console.log(data);
+     
       const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
@@ -91,7 +94,10 @@ const School = () => {
               borderRadius="md"
               boxShadow="md"
             />
-            <Heading>{school_name}</Heading>
+            <Flex justifyContent='space-between' gap={'40vw'} alignItems='center'>
+              <Heading alignSelf="flex-start">{school_name}</Heading>
+              <SignWithSchool/>
+            </Flex>
           </VStack>
         ) : (
           <Heading>Loading</Heading>
