@@ -13,6 +13,7 @@ import Schools from "./components/Admin/Schools";
 import Basic from "./components/Admin/Basic";
 import HomePage from "./components/Home/Home";
 import ChatBox from "./components/conversation/ChatBox";
+import Profile from "./components/edit_profile/Profile";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/school/:id" element={<School />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/messages/:user_id" element={<Conversation />}>
