@@ -2,6 +2,9 @@ import "./map.css";
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
+
+import InfoWindow from "./InfoWindow";
+
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import {
@@ -48,42 +51,17 @@ export default function MapContainer() {
   const [pinClicked, setPinClicked] = useState(false);
   const [infoWindow, setInfoWindow] = useState(null);
 
-  const handleClick = (pin) => {
+
+  const handleClick = (pin, fixed = false) => {
     setPinClicked(true);
-    setInfoWindow(pin);
+    setInfoWindow({ ...pin, fixed });
   };
+
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
 
-  const InfoWindow = ({ school }) => (
-    <Box
-      className="infoPopup"
-      p="4"
-      backgroundColor="white"
-      borderRadius="md"
-      boxShadow="md"
-    >
-      <h3 style={{ textAlign: "center", fontSize: "20px" }}>
-        {school.school_name}
-      </h3>
-      <img
-        className="schoolMapIMG"
-        src={school.school_image}
-        alt={school.school_name}
-      />
-      <Button
-        colorScheme="blue"
-        mt="2"
-        onClick={() => navigate(`/school/${school.school_id}`)}
-      >
-        Go to school
-      </Button>
-      <Button colorScheme="gray" mt="2" onClick={() => setPinClicked(false)}>
-        Close
-      </Button>
-    </Box>
-  );
+
   useEffect(() => {
     axios
       .get(`${API_LINK}/schools/`)
@@ -116,7 +94,7 @@ export default function MapContainer() {
       <Flex className="mainMap">
         <Sidebar
           pins={pins}
-          handleClick={handleClick}
+          handleClick={(pin) => handleClick(pin, true)}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
         />
@@ -144,7 +122,7 @@ export default function MapContainer() {
                   lng={pin.lng}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleClick(pin);
+                    handleClick(pin, false);
                   }}
                   zoom={defaultProps.zoom}
                 />
@@ -155,6 +133,8 @@ export default function MapContainer() {
                 lat={infoWindow.lat}
                 lng={infoWindow.lng}
                 school={infoWindow.school}
+                fixed={infoWindow.fixed}
+                setPinClicked={setPinClicked}
               />
             )}
           </GoogleMapReact>
