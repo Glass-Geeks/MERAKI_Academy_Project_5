@@ -40,7 +40,7 @@ const Sidebar = ({ pins, handleClick, searchInput, setSearchInput }) => {
             className="sidebarBox"
             w="100%"
             key={pin.school.school_id}
-            onClick={() => handleClick(pin)}
+            onClick={() => handleClick(pin, true)}
             cursor="pointer"
           >
             <Image
