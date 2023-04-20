@@ -51,9 +51,6 @@ FROM users AS u INNER JOIN role AS r ON r.role_id = u.role ;`;
 };
 const deleteUser = async (req, res) => {};
 
-const createHistoryMove = async (req, res) => {};
-const getHistoryMoves = async (req, res) => {};
-const authorizeForUsersOrSchool = async (req, res) => {};
 const updateSchool = async (req, res) => {
   const { id } = req.params;
   const {
@@ -143,9 +140,6 @@ module.exports = {
   createNewSchool,
   getAllUsersInfo,
   deleteUser,
-  createHistoryMove,
-  getHistoryMoves,
-  authorizeForUsersOrSchool,
   updateSchool,
   deleteSchool,
   getBasicNumbers,

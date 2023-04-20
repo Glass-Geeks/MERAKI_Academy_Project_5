@@ -1,4 +1,4 @@
-# Welcome to the Admin Panel
+# Admin Panel
 
 ## States
 
@@ -45,6 +45,6 @@
 
 2. **getUsers()**: this function retrieves all the information about users from the backend server for display on the admin panel, including username, age, active status, creation date, role, and a button for editing the user information.
 
+---
 
-----------------------------
-*Mousa Ibrahim*
+**<h3 align="center">_Mousa Ibrahim_</h3>**

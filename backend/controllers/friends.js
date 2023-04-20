@@ -35,14 +35,8 @@ const getAllFriends = async (req, res) => {
   INNER JOIN users AS U ON U.user_id = CASE WHEN C.friend_id = $1 THEN C.user_id ELSE C.friend_id END
   WHERE (C.friend_id = $1 OR C.user_id = $1) AND C.status = 'Friends'
   GROUP BY C.connection_id, U.first_name, U.last_name, U.user_image, friend_id; ;`;
-  // const QUERY2 = `SELECT DISTINCT ON (C.connection_id) C.connection_id,  U.first_name,U.last_name,U.user_image,C.friend_id,C.user_id FROM connection AS C
-  // INNER JOIN users AS U ON U.user_id = C.friend_id
-  // WHERE C.user_id  = $1  AND C.status = 'Friends'
-  // GROUP BY C.connection_id , U.first_name,U.last_name,U.user_image,C.friend_id , C.user_id ;`;
   try {
     const response1 = await pool.query(QUERY, VALUE);
-    // const response2 = await pool.query(QUERY2, VALUE);
-    // const result = [...response1.rows, ...response2.rows];
     res.status(200).json({
       success: true,
       Message: "All Friends",

@@ -6,15 +6,10 @@ import { Skeleton } from "@chakra-ui/skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
-  setFriends,
   addFriend as pushFriend,
   removeFriend,
-  setRequested,
   addRequested,
   removeRequested,
-  setReceived,
-  addReceived,
-  removeReceived,
 } from "../store/Connection";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
