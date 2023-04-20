@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../Navbar/Nav";
 import axios from "axios";
 import {
   Box,
+  Button,
   ButtonGroup,
   Editable,
   EditableInput,
@@ -15,33 +16,45 @@ import {
   useEditableControls,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-const API_LINK = process.env.REACT_APP_API_LINK;
+import { useSelector } from "react-redux";
+import { v4 } from "uuid";
 
+const API_LINK = process.env.REACT_APP_API_LINK;
 const Profile = () => {
+  const user_id = useSelector((state) => state.auth.userId);
+  const [user_info, setUser_info] = useState({});
+  const info = Object.entries(user_info);
   function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
+    const { isEditing, getEditButtonProps } = useEditableControls();
 
     return isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm">
-        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-      </ButtonGroup>
+      ""
     ) : (
-      <Flex justifyContent="center">
-        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
-      </Flex>
+      <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
     );
   }
   useEffect(() => {
     getMyInfo();
   }, []);
-  const getMyInfo = async () => {};
-  const submitChanges = async () => {};
+  const getMyInfo = async () => {
+    try {
+      const data = await axios.get(`${API_LINK}/users/${user_id}`);
+      setUser_info(data.data.result);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+  const submitChanges = async () => {
+    const data = Object.fromEntries(info);
+
+    try {
+      await axios.put(`${API_LINK}/users/${user_id}`, data);
+      getMyInfo();
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
   return (
     <>
       <Nav />
@@ -50,69 +63,64 @@ const Profile = () => {
       <br />
       <br />
       <Flex gap="150">
-        <Image
-          src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-          boxSize="300px"
-          objectFit="cover"
-          borderRadius="full"
-        />
         <Box>
-          <Flex alignItems="center">
-            <FormLabel>first name</FormLabel>
-            <Editable
-              textAlign="center"
-              defaultValue="mousa"
-              fontSize="2xl"
-              isPreviewFocusable={false}
-            >
-              <EditablePreview />
-              {/* Here is the custom input */}
-              <Input as={EditableInput} />
-              <EditableControls />
-            </Editable>
-          </Flex>
-          <Flex>
-            <FormLabel>last name</FormLabel>
-            <Editable
-              textAlign="center"
-              defaultValue="ibrahim"
-              fontSize="2xl"
-              isPreviewFocusable={false}
-            >
-              <EditablePreview />
-              {/* Here is the custom input */}
-              <Input as={EditableInput} />
-              <EditableControls />
-            </Editable>
-          </Flex>
-          <Flex>
-            <FormLabel>Email</FormLabel>
-            <Editable
-              textAlign="center"
-              defaultValue="mousaKibrahim@gmail.com"
-              fontSize="2xl"
-              isPreviewFocusable={false}
-            >
-              <EditablePreview />
-              {/* Here is the custom input */}
-              <Input as={EditableInput} />
-              <EditableControls />
-            </Editable>
-          </Flex>
-          <Flex>
-            <FormLabel>Date Of Bitrth</FormLabel>
-            <Editable
-              textAlign="center"
-              defaultValue="5/11/1999"
-              fontSize="2xl"
-              isPreviewFocusable={false}
-            >
-              <EditablePreview />
-              {/* Here is the custom input */}
-              <Input as={EditableInput} />
-              <EditableControls />
-            </Editable>
-          </Flex>
+          <Image
+            src={user_info.user_image}
+            boxSize="300px"
+            objectFit="cover"
+            borderRadius="full"
+          />
+          <EditIcon alignSelf="center" justifySelf="center" />
+        </Box>
+
+        <Box>
+          {info.map((element) => {
+            return (
+              element[0] != "user_image" && (
+                <Flex alignItems="center" key={v4()}>
+                  <FormLabel>
+                    {element[0] === "dob" ? "Date Of Birth" : element[0]}
+                  </FormLabel>
+                  <Editable
+                    textAlign="center"
+                    defaultValue={
+                      element[0] == "dob" ? element[1].slice(0, 10) : element[1]
+                    }
+                    fontSize="2xl"
+                    isPreviewFocusable={false}
+                  >
+                    <EditablePreview />
+
+                    {element[0] === "dob" && (
+                      <Input
+                        as={EditableInput}
+                        type="date"
+                        onChange={(e) => (element[1] = e.target.value)}
+                      />
+                    )}
+                    {element[0] === "email" && (
+                      <Input
+                        as={EditableInput}
+                        type="email"
+                        onChange={(e) => (element[1] = e.target.value)}
+                      />
+                    )}
+                    {element[0] !== "email" && element[0] !== "dob" && (
+                      <Input
+                        as={EditableInput}
+                        type="text"
+                        onChange={(e) => (element[1] = e.target.value)}
+                      />
+                    )}
+                    <EditableControls />
+                  </Editable>
+                </Flex>
+              )
+            );
+          })}
+          <Button colorScheme="teal" variant="outline" onClick={submitChanges}>
+            Save
+          </Button>
         </Box>
       </Flex>
     </>
