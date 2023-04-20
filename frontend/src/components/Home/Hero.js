@@ -16,7 +16,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleExploreButtonClick = () => {
-    navigate("/home");
+    navigate("/explore");
   };
 
   return (
