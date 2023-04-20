@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
-import { FiServer, FiHome, FiMail, FiSettings } from "react-icons/fi";
-import { GoLocation } from "react-icons/go";
+import {  FiHome, FiMail, FiSettings } from "react-icons/fi";
 import BasicCard from "./BasicCard";
 import { Box, SimpleGrid, Skeleton, VStack } from "@chakra-ui/react";
 import axios from "axios";
@@ -30,7 +29,6 @@ const Basic = () => {
     } catch (error) {
       console.log("error :>> ", error);
     }
-    console.log("API_LINK :>> ", API_LINK);
   };
   return (
     <>

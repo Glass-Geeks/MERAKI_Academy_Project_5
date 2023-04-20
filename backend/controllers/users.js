@@ -7,37 +7,37 @@ const register = async (req, res) => {
   const { email, first_name, last_name, role, password, user_image, dob } =
     req.body;
   const roleQuery = `SELECT  role_id FROM role WHERE role.role = '${role}'`;
-  const roleId = await pool.query(roleQuery);
-  const { role_id } = roleId.rows[0];
-  const encryptedPassword = await bcrypt.hash(password, SALT);
-
-  const VALUE = [
-    email.toLowerCase(),
-    first_name,
-    last_name,
-    role_id,
-    encryptedPassword,
-    user_image,
-    dob,
-  ];
-
-  const QUERY = `INSERT INTO users (email, first_name, last_name, role, password, user_image, dob) VALUES ($1,$2,$3,$4,$5,$6,$7)`;
-
-  pool
-    .query(QUERY, VALUE)
-    .then((result) => {
-      res.status(200).json({
-        success: true,
-        message: "Account created successfully",
-      });
-    })
-    .catch((err) => {
-      res.status(409).json({
-        success: false,
-        message: "The email already exists",
-        err,
-      });
+  try {
+    const roleId = await pool.query(roleQuery);
+    const { role_id } = roleId.rows[0];
+    const encryptedPassword = await bcrypt.hash(password, SALT);
+    const VALUE = [
+      email.toLowerCase(),
+      first_name,
+      last_name,
+      role_id,
+      encryptedPassword,
+      user_image,
+      dob,
+    ];
+    const QUERY = `INSERT INTO users (email, first_name, last_name, role, password, user_image, dob) VALUES ($1,$2,$3,$4,$5,$6,$7)`;
+    await pool.query(QUERY, VALUE);
+    res.status(200).json({
+      success: true,
+      message: "Account created successfully",
     });
+  } catch (error) {
+    if (error.code == "23505") {
+      res
+        .status(409)
+        .json({ success: false, message: "The email already exist" });
+    } else {
+      res.status(500).json({
+        success: false,
+        error,
+      });
+    }
+  }
 };
 
 // Generate Token Function
@@ -150,22 +150,20 @@ const updateUserInfo = async (req, res) => {
     dob || null,
     id,
   ];
-  pool
-    .query(query, data)
-    .then((result) => {
-      res.status(200).json({
-        success: true,
-        message: `User with id: ${id} updated successfully `,
-        result: result.rows[0],
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: "Server error",
-        err: err,
-      });
+  try {
+    const result = await pool.query(query, data);
+    res.status(200).json({
+      success: true,
+      message: `User with id: ${id} updated successfully `,
+      result: result.rows[0],
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      err: error,
+    });
+  }
 };
 
 const getUserById = async (req, res) => {

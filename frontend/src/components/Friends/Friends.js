@@ -11,6 +11,7 @@ import {
   Text,
   Button,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import Nav from "../Navbar/Nav";
@@ -21,15 +22,13 @@ const Friends = () => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.friends.allFriends);
   const id = useSelector((state) => state.auth.userId);
-  const friendRequests = useSelector((state) => state.friends.friendRequests);
-
+  const toast = useToast();
   const navigate = useNavigate();
 
   const getAllFriends = async () => {
     try {
       const response = await axios.get(`${API_LINK}/friends/${id}`);
       dispatch(setAllFriends(response.data.connection));
-      console.log(response.data.connection);
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +38,6 @@ const Friends = () => {
     try {
       const response = await axios.get(`${API_LINK}/friends/requests/${id}`);
       dispatch(setAllFriendRequests(response.data.connection));
-      console.log(response.data.connection);
     } catch (err) {
       console.log(err);
     }
@@ -47,13 +45,23 @@ const Friends = () => {
 
   const deleteFriend = async (friendId) => {
     try {
-      const response = await axios.delete(
+     await axios.delete(
         `${API_LINK}/friends/delete/${id}?friend_id=${friendId}`
       );
-      console.log(response.data);
-      await getAllFriends();
+      await axios.delete(
+        `${API_LINK}/friends/delete/${friendId}?friend_id=${id}`
+      );
+      getAllFriends();
+      toast({
+        title: "Friend Deleted",
+        description: "You'r friend now will be removed from your list",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      })
+   
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err);
     }
   };
 

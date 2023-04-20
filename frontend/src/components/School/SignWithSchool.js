@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-  Box,
   Button,
-  Image,
   Popover,
   PopoverTrigger,
   Portal,
@@ -15,10 +13,6 @@ import {
   PopoverFooter,
   VStack,
   Stack,
-  FormControl,
-  FormLabel,
-  Switch,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
@@ -34,7 +28,6 @@ const SignWithSchool = () => {
   }
   const toast = useToast();
   const dispatch = useDispatch();
-  const [isChecked, setIsChecked] = useState(false);
   const [FromTo, setFromTo] = useState({ from: "", to: "" });
   const role = useSelector((state) => state.auth.role);
   const user_id = useSelector((state) => state.auth.userId);

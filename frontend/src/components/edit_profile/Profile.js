@@ -4,7 +4,6 @@ import axios from "axios";
 import {
   Box,
   Button,
-  ButtonGroup,
   Editable,
   EditableInput,
   EditablePreview,
@@ -15,7 +14,7 @@ import {
   Input,
   useEditableControls,
 } from "@chakra-ui/react";
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import { EditIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 
@@ -76,7 +75,7 @@ const Profile = () => {
         <Box>
           {info.map((element) => {
             return (
-              element[0] != "user_image" && (
+              element[0] !== "user_image" && (
                 <Flex alignItems="center" key={v4()}>
                   <FormLabel>
                     {element[0] === "dob" ? "Date Of Birth" : element[0]}
@@ -84,7 +83,9 @@ const Profile = () => {
                   <Editable
                     textAlign="center"
                     defaultValue={
-                      element[0] == "dob" ? element[1].slice(0, 10) : element[1]
+                      element[0] === "dob"
+                        ? element[1].slice(0, 10)
+                        : element[1]
                     }
                     fontSize="2xl"
                     isPreviewFocusable={false}

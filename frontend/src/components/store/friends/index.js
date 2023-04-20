@@ -14,12 +14,9 @@ export const friendSlice = createSlice({
     setAllFriendRequests: (state, action) => {
       state.friendRequests = action.payload;
     },
-  
-}});
+  },
+});
 
-export const {
-  setAllFriends,
-  setAllFriendRequests,
-} = friendSlice.actions;
+export const { setAllFriends, setAllFriendRequests } = friendSlice.actions;
 
 export default friendSlice.reducer;

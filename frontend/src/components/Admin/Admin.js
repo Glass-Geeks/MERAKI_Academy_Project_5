@@ -2,8 +2,6 @@ import React from "react";
 import Nav from "../Navbar/Nav";
 import SideList from "./SideList";
 import "./admin.css";
-import { Container } from "../Styled/Container.Styled";
-import { Col } from "../Styled/Column.Styled";
 import { Outlet } from "react-router-dom";
 
 const Admin = () => {

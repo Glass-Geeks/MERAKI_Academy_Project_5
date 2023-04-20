@@ -36,12 +36,15 @@ const server = app.listen(PORT, () =>
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
-io.on("connection", (socket) => {
-  chat(socket, io);
-  //when connect
-  console.log("a user connected.");
+io.on("connection", async (socket) => {
+  try {
+    chat(socket, io);
+    console.log("a user connected.");
+  } catch (error) {
+    console.log("error :>> ", error);
+  }
 });
