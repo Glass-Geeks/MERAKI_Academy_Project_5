@@ -1,9 +1,10 @@
 // LandingPage.js
 import React from "react";
 import "./Home.css";
-import Features from './Features';
-import HowItWorks from './HowItWorks';
+import Features from "./Features";
+import HowItWorks from "./HowItWorks";
 
+import AboutUs from "./AboutUs";
 
 import { useNavigate } from "react-router-dom";
 
@@ -27,10 +28,8 @@ const HomePage = () => {
             </button>
           </div>
         </section>
-        <section className="story-section">
-          <h2>About Our Website</h2>
-          <p>This is a story about the website.</p>
-        </section>
+      
+        <AboutUs />
         <Features />
         <HowItWorks />
         <footer className="footer">
