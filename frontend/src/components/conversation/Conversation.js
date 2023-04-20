@@ -146,7 +146,7 @@ const Conversation = () => {
           </div>
 
           <div className="Messages">
-            <div className="chatBox">
+            <div className="chatBox" style={{overflowX:'auto',height:'400px'}}>
               <div className="chatBoxWrapper">
                 <Outlet />
               </div>
