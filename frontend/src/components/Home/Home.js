@@ -3,8 +3,9 @@ import React from "react";
 import "./Home.css";
 import Features from "./Features";
 import HowItWorks from "./HowItWorks";
-
+import FAQs from "./FAQs";
 import AboutUs from "./AboutUs";
+import HeroSection from "./Hero";
 
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const HomePage = () => {
   };
   return (
     <>
-      <div className="landing-page">
+      {/* <div className="landing-page">
         <section className="hero-section">
           <div className="hero-text">
             <h1>Welcome to ClassMate Finder</h1>
@@ -27,15 +28,16 @@ const HomePage = () => {
               Explore Schools
             </button>
           </div>
-        </section>
-      
-        <AboutUs />
-        <Features />
-        <HowItWorks />
-        <footer className="footer">
-          <p>&copy; 2023 Your Website. All rights reserved.</p>
-        </footer>
-      </div>
+        </section> */}
+      <HeroSection />
+      <AboutUs />
+      <Features />
+      <HowItWorks />
+      <FAQs />
+
+      <footer className="footer">
+        <p>&copy; 2023 Your Website. All rights reserved.</p>
+      </footer>
     </>
   );
 };

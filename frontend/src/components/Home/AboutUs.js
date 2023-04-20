@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Box,
@@ -13,22 +14,22 @@ import {
 const AboutUs = () => {
   const teamMembers = [
     {
-      name: "John Doe",
-      role: "CEO",
+      name: "Mousa",
+      role: "Developer",
       imageUrl: "https://via.placeholder.com/150",
-      bio: "John is the CEO of the company and has been leading the team since its inception.",
+      bio: "Mousa is the CEO of the company and has been leading the team since its inception.",
     },
     {
-      name: "Jane Smith",
-      role: "CTO",
+      name: "Khalid",
+      role: "Developer",
       imageUrl: "https://via.placeholder.com/150",
-      bio: "Jane is the CTO of the company and has been working on innovative technologies.",
+      bio: "Khalid is the CTO of the company and has been working on innovative technologies.",
     },
     {
-      name: "Mary Johnson",
-      role: "CFO",
+      name: "Ahmad",
+      role: "Developer",
       imageUrl: "https://via.placeholder.com/150",
-      bio: "Mary is the CFO of the company and has been managing the company's finances.",
+      bio: "Ahmad is the CFO of the company and has been managing the company's finances.",
     },
   ];
 
