@@ -2,6 +2,7 @@
 import React from "react";
 import "./Home.css";
 import Features from './Features';
+import HowItWorks from './HowItWorks';
 
 
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,7 @@ const HomePage = () => {
           <p>This is a story about the website.</p>
         </section>
         <Features />
+        <HowItWorks />
         <footer className="footer">
           <p>&copy; 2023 Your Website. All rights reserved.</p>
         </footer>
