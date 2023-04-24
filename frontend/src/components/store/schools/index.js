@@ -26,6 +26,16 @@ export const schoolSlice = createSlice({
     addTeacher: (state, action) => {
       state.teachers.push(action.payload);
     },
+    removeStudent: (state, action) => {
+      state.students = state.students.filter(
+        (elem) => elem.user_id !== action.payload
+      );
+    },
+    removeTeacher: (state, action) => {
+      state.teachers = state.teachers.filter(
+        (elem) => elem.user_id !== action.payload
+      );
+    },
   },
 });
 
@@ -36,6 +46,8 @@ export const {
   setTeacher,
   addStudent,
   addTeacher,
+  removeStudent,
+  removeTeacher,
 } = schoolSlice.actions;
 
 export default schoolSlice.reducer;

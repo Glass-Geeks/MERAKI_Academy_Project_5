@@ -82,9 +82,27 @@ const getAllFriendsId = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+const deleteConnectionWithSchool = async (req, res) => {
+  const { user_id } = req.params;
+  const { school_id } = req.query;
+  const QUERY = `DELETE FROM user_school WHERE school_id = $1 AND user_id = $2 ;`;
+  const VALUE = [school_id, user_id];
+  console.log('result :>> ', VALUE);
+  try {
+    const result = await pool.query(QUERY, VALUE);
+    res
+      .status(200)
+      .json({ success: true, message: "The connection deleted successfully " });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
 module.exports = {
   getAllStudentBySchoolId,
   getAllTeachersBySchoolId,
   signUserWithSchool,
   getAllFriendsId,
+  deleteConnectionWithSchool,
 };

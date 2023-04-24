@@ -11,6 +11,7 @@ import {
   addRequested,
   removeRequested,
 } from "../store/Connection";
+import { v4 } from "uuid";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -65,6 +66,7 @@ const Tea_stu_card = ({ data }) => {
       console.log("error :>> ", error);
     }
   };
+
   return (
     <>
       <Box
@@ -92,7 +94,7 @@ const Tea_stu_card = ({ data }) => {
           <VStack align="stretch" spacing={4}>
             {data.map((item) => (
               <HStack
-                key={item.first_name}
+                key={v4()}
                 p="4"
                 bg="white"
                 borderRadius="md"
@@ -182,17 +184,21 @@ const Condition = ({
             deleteFriendShip(item.user_id);
           }}
         >
-          decline
+          Decline
         </Button>
       </Flex>
     );
-  } else if (userId === item.user_id) {
+  }
+   else if (userId === item.user_id) {
     return (
-      <Button colorScheme="blue" variant="outline">
-        Edit profile
-      </Button>
+      <>
+      </>
+      // <Button colorScheme="blue" variant="outline">
+      //  Delete School Connection 
+      // </Button>
     );
-  } else {
+  }
+   else {
     return (
       <Button
         colorScheme="blue"
