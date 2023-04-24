@@ -9,6 +9,7 @@ const Sidebar = ({ pins, handleClick, searchInput, setSearchInput }) => {
 
   return (
     <VStack
+      display={{ base: "none", md: "block" }}
       w={{ base: "100%", md: "350px" }}
       h={{ base: "auto", md: "100vh" }}
       bg="white"
