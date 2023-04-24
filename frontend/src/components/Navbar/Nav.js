@@ -52,7 +52,6 @@ const Nav = () => {
   const role = useSelector((state) => state.auth.role);
 
   const handleClick = () => {
-    localStorage.clear();
     dispatch(setLogout());
     navigate("/");
   };
@@ -205,11 +204,7 @@ const Nav = () => {
                 Profile
               </MenuButton>
               <MenuList>
-                <MenuItem>
-                  <Link to={"/login"} onClick={handleClick}>
-                    Logout
-                  </Link>
-                </MenuItem>
+                <MenuItem onClick={handleClick}>Logout</MenuItem>
 
                 <MenuItem>
                   <Link to={"/profile"}>Edit Profile</Link>
@@ -275,11 +270,7 @@ const Nav = () => {
                     Profile
                   </MenuButton>
                   <MenuList>
-                    <MenuItem>
-                      <RouterLink to={"/login"} onClick={handleClick}>
-                        Logout
-                      </RouterLink>
-                    </MenuItem>
+                    <MenuItem onClick={handleClick}>Logout</MenuItem>
                     <MenuItem>
                       <RouterLink to={"/profile"}>Edit Profile</RouterLink>
                     </MenuItem>

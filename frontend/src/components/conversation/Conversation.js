@@ -7,6 +7,7 @@ import axios from "axios";
 import Online from "./Online";
 import FriendsList from "./FriendsList";
 import { v4 } from "uuid";
+import { useSelector } from "react-redux";
 const API_LINK = process.env.REACT_APP_API_LINK;
 export const MessengerContext = createContext();
 const Conversation = () => {
@@ -17,6 +18,7 @@ const Conversation = () => {
   const [online, setOnline] = useState([]);
   const [friendId, setFriendId] = useState("");
   const scrollRef = useRef();
+  const isLoggedIn = useSelector(state=>state.auth.isLoggedIn)
   const [socket, setSocket] = useState(io(API_LINK, { autoConnect: false }));
   const sendMessage = () => {
     const obj = { sender: user_id, receiverId: friendId, text, connection_id };
@@ -25,15 +27,21 @@ const Conversation = () => {
   };
 
   useEffect(() => {
-    getFriends();
-    socket.connect();
-    socket.emit("ADD_USER", user_id);
-    socket.on("GET_USERS", (users) => {
-      // setOnline(friends.filter((friend) =>users.map((user) => friend.friend_id === user.userId)));
-    });
-    getMessageList();
+    if(isLoggedIn){
+      console.log("test");
+      getFriends();
+      socket.connect();
+      socket.emit("ADD_USER", user_id);
+      socket.on("GET_USERS", (users) => {
+        // setOnline(friends.filter((friend) =>users.map((user) => friend.friend_id === user.userId)));
+      });
+      getMessageList();
+    }
+  
     return () => {
+      console.log("test 111");
       socket.removeAllListeners();
+      socket.close()
     };
   }, [connection_id]);
 
@@ -48,6 +56,7 @@ const Conversation = () => {
   const getMessageList = async () => {
     try {
       const data = await axios.get(`${API_LINK}/message/${connection_id}`);
+      console.log(' data?.data?.result?.messages:>> ', data?.data);
       setMessageList(data?.data?.result?.messages);
     } catch (error) {
       console.log("error :>> ", error);
