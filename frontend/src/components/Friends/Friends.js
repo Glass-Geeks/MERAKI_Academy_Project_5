@@ -104,7 +104,7 @@ const Friends = () => {
                       size="sm"
                       colorScheme="teal"
                       onClick={() => {
-                        navigate(`/friends/${friend.connection_id}`);
+                        navigate(`/messages/${id}`);
                       }}
                     >
                       Message

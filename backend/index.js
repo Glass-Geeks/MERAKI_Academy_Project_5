@@ -42,7 +42,6 @@ const io = new Server(server, {
 });
 io.on("connection", async (socket) => {
   try {
-    console.log('socket.id :>> ', socket.id);
     chat(socket, io);
     console.log("a user connected.");
   } catch (error) {
