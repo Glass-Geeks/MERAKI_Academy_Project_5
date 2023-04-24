@@ -31,7 +31,7 @@ const ChatBox = () => {
   return (
     <>
       <div className="chatBoxTop">
-        {messageList.map((message) => (
+        {messageList?.map((message) => (
           <div key={v4()} ref={scrollRef}>
             <Message
               message={message}
