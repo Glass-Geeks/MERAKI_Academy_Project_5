@@ -10,6 +10,7 @@ import {
   Image,
   Container,
   SimpleGrid,
+  Badge,
   Flex,
   Button,
 } from "@chakra-ui/react";
@@ -17,11 +18,7 @@ import { setFriends, setRequested, setReceived } from "../store/Connection";
 
 import { useDispatch, useSelector } from "react-redux";
 import SignWithSchool from "./SignWithSchool";
-import {
-  setStudent,
-  setTeacher,
- 
-} from "../store/schools";
+import { setStudent, setTeacher } from "../store/schools";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const School = () => {
@@ -39,7 +36,6 @@ const School = () => {
   useEffect(() => {
     getSchoolById();
   }, []);
-  
 
   const getSchoolById = async () => {
     try {
@@ -68,8 +64,8 @@ const School = () => {
         (received) => received.user_id
       );
       setSchool({ ...data.data.school[0] });
-      dispatch(setStudent(stuData.data.result))
-      dispatch(setTeacher(teacherData.data.result))
+      dispatch(setStudent(stuData.data.result));
+      dispatch(setTeacher(teacherData.data.result));
       dispatch(setFriends(friend_arr));
       dispatch(setRequested(requested_arr));
       dispatch(setReceived(received_arr));
@@ -107,20 +103,40 @@ const School = () => {
           <Heading>Loading</Heading>
         )}
 
-        <SimpleGrid columns={[1, null, 2]} spacing={8} mt="8">
-          <Box>
-            <Heading size="md" mb="4">
+        <Flex
+          flexDirection={{ base: "column", md: "row" }}
+          justifyContent={{ base: "center", md: "space-between" }}
+          alignItems={{ base: "center", md: "flex-start" }}
+          mt="8"
+        >
+          <Box flex="1" mx={{ base: 0, md: 4 }}>
+            <Badge
+              fontSize={{ base: "lg", md: "xl" }}
+              fontWeight="bold"
+              colorScheme="teal"
+              p="2"
+              m="2"
+              borderRadius="md"
+            >
               Students
-            </Heading>
+            </Badge>
             <Tea_stu_card data={students} />
           </Box>
-          <Box>
-            <Heading size="md" mb="4">
+          <br />
+          <Box flex="1" mx={{ base: 0, md: 4 }}>
+            <Badge
+              fontSize={{ base: "lg", md: "xl" }}
+              fontWeight="bold"
+              colorScheme="teal"
+              p="2"
+              m="2"
+              borderRadius="md"
+            >
               Teachers
-            </Heading>
+            </Badge>
             <Tea_stu_card data={teachers} />
           </Box>
-        </SimpleGrid>
+        </Flex>
       </Container>
     </>
   );

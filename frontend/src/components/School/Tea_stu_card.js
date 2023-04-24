@@ -72,7 +72,7 @@ const Tea_stu_card = ({ data }) => {
       <Box
         id="scrollableDiv"
         h="400px"
-        w="500px"
+        w={{ base: "100%", sm: "100%" }}
         overflowY="auto"
         p="4"
         borderWidth="1px"
@@ -188,17 +188,14 @@ const Condition = ({
         </Button>
       </Flex>
     );
-  }
-   else if (userId === item.user_id) {
+  } else if (userId === item.user_id) {
     return (
-      <>
-      </>
+      <></>
       // <Button colorScheme="blue" variant="outline">
-      //  Delete School Connection 
+      //  Delete School Connection
       // </Button>
     );
-  }
-   else {
+  } else {
     return (
       <Button
         colorScheme="blue"
