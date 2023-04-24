@@ -46,7 +46,11 @@ const Sidebar = ({ pins, handleClick, searchInput, setSearchInput }) => {
           >
             <Image
               className="sidebarIMG"
-              src={pin.school.school_image}
+              src={
+                pin.school.school_image === "none"
+                  ? "https://images.unsplash.com/photo-1543505298-b8be9b52a21a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                  : pin.school.school_image
+              }
               alt={pin.school.school_name}
               width="100px"
               height="100px"
