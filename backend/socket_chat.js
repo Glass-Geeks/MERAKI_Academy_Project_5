@@ -56,7 +56,6 @@ const chat = (socket, io) => {
   socket.on("disconnect", () => {
     console.log("a user disconnected!");
     removeUser(socket.id);
-    console.log("users :>> ", users);
     io.emit("GET_USERS", users);
   });
 };

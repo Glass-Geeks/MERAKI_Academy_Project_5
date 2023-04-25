@@ -10,7 +10,7 @@ const {
 
 usersRouter.post("/register", register);
 usersRouter.post("/login", login);
-usersRouter.put("/update/:id", updateUserInfo);
+usersRouter.put("/:id", updateUserInfo);
 usersRouter.delete("/delete/:id", deleteUser);
 usersRouter.get("/:id", getUserById);
 

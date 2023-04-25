@@ -1,26 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Avatar, List, Skeleton } from "antd";
-import { OutletContext } from "./Conversation";
+import { MessengerContext } from "./Conversation";
 
 const FriendsList = () => {
-  const API_LINK = process.env.REACT_APP_API_LINK;
-  const { user_id } = useParams();
-  const { setFriendId, friends, setFriends } = useContext(OutletContext);
-  useEffect(() => {
-    getFriends();
-  }, []);
-  const getFriends = async () => {
-    try {
-      const data = await axios.get(`${API_LINK}/friends/${user_id}`);
-      setFriends(data.data.connection);
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
-  };
+  const { setFriendId, friends } = useContext(MessengerContext);
+
   return (
     <div
       id="scrollableDiv"
@@ -50,10 +37,10 @@ const FriendsList = () => {
         <List
           dataSource={friends}
           renderItem={(item) => (
-            <List.Item key={item}>
+            <List.Item key={v4()}>
               <List.Item.Meta
                 avatar={<Avatar src={item.user_image} />}
-                title={<h4>{`${item.first_name}  ${item.last_name}`}</h4>}
+                title={`${item.first_name}  ${item.last_name}`}
               />
               <Link
                 className="Connect-Btn"

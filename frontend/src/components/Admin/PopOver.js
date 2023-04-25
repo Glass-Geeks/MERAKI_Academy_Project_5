@@ -20,8 +20,7 @@ const PopOver = ({ text, id, condition, value }) => {
   const initRef = useRef();
   const deleteSchool = async (id) => {
     try {
-      const data = await axios.delete(`${API_LINK}/admin/school/${id}`);
-      console.log("data.data :>> ", data.data);
+      await axios.delete(`${API_LINK}/admin/school/${id}`);
     } catch (error) {
       console.log("error :>> ", error);
     }

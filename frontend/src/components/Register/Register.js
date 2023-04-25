@@ -11,8 +11,6 @@ import {
   Radio,
   RadioGroup,
   Button,
-  InputGroup,
-  InputRightAddon,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Nav from "../Navbar/Nav";
@@ -60,7 +58,7 @@ const Register = () => {
 
       let json = await res.json();
       setUserData({ ...userData, user_image: json.url });
-      console.log("url :>> ", JSON.stringify(json.url));
+      // console.log("url :>> ", JSON.stringify(json.url));
       setIsLoading(false);
     }
   };
@@ -72,7 +70,7 @@ const Register = () => {
       .post(`${API_LINK}/users/register`, user)
       .then((result) => {
         navigate("/login");
-        console.log(result);
+      
       })
       .catch((err) => {
         console.log(err);

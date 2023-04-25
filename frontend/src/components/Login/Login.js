@@ -49,7 +49,7 @@ const Login = () => {
         dispatch(setRole(result.data.role));
         dispatch(setUserName(result.data.first_name));
 
-        navigate("/");
+        navigate("/explore");
       } else {
         throw Error;
       }

@@ -6,16 +6,12 @@ import { Skeleton } from "@chakra-ui/skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
-  setFriends,
   addFriend as pushFriend,
   removeFriend,
-  setRequested,
   addRequested,
   removeRequested,
-  setReceived,
-  addReceived,
-  removeReceived,
 } from "../store/Connection";
+import { v4 } from "uuid";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
@@ -70,12 +66,13 @@ const Tea_stu_card = ({ data }) => {
       console.log("error :>> ", error);
     }
   };
+
   return (
     <>
       <Box
         id="scrollableDiv"
         h="400px"
-        w="500px"
+        w={{ base: "100%", sm: "100%" }}
         overflowY="auto"
         p="4"
         borderWidth="1px"
@@ -97,7 +94,7 @@ const Tea_stu_card = ({ data }) => {
           <VStack align="stretch" spacing={4}>
             {data.map((item) => (
               <HStack
-                key={item.first_name}
+                key={v4()}
                 p="4"
                 bg="white"
                 borderRadius="md"
@@ -120,6 +117,7 @@ const Tea_stu_card = ({ data }) => {
                   deleteFriendShip,
                   acceptFriendShip,
                   cancelRequest,
+                  userId,
                 })}
               </HStack>
             ))}
@@ -138,6 +136,7 @@ const Condition = ({
   deleteFriendShip,
   acceptFriendShip,
   cancelRequest,
+  userId,
 }) => {
   if (friends.indexOf(item.user_id) >= 0) {
     return (
@@ -185,9 +184,16 @@ const Condition = ({
             deleteFriendShip(item.user_id);
           }}
         >
-          decline
+          Decline
         </Button>
       </Flex>
+    );
+  } else if (userId === item.user_id) {
+    return (
+      <></>
+      // <Button colorScheme="blue" variant="outline">
+      //  Delete School Connection
+      // </Button>
     );
   } else {
     return (

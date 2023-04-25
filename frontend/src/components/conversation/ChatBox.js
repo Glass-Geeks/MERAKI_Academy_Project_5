@@ -11,18 +11,8 @@ const ChatBox = () => {
   const {
     user_id,
     connection_id,
-    text,
-    setText,
     messageList,
-    setMessageList,
-    friends,
-    setFriends,
-    online,
-    setOnline,
-    friendId,
-    setFriendId,
     scrollRef,
-    sendMessage,
   } = useContext(MessengerContext);
   useEffect(() => {
     getImages();
@@ -41,7 +31,7 @@ const ChatBox = () => {
   return (
     <>
       <div className="chatBoxTop">
-        {messageList.map((message) => (
+        {messageList?.map((message) => (
           <div key={v4()} ref={scrollRef}>
             <Message
               message={message}
@@ -51,17 +41,6 @@ const ChatBox = () => {
           </div>
         ))}
       </div>
-      <div className="chatBoxBottom">
-        <input
-          className="chatMessageInput"
-          placeholder="write something..."
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-        />
-        <button className="chatSubmitButton" onClick={sendMessage}>
-          Send
-        </button>
-      </div>
 
       <span className="noConversationText"></span>
     </>
@@ -69,5 +48,3 @@ const ChatBox = () => {
 };
 
 export default ChatBox;
-
-
