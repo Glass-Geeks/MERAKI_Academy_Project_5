@@ -10,8 +10,13 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import axios from "axios";
+import EditSchool from "./EditSchool";
 const API_LINK = process.env.REACT_APP_API_LINK;
-const PopOver = ({ text, id, condition }) => {
+const PopOver = ({ text, id, condition, value }) => {
+
+
+
+
   const initRef = useRef();
   const deleteSchool = async (id) => {
     try {
@@ -20,11 +25,9 @@ const PopOver = ({ text, id, condition }) => {
       console.log("error :>> ", error);
     }
   };
-  const updateSchool = async (id) => {
-    console.log("id :>> ", id);
-  };
+
   const deleteUser = (id) => {
-    console.log("id :>> ", id);
+ 
   };
   return (
     <Popover closeOnBlur={false} placement="left" initialFocusRef={initRef}>
@@ -48,7 +51,10 @@ const PopOver = ({ text, id, condition }) => {
                       deleteSchool(id);
                     }
                     if (condition === "UPDATE_SCHOOL") {
-                      updateSchool(id);
+                      value?.setEditPopup(true)
+
+
+                      
                     }
                     if (condition === "DELETE_USER") {
                       deleteUser(id);

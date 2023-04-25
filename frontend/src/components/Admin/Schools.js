@@ -6,12 +6,25 @@ import PopOver from "./PopOver";
 import CreateSchool from "./CreateSchool";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
+import {useDispatch, useSelector} from 'react-redux'
+import { setSchools } from "../store/schools";
+import EditSchool from "./EditSchool";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Schools = () => {
-  const [schools, setSchools] = useState([]);
+  const schools = useSelector(state=>state.schools.schools)
   const [loading, setLoading] = useState(false);
   const [editPopup, setEditPopup] = useState(false);
-
+  const [editSchoolPopup, setEditSchoolPopup] = useState(false);
+  const [school_id, setSchool_id] = useState('')
+  const dispatch = useDispatch()
+  const [school, setSchool] = useState({
+    school_name: "",
+    school_image: "",
+    establish_date: "",
+    longitude: "",
+    latitude: "",
+    type: "",
+  });
   useEffect(() => {
     getSchools();
   }, []);
@@ -34,7 +47,7 @@ const Schools = () => {
         result.push(obj);
       }
       setLoading(false);
-      setSchools(result);
+      dispatch(setSchools(result))
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -74,7 +87,8 @@ const Schools = () => {
       name: "Edit",
       button: true,
       selector: (row) => (
-        <PopOver text={"Edit"} id={row.Edit} condition={"UPDATE_SCHOOL"} />
+        <Button onClick={()=>{setEditSchoolPopup(true);
+          setSchool_id(row.Edit)}}>Edit</Button>
       ),
     },
     {
@@ -82,7 +96,7 @@ const Schools = () => {
       name: "Delete",
       button: true,
       selector: (row) => (
-        <PopOver text={"Delete"} id={row.Delete} condition={"DELETE_SCHOOL"} />
+        <PopOver text={"Delete"} id={row.Delete} condition={"DELETE_SCHOOL"} value = { {setEditPopup ,school, setSchool,editPopup }}/>
       ),
     },
   ];
@@ -115,8 +129,10 @@ const Schools = () => {
             Create School
           </Button>
           <CreateSchool
-            value={{ setEditPopup, setSchools, schools, editPopup }}
+            value={{ setEditPopup, setSchools, schools, editPopup,school, setSchool }}
           />
+          {console.log( school_id)}
+         <EditSchool value={{editSchoolPopup, setEditSchoolPopup}} schoolId={school_id} /> 
         </>
       )}
     </>

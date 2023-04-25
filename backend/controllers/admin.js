@@ -49,7 +49,7 @@ FROM users AS u INNER JOIN role AS r ON r.role_id = u.role ;`;
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-const deleteUser = async (req, res) => {};
+const deleteUser = async (req, res) => { };
 
 const updateSchool = async (req, res) => {
   const { id } = req.params;
@@ -61,23 +61,47 @@ const updateSchool = async (req, res) => {
     latitude,
     type,
   } = req.body;
-  const VALUE = [
-    school_name || null,
-    school_image || null,
-    establish_date || null,
-    longitude || null,
-    latitude || null,
-    type || null,
-    id,
-  ];
+
   const QUERY = `UPDATE schools SET school_name=COALESCE($1,school_name),school_image=COALESCE($2,school_image),establish_date=COALESCE($3,establish_date),longitude=COALESCE($4,longitude),latitude=COALESCE($5,latitude),type=COALESCE($6,type) WHERE school_id=$7 RETURNING * `;
   try {
-    const response = await pool.query(QUERY, VALUE);
-    res.status(203).json({
-      success: true,
-      message: "School Updated",
-      updatedSchool: response.rows,
-    });
+    if (
+      type
+    ) {
+      const typeId = await pool.query(`SELECT type FROM type WHERE type.type = ${type}`)
+      const { type_id } = typeId.rows[0];
+      const VALUE = [
+        school_name || null,
+        school_image || null,
+        establish_date || null,
+        longitude || null,
+        latitude || null,
+        type_id || null,
+        id,
+      ];
+      const response = await pool.query(QUERY, VALUE);
+      res.status(203).json({
+        success: true,
+        message: "School Updated",
+        updatedSchool: response.rows,
+      });
+    } else {
+      const VALUE = [
+        school_name || null,
+        school_image || null,
+        establish_date || null,
+        longitude || null,
+        latitude || null,
+        null,
+        id,
+      ];
+      const response = await pool.query(QUERY, VALUE);
+      res.status(203).json({
+        success: true,
+        message: "School Updated",
+        updatedSchool: response.rows,
+      });
+    }
+
   } catch (err) {
     res.status(500).json({
       success: false,
