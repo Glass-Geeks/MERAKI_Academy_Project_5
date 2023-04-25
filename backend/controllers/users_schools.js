@@ -87,7 +87,7 @@ const deleteConnectionWithSchool = async (req, res) => {
   const { school_id } = req.query;
   const QUERY = `DELETE FROM user_school WHERE school_id = $1 AND user_id = $2 ;`;
   const VALUE = [school_id, user_id];
-  console.log('result :>> ', VALUE);
+
   try {
     const result = await pool.query(QUERY, VALUE);
     res

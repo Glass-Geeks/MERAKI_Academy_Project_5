@@ -10,12 +10,14 @@ const {
   updateSchool,
   deleteSchool,
   getBasicNumbers,
+  getSchoolById,
 } = require("../controllers/admin");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 const { getAllSchools } = require("../controllers/schools");
 
 adminRouter.get("/school", getAllSchools);
+adminRouter.get("/school/:id", getSchoolById);
 adminRouter.post("/school", createNewSchool);
 adminRouter.put("/school/:id", updateSchool);
 adminRouter.delete("/school/:id", deleteSchool);

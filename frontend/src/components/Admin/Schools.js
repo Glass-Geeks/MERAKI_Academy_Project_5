@@ -16,6 +16,7 @@ const Schools = () => {
   const [editPopup, setEditPopup] = useState(false);
   const [editSchoolPopup, setEditSchoolPopup] = useState(false);
   const [school_id, setSchool_id] = useState('')
+  const [reRender, setReRender] = useState(false)
   const dispatch = useDispatch()
   const [school, setSchool] = useState({
     school_name: "",
@@ -131,7 +132,6 @@ const Schools = () => {
           <CreateSchool
             value={{ setEditPopup, setSchools, schools, editPopup,school, setSchool }}
           />
-          {console.log( school_id)}
          <EditSchool value={{editSchoolPopup, setEditSchoolPopup}} schoolId={school_id} /> 
         </>
       )}

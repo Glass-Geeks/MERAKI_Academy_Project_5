@@ -40,12 +40,13 @@ export const schoolSlice = createSlice({
       state.schools = action.payload
     },
     editSchool: (state, action) => {
-      for (let index = 0; index < state.schools.length; index++) {
-        const element = state.schools[index];
-        if (element.school_id = action.payload.school_id) {
-          state.schools[index] = action.payload
+      state.schools = state.schools.map(school => {
+        if (school.School_Id === action.payload.School_Id) {
+          return action.payload
+        } else {
+         return school
         }
-      }
+      })
     }
   },
 
