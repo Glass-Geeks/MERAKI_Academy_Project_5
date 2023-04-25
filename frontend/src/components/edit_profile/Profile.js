@@ -53,13 +53,35 @@ const Profile = () => {
 
   const submitChanges = async () => {
     const data = Object.fromEntries(info);
-
+    data.user_image = user_info.user_image;
     try {
       await axios.put(`${API_LINK}/users/${user_id}`, data);
       getMyInfo();
     } catch (error) {
       console.log("error :>> ", error);
     }
+  };
+
+  const handleFileUpload = async (e) => {
+    const CLOUD_NAME = "dvgnuchjw";
+    const UNSIGNED_UPLOAD_PRESET = "ym3yv62c";
+    const FETCH_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`;
+
+    const file = e.target.files[0];
+    const DATA = new FormData();
+
+    DATA.append("file", file);
+    DATA.append("cloud_name", CLOUD_NAME);
+    DATA.append("upload_preset", UNSIGNED_UPLOAD_PRESET);
+
+    let res = await fetch(FETCH_URL, {
+      method: "post",
+      mode: "cors",
+      body: DATA,
+    });
+
+    let json = await res.json();
+    setUser_info({ ...user_info, user_image: json.url });
   };
 
   return (
@@ -77,6 +99,7 @@ const Profile = () => {
             <Flex
               justifyContent="center"
               alignItems="center"
+              flexDirection="column"
               width="100%"
               pl="3"
             >
@@ -86,8 +109,19 @@ const Profile = () => {
                 objectFit="cover"
                 borderRadius="full"
               />
+              <br />
+              <Input
+                type="file"
+                id="update-profile-picture"
+                onChange={handleFileUpload}
+                display="none"
+              />
+              <label htmlFor="update-profile-picture">
+                <Button as="span" colorScheme="blue" variant="outline">
+                  Update Profile Picture
+                </Button>
+              </label>
             </Flex>
-            <EditIcon alignSelf="center" justifySelf="center" mt={2} />
           </GridItem>
 
           <GridItem colSpan={{ base: 1, md: 2 }}>
