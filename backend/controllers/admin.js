@@ -24,7 +24,6 @@ const createNewSchool = async (req, res) => {
       type_id,
     ];
     const school = await pool.query(QUERY, VALUE);
-    console.log("school :>> ", school);
     res.status(201).json({
       success: true,
       message: "School Added",
@@ -61,46 +60,29 @@ const updateSchool = async (req, res) => {
     latitude,
     type,
   } = req.body;
-
   const QUERY = `UPDATE schools SET school_name=COALESCE($1,school_name),school_image=COALESCE($2,school_image),establish_date=COALESCE($3,establish_date),longitude=COALESCE($4,longitude),latitude=COALESCE($5,latitude),type=COALESCE($6,type) WHERE school_id=$7 RETURNING * `;
+
   try {
-    if (
-      type
-    ) {
-      const typeId = await pool.query(`SELECT type FROM type WHERE type.type = ${type}`)
-      const { type_id } = typeId.rows[0];
-      const VALUE = [
-        school_name || null,
-        school_image || null,
-        establish_date || null,
-        longitude || null,
-        latitude || null,
-        type_id || null,
-        id,
-      ];
-      const response = await pool.query(QUERY, VALUE);
-      res.status(203).json({
-        success: true,
-        message: "School Updated",
-        updatedSchool: response.rows,
-      });
-    } else {
-      const VALUE = [
-        school_name || null,
-        school_image || null,
-        establish_date || null,
-        longitude || null,
-        latitude || null,
-        null,
-        id,
-      ];
-      const response = await pool.query(QUERY, VALUE);
-      res.status(203).json({
-        success: true,
-        message: "School Updated",
-        updatedSchool: response.rows,
-      });
-    }
+
+    const typeId = await pool.query(`SELECT type_id FROM type WHERE type = $1 ;`, [type])
+    const { type_id } = typeId.rows[0];
+    const VALUE = [
+      school_name || null,
+      school_image || null,
+      establish_date || null,
+      longitude || null,
+      latitude || null,
+      type_id || null,
+      id,
+    ];
+
+    const response = await pool.query(QUERY, VALUE);
+    res.status(200).json({
+      success: true,
+      message: "School Updated",
+      updatedSchool: response.rows,
+    });
+
 
   } catch (err) {
     res.status(500).json({
@@ -160,11 +142,32 @@ const getBasicNumbers = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+const getSchoolById = async (req, res) => {
+  const { id } = req.params;
+  VALUE = [id];
+  const QUERY = `SELECT s.school_id,s.school_image
+,s.latitude,s.longitude,s.establish_date,s.school_name,t.type
+FROM schools AS s INNER JOIN type AS t ON s.type = t.type_id WHERE s.school_id = $1 AND s.is_deleted=0 `;
+  try {
+    const response = await pool.query(QUERY, VALUE);
+    res.status(200).json({
+      success: true,
+      message: "All Schools",
+      school: response.rows,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      err: err.message,
+    });
+  }
+};
 module.exports = {
   createNewSchool,
   getAllUsersInfo,
   deleteUser,
   updateSchool,
   deleteSchool,
-  getBasicNumbers,
+  getBasicNumbers, getSchoolById
 };

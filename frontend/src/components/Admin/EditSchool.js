@@ -13,15 +13,12 @@ import {
     Radio,
     RadioGroup,
 } from "@chakra-ui/react";
-import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
 import { editSchool } from "../store/schools";
+import { useDispatch } from 'react-redux';
 const API_LINK = process.env.REACT_APP_API_LINK;
-
 const EditSchool = ({ schoolId, value }) => {
-
     const dispatch = useDispatch()
-
     const [school, setSchool] = useState({})
     const {
         school_name,
@@ -43,9 +40,9 @@ const EditSchool = ({ schoolId, value }) => {
     }, [editSchoolPopup])
     const callSchool = async () => {
         try {
-            const response = await axios.get(`${API_LINK}/schools/${schoolId}`)
+            const response = await axios.get(`${API_LINK}/admin/school/${schoolId}`)
             setSchool(response.data.school[0])
-            
+
         }
         catch (err) {
             console.log(err)
@@ -73,15 +70,22 @@ const EditSchool = ({ schoolId, value }) => {
             });
 
             let json = await res.json();
-            setSchool({ ...school, school_image: json.url });
+            setSchool((school => { return { ...school, school_image: json.url } }));
         }
     };
     const updateSchool = async () => {
 
         try {
-            const request = await axios.put(`${API_LINK}/admin/school/${schoolId}`, school);
-            const element = request.data.school[0];
-            dispatch(editSchool(school))
+            const result = await axios.put(`${API_LINK}/admin/school/${schoolId}`, school);
+            const element = result.data.updatedSchool[0]
+            const updatedSchool = {
+                School_Id: element.school_id,
+                School_Name: element.school_name,
+                Date: element.establish_date,
+                Type: type,
+                Edit: element.school_id,
+                Delete: element.school_id,
+            }
             setSchool({
                 school_name: "",
                 school_image: "",
@@ -90,14 +94,16 @@ const EditSchool = ({ schoolId, value }) => {
                 latitude: "",
                 type: "",
             });
-            
-            editSchoolPopup(false);
+
+            dispatch(editSchool(updatedSchool))
+            setEditSchoolPopup(false);
+
         } catch (error) {
             console.log("error :>> ", error);
         }
     };
 
-    console.log('school', school)
+
     return (
         <Modal isOpen={editSchoolPopup} onClose={() => setEditSchoolPopup(false)}>
             <ModalOverlay />
@@ -109,9 +115,9 @@ const EditSchool = ({ schoolId, value }) => {
                     <Input
                         name="school-name"
                         type="text"
-                        value={school_name}
+                        value={school_name?school_name:''}
                         onChange={(e) =>
-                            setSchool({ ...school, school_name: e.target.value })
+                            setSchool(school => { return { ...school, school_name: e.target.value } })
                         }
                     />
                     <label htmlFor="school_image">School Image</label>
@@ -122,31 +128,30 @@ const EditSchool = ({ schoolId, value }) => {
                     <Input
                         name="establish_date"
                         type="date"
-                        value={establish_date}
                         onChange={(e) =>
-                            setSchool({ ...school, establish_date: e.target.value })
+                            setSchool((school) => { return { ...school, establish_date: e.target.value } })
                         }
                     />
                     <label htmlFor="longitude">Longitude</label>
 
                     <Input
                         name="longitude"
-                        value={longitude}
+                        value={longitude ? longitude : ''}
                         onChange={(e) =>
-                            setSchool({ ...school, longitude: e.target.value })
+                            setSchool(school => { return { ...school, longitude: e.target.value } })
                         }
                     />
                     <label htmlFor="latitude">Latitude</label>
 
                     <Input
                         name="latitude"
-                        value={latitude}
-                        onChange={(e) => setSchool({ ...school, latitude: e.target.value })}
+                        value={latitude?latitude:''}
+                        onChange={(e) => setSchool((school => { return { ...school, latitude: e.target.value } }))}
                     />
                     <label htmlFor="type">Type</label>
                     <RadioGroup
-                  
-                        onChange={(value) => setSchool({ ...school, type: value })}
+                        value={type}
+                        onChange={(value) => setSchool(school => { return { ...school, type: value } })}
                     >
                         <HStack spacing={6}>
                             <Radio value="SCHOOL">School</Radio>
