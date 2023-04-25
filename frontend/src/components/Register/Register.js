@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Stack,
   Radio,
   RadioGroup,
   Button,
@@ -70,7 +71,6 @@ const Register = () => {
       .post(`${API_LINK}/users/register`, user)
       .then((result) => {
         navigate("/login");
-      
       })
       .catch((err) => {
         console.log(err);
@@ -79,8 +79,9 @@ const Register = () => {
 
   return (
     <>
-        <Nav/>
-
+      <Stack spacing="4">
+        <Nav />
+      </Stack>
       <Box
         w="100%"
         minH="100vh"
