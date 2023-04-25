@@ -112,6 +112,7 @@ const Nav = () => {
                 variant="outline"
                 colorScheme="teal"
                 rightIcon={<BellIcon />}
+                mr={4} // Add margin-right here
               >
                 {notifications.length}
               </Button>
@@ -176,7 +177,14 @@ const Nav = () => {
             </Portal>
           </Popover>
         )}
+
         <Box display={{ base: "none", md: "flex" }}>
+          <Link to={"/explore"}>
+            <Button colorScheme="teal" variant="ghost">
+              Explore
+            </Button>
+          </Link>
+
           {role === "ADMIN" && isLoggedIn && (
             <Link to={"/admin"}>
               <Button colorScheme="teal" variant="ghost">
@@ -291,6 +299,11 @@ const Nav = () => {
                   </Button>
                 </RouterLink>
               )}
+              <RouterLink to={"/explore"}>
+                <Button colorScheme="teal" variant="ghost" onClick={onClose}>
+                  Explore
+                </Button>
+              </RouterLink>
             </VStack>
           </DrawerBody>
         </DrawerContent>
