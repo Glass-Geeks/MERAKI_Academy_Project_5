@@ -17,15 +17,8 @@ import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const CreateSchool = ({ value }) => {
-  const { setEditPopup, setSchools, schools, editPopup } = value;
-  const [school, setSchool] = useState({
-    school_name: "",
-    school_image: "",
-    establish_date: "",
-    longitude: "",
-    latitude: "",
-    type: "",
-  });
+  const { setEditPopup, setSchools, schools, editPopup,school,setSchool } = value;
+ 
 
   const { school_name, establish_date, longitude, latitude } = school;
   const processFile = async (e) => {
