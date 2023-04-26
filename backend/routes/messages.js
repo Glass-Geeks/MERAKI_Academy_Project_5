@@ -3,7 +3,7 @@ const messageRouter = express.Router()
 const {getAllMessages, getImages} = require('../controllers/messages')
 
 messageRouter.get('/:id',getAllMessages)
-messageRouter.get('/img/:connection_id',getImages)
+messageRouter.get('/img/:friend_id',getImages)
 
 
 module.exports = messageRouter
