@@ -15,15 +15,16 @@ const getAllMessages = async (req, res) => {
   }
 };
 const getImages = async (req, res) => {
-  const { connection_id } = req.params;
-  const QUERY = `SELECT f.user_image, u.user_image AS MY_image FROM connection AS c
-  INNER JOIN users AS u ON c.user_id = u.user_id 
-  LEFT JOIN users AS f ON c.friend_id = f.user_id 
-  WHERE c.connection_id = $1 ;`;
-  const VALUE = [connection_id];
+  const { friend_id } = req.params;
+  const { user_id } = req.query
+  const QUERY = `SELECT user_image FROM users WHERE user_id = $1 ;`;
+  const VALUE = [friend_id];
+  const QUERY1 = `SELECT user_image AS MY_image FROM users WHERE user_id = $1 ;`;
+  const VALUE1 = [user_id];
   try {
     const result = await pool.query(QUERY, VALUE);
-    res.status(200).json({ success: true, data: result.rows });
+    const result1 = await pool.query(QUERY1, VALUE1);
+    res.status(200).json({ success: true, data: [{...result.rows[0], ...result1.rows[0]}] });
   } catch (error) {
     res
       .status(500)

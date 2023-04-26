@@ -18,7 +18,7 @@ const Conversation = () => {
   const [online, setOnline] = useState([]);
   const [friendId, setFriendId] = useState("");
   const scrollRef = useRef();
-  const isLoggedIn = useSelector(state=>state.auth.isLoggedIn)
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const [socket, setSocket] = useState(io(API_LINK, { autoConnect: false }));
   const sendMessage = () => {
     const obj = { sender: user_id, receiverId: friendId, text, connection_id };
@@ -27,19 +27,28 @@ const Conversation = () => {
   };
 
   useEffect(() => {
-    if(isLoggedIn){
-      console.log("test");
+    if (isLoggedIn) {
       getFriends();
       socket.connect();
       socket.emit("ADD_USER", user_id);
       socket.on("GET_USERS", (users) => {
-        // setOnline(friends.filter((friend) =>users.map((user) => friend.friend_id === user.userId)));
+        console.log('users :>> ', users);
+        const test = []
+        for (let index = 0; index < users.length; index++) {
+          const element = users[index];
+          for (let indx = 0; indx < friends.length; indx++) {
+            const element2 = friends[indx];
+            if (element.userId == element2.friend_id) {
+              test.push(element2)
+            }
+          }
+        }
+        setOnline(test);
       });
       getMessageList();
     }
-  
+
     return () => {
-      console.log("test 111");
       socket.removeAllListeners();
       socket.close()
     };
@@ -56,7 +65,6 @@ const Conversation = () => {
   const getMessageList = async () => {
     try {
       const data = await axios.get(`${API_LINK}/message/${connection_id}`);
-      console.log(' data?.data?.result?.messages:>> ', data?.data);
       setMessageList(data?.data?.result?.messages);
     } catch (error) {
       console.log("error :>> ", error);
@@ -123,8 +131,8 @@ const Conversation = () => {
 
           <div className="chatOnline">
             <h2>Online Friends</h2>
-            {online.map((user) => (
-              <Online user={user} key={v4()}/>
+            {online.length && online.map((user) => (
+              <Online user={user} key={v4()} />
             ))}
           </div>
         </MessengerContext.Provider>
