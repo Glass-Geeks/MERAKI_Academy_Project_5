@@ -9,14 +9,11 @@ import {
   Heading,
   Image,
   Container,
-  SimpleGrid,
   Flex,
-  Button,
   Badge,
   Input,
 } from "@chakra-ui/react";
 import { setFriends, setRequested, setReceived } from "../store/Connection";
-
 import { useDispatch, useSelector } from "react-redux";
 import SignWithSchool from "./SignWithSchool";
 import { setStudent, setTeacher } from "../store/schools";
@@ -33,7 +30,7 @@ const School = () => {
 
   const teachers = useSelector((state) => state.schools.teachers);
 
-  const { establish_date, school_image, school_name } = school;
+  const { school_image, school_name } = school;
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
 

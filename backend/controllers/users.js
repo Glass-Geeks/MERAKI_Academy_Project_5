@@ -17,7 +17,7 @@ const register = async (req, res) => {
       last_name,
       role_id,
       encryptedPassword,
-      user_image,
+      user_image || 'https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png',
       dob,
     ];
     const QUERY = `INSERT INTO users (email, first_name, last_name, role, password, user_image, dob) VALUES ($1,$2,$3,$4,$5,$6,$7)`;
