@@ -32,7 +32,6 @@ const Conversation = () => {
       socket.connect();
       socket.emit("ADD_USER", user_id);
       socket.on("GET_USERS", (users) => {
-        console.log('users :>> ', users);
         const test = []
         for (let index = 0; index < users.length; index++) {
           const element = users[index];

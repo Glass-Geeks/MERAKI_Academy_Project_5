@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Modal,
@@ -17,8 +17,8 @@ import axios from "axios";
 const API_LINK = process.env.REACT_APP_API_LINK;
 
 const CreateSchool = ({ value }) => {
-  const { setEditPopup, setSchools, schools, editPopup,school,setSchool } = value;
- 
+  const { setEditPopup, setSchools, schools, editPopup, school, setSchool } = value;
+
 
   const { school_name, establish_date, longitude, latitude } = school;
   const processFile = async (e) => {

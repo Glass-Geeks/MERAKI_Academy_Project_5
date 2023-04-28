@@ -19,12 +19,10 @@ const ChatBox = () => {
   }, [connection_id]);
 
   const getImages = async () => {
-console.log('friendId :>> ', friendId);
     try {
       const data = await axios.get(`${API_LINK}/message/img/${friendId}?user_id=${user_id}`);
       const images = data.data.data[0];
     
-      console.log('data.data :>> ', data.data);
       setFriendImg(images.user_image);
       setMyImg(images.my_image);
     } catch (error) {

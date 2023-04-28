@@ -44,8 +44,8 @@ const EditSchool = ({ schoolId, value }) => {
             setSchool(response.data.school[0])
 
         }
-        catch (err) {
-            console.log(err)
+        catch (error) {
+          console.log('error :>> ', error);
         }
     }
     const processFile = async (e) => {

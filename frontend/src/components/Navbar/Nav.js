@@ -40,7 +40,7 @@ import {
   CardBody,
   Text,
 } from "@chakra-ui/react";
-
+import Logo2 from './Logo2.png'
 import { HamburgerIcon, BellIcon } from "@chakra-ui/icons";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Nav = () => {
@@ -59,7 +59,9 @@ const Nav = () => {
   const bg = useColorModeValue("gray.100", "gray.900");
   const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
-    getNotification();
+    if (isLoggedIn) {
+      getNotification();
+    }
   }, []);
   const getNotification = async () => {
     try {
@@ -102,7 +104,7 @@ const Nav = () => {
     >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Link to={"/"}>
-          <Heading size="md">Logo</Heading>
+          <Image src={Logo2} width='200px' />
         </Link>
         <Spacer />
         {isLoggedIn && (

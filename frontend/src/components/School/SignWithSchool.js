@@ -48,6 +48,7 @@ const SignWithSchool = () => {
       start_year: `1/1/${from}`,
       end_year: `1/1/${to}`,
       user_id,
+      role
     };
     if (to - from < 0) {
       return toast({

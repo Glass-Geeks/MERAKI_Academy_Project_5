@@ -16,7 +16,6 @@ import {
   Grid,
   GridItem,
   useEditableControls,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";

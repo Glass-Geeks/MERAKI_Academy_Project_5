@@ -40,15 +40,16 @@ const getAllTeachersBySchoolId = async (req, res) => {
 };
 const signUserWithSchool = async (req, res) => {
   const school_id = req.params.id;
-  const { user_id, start_year, end_year } = req.body;
+  const { user_id, start_year, end_year, role } = req.body;
   const VALUE = [school_id, user_id, start_year, end_year];
   const QUERY = `INSERT INTO user_school (school_id,	user_id	,start_year,	end_year) VALUES ($1,$2,$3,$4) RETURNING *`;
-  const QUERY2 = `SELECT users.user_id, users.user_image ,users.first_name ,users.last_name , user_school.start_year, user_school.end_year  FROM user_school INNER JOIN users ON users.user_id = user_school.user_id INNER JOIN role ON role.role_id = users.role 
-  INNER JOIN schools ON schools.school_id = user_school.school_id
-  WHERE role.role = 'TEACHER' AND schools.school_id =${school_id} AND users.user_id =${user_id} ;`;
+  const QUERY2 = `SELECT u.user_id, u.user_image ,u.first_name ,u.last_name , us.start_year, us.end_year  FROM user_school AS us INNER JOIN users AS u ON u.user_id = us.user_id INNER JOIN role AS r ON r.role_id = u.role 
+  INNER JOIN schools AS s ON s.school_id = us.school_id
+  WHERE r.role = $1 AND s.school_id = $2 AND u.user_id = $3 ;`;
+  const VALUE2 = [role, school_id, user_id]
   try {
     await pool.query(QUERY, VALUE);
-    const result = await pool.query(QUERY2);
+    const result = await pool.query(QUERY2, VALUE2);
     res.status(201).json({
       success: true,
       message: "The Connection has been set",
