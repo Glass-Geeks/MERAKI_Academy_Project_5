@@ -40,7 +40,6 @@ import {
   CardBody,
   Text,
 } from "@chakra-ui/react";
-import Logo2 from './Logo2.png'
 import { HamburgerIcon, BellIcon } from "@chakra-ui/icons";
 const API_LINK = process.env.REACT_APP_API_LINK;
 const Nav = () => {
@@ -104,7 +103,7 @@ const Nav = () => {
     >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Link to={"/"}>
-          <Image src={Logo2} width='200px' />
+          <Image src='https://res.cloudinary.com/dvgnuchjw/image/upload/v1682716343/Logo2_ns5xwa.png' width='200px' />
         </Link>
         <Spacer />
         {isLoggedIn && (
