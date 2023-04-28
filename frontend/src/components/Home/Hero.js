@@ -10,7 +10,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import Logo from './Logo.png';
+
 const HeroSection = () => {
   const navigate = useNavigate();
 
@@ -36,8 +36,8 @@ const HeroSection = () => {
         <Center>
           <VStack spacing={4}>
             <ScaleFade initialScale={0.9} in={true}>
-           
-              <Image src={Logo}/>
+
+              <Image src='https://res.cloudinary.com/dvgnuchjw/image/upload/v1682716279/Logo_miplz6.png' />
             </ScaleFade>
             <Heading as="h1" size="3xl" color="white">
               Welcome to ClassMate Finder
