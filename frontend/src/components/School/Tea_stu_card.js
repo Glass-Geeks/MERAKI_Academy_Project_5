@@ -20,6 +20,8 @@ const Tea_stu_card = ({ data }) => {
   const friends = useSelector((state) => state.connection.friends);
   const requested = useSelector((state) => state.connection.requested);
   const received = useSelector((state) => state.connection.received);
+  
+  
   const dispatch = useDispatch();
   const addFriend = async (id) => {
     try {

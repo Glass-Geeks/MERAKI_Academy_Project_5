@@ -1,0 +1,11 @@
+.fullPage{
+    display: flex;
+    justify-content: space-around;
+}
+.friendsList{
+    width: 50%;
+}
+.suggestedList{
+    margin-top: 120px;
+    width: 40%;
+}
