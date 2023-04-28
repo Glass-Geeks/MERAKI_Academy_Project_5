@@ -39,7 +39,7 @@ const createNewSchool = async (req, res) => {
 };
 
 const getAllUsersInfo = async (req, res) => {
-  const query = `SELECT u.user_id, u.first_name , u.last_name , u.dob , u.is_deleted , u.created_at  , r.role
+  const query = `SELECT u.user_id, u.first_name , u.last_name , u.dob , u.is_deleted , u.created_at  , r.role ,u.user_image
 FROM users AS u INNER JOIN role AS r ON r.role_id = u.role ;`;
   try {
     const data = await pool.query(query);
