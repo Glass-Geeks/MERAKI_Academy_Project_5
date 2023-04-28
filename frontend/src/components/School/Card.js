@@ -15,17 +15,16 @@ import { v4 } from "uuid";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
 
-const Tea_stu_card = ({ data }) => {
+const TEA_STU_CARD = ({ data }) => {
   const userId = useSelector((state) => state.auth.userId);
   const friends = useSelector((state) => state.connection.friends);
   const requested = useSelector((state) => state.connection.requested);
   const received = useSelector((state) => state.connection.received);
-  
-  
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const dispatch = useDispatch();
   const addFriend = async (id) => {
     try {
-      const request = await axios.post(`${API_LINK}/friends/${userId}`, {
+   await axios.post(`${API_LINK}/friends/${userId}`, {
         friend_id: id,
       });
       dispatch(addRequested(id));
@@ -36,7 +35,7 @@ const Tea_stu_card = ({ data }) => {
 
   const deleteFriendShip = async (id) => {
     try {
-      const result = await axios.delete(
+     await axios.delete(
         `${API_LINK}/friends/delete/${id}?friend_id=${userId}`
       );
       await axios.delete(
@@ -47,9 +46,10 @@ const Tea_stu_card = ({ data }) => {
       console.log("error :>> ", error);
     }
   };
+  
   const cancelRequest = async (id) => {
     try {
-      const result = await axios.delete(
+      await axios.delete(
         `${API_LINK}/friends/delete/${userId}?friend_id=${id}`
       );
       dispatch(removeRequested(id));
@@ -59,7 +59,7 @@ const Tea_stu_card = ({ data }) => {
   };
   const acceptFriendShip = async (id) => {
     try {
-      const result = await axios.put(
+      await axios.put(
         `${API_LINK}/friends/requests/${id}/answer`,
         { friend_id: userId }
       );
@@ -110,7 +110,7 @@ const Tea_stu_card = ({ data }) => {
                     {`${item.first_name} ${item.last_name}`}
                   </Text>
                 </HStack>
-                {Condition({
+                {isLoggedIn && Condition({
                   item,
                   friends,
                   requested,
@@ -193,9 +193,6 @@ const Condition = ({
   } else if (userId === item.user_id) {
     return (
       <></>
-      // <Button colorScheme="blue" variant="outline">
-      //  Delete School Connection
-      // </Button>
     );
   } else {
     return (
@@ -212,4 +209,4 @@ const Condition = ({
   }
 };
 
-export default Tea_stu_card;
+export default TEA_STU_CARD;

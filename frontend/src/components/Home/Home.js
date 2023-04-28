@@ -17,18 +17,6 @@ const HomePage = () => {
   };
   return (
     <>
-      {/* <div className="landing-page">
-        <section className="hero-section">
-          <div className="hero-text">
-            <h1>Welcome to ClassMate Finder</h1>
-            <button
-              className="explore-button"
-              onClick={handleExploreButtonClick}
-            >
-              Explore Schools
-            </button>
-          </div>
-        </section> */}
       <HeroSection />
       <AboutUs />
       <Features />

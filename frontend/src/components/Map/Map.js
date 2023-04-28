@@ -2,28 +2,9 @@ import "./map.css";
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
-
 import InfoWindow from "./InfoWindow";
-
-import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import {
-  Box,
-  Text,
-  Image,
-  Button,
-  VStack,
-  Flex,
-  useDisclosure,
-  Drawer,
-  Input,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
-
+import { Box, Flex, } from "@chakra-ui/react";
 import Nav from "../Navbar/Nav";
 import Header from "./Header";
 
@@ -45,8 +26,6 @@ const AnyReactComponent = ({ onClick, zoom }) => {
 
 export default function MapContainer() {
   const [searchInput, setSearchInput] = useState("");
-  const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [pins, setPins] = useState([]);
   const [pinClicked, setPinClicked] = useState(false);
   const [infoWindow, setInfoWindow] = useState(null);
@@ -56,9 +35,6 @@ export default function MapContainer() {
     setInfoWindow({ ...pin, fixed: false });
   };
 
-  const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value);
-  };
 
   useEffect(() => {
     axios
@@ -72,8 +48,8 @@ export default function MapContainer() {
         }));
         setPins(newPins);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log('error :>> ', error)
       });
   }, []);
 

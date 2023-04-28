@@ -4,7 +4,8 @@ require("./module/db");
 require("./module/mongoDB");
 const cors = require("cors");
 const app = express();
-
+// const https = require('https')
+// const fs = require('fs');
 const schoolRouter = require("./routes/schools");
 const roleRouter = require("./routes/roles");
 const usersRouter = require("./routes/users");
@@ -15,6 +16,11 @@ const messageRouter = require("./routes/messages");
 const { Server } = require("socket.io");
 const adminRouter = require("./routes/admin");
 const { chat } = require("./socket_chat");
+// const option = {
+//   key:fs.readFileSync('certificate/key.pem'),
+//   cert:fs.readFileSync('certificate/cert.pem')
+// }
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -27,8 +33,9 @@ app.use("/users_schools", users_schools_router);
 app.use("/message", messageRouter);
 app.use("/admin", adminRouter);
 
-const PORT = process.env.PORT;
-
+// const server =  https.createServer(option,(req,res)=>res.end('test')).listen(PORT, () =>
+// console.log(`Example app listening on port ${PORT}!`)
+// )
 const server = app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Tea_stu_card from "./Tea_stu_card";
+import TEA_STU_CARD from "./Card";
 import axios from "axios";
 import Nav from "../Navbar/Nav";
 import {
@@ -27,7 +27,7 @@ const School = () => {
   const [school, setSchool] = useState({});
 
   const students = useSelector((state) => state.schools.students);
-
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const teachers = useSelector((state) => state.schools.teachers);
 
   const { school_image, school_name } = school;
@@ -58,37 +58,40 @@ const School = () => {
   const getSchoolById = async () => {
     try {
       const data = await axios.get(`${API_LINK}/schools/${id}`);
-
       const stuData = await axios.get(`${API_LINK}/users_schools/stu/${id}`);
       const teacherData = await axios.get(
         `${API_LINK}/users_schools/teacher/${id}`
       );
-      const friendsData = await axios.get(
-        `${API_LINK}/users_schools/friends/${userId}`
-      );
-      const receivedData = await axios.get(
-        `${API_LINK}/friends/requests/${userId}`
-      );
-      const requestedData = await axios.get(
-        `${API_LINK}/friends/requests/forUser/${userId}`
-      );
-      const friend_arr = friendsData.data.result.map(
-        (friend) => friend.friend_id
-      );
-      const received_arr = receivedData.data.connection.map(
-        (received) => received.user_id
-      );
-      const requested_arr = requestedData.data.connection.map(
-        (received) => received.user_id
-      );
+      if (isLoggedIn) {
+
+        const friendsData = await axios.get(
+          `${API_LINK}/users_schools/friends/${userId}`
+        );
+        const receivedData = await axios.get(
+          `${API_LINK}/friends/requests/${userId}`
+        );
+        const requestedData = await axios.get(
+          `${API_LINK}/friends/requests/forUser/${userId}`
+        );
+        const friend_arr = friendsData.data.result.map(
+          (friend) => friend.friend_id
+        );
+        const received_arr = receivedData.data.connection.map(
+          (received) => received.user_id
+        );
+        const requested_arr = requestedData.data.connection.map(
+          (received) => received.user_id
+        );
+        dispatch(setFriends(friend_arr));
+        dispatch(setRequested(requested_arr));
+        dispatch(setReceived(received_arr));
+      }
       setSchool({ ...data.data.school[0] });
       dispatch(setStudent(stuData.data.result));
       dispatch(setTeacher(teacherData.data.result));
-      dispatch(setFriends(friend_arr));
-      dispatch(setRequested(requested_arr));
-      dispatch(setReceived(received_arr));
-    } catch (err) {
-      console.log(err);
+
+    } catch (error) {
+      console.log('error :>> ', error);
     }
   };
 
@@ -119,7 +122,8 @@ const School = () => {
               alignItems="center"
             >
               <Heading alignSelf="flex-start">{school_name}</Heading>
-              <SignWithSchool />
+              {isLoggedIn && <SignWithSchool />}
+
             </Flex>
           </VStack>
         ) : (
@@ -153,7 +157,7 @@ const School = () => {
             >
               Students
             </Badge>
-            <Tea_stu_card data={filteredStudents} />
+            <TEA_STU_CARD data={filteredStudents} />
           </Box>
           <br />
           <Box flex="1" mx={{ base: 0, md: 4 }}>
@@ -167,7 +171,7 @@ const School = () => {
             >
               Teachers
             </Badge>
-            <Tea_stu_card data={filteredTeachers} />
+            <TEA_STU_CARD data={filteredTeachers} />
           </Box>
         </Flex>
       </Container>

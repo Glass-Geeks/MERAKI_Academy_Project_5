@@ -1,7 +1,6 @@
 import React from "react";
 
 const Online = ({ user }) => {
-  console.log('user :>> ', user);
   return (
     <div className="chatOnlineFriend">
       <div className="chatOnlineImgContainer">

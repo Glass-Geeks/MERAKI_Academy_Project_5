@@ -59,7 +59,7 @@ const Register = () => {
 
       let json = await res.json();
       setUserData({ ...userData, user_image: json.url });
-      // console.log("url :>> ", JSON.stringify(json.url));
+   
       setIsLoading(false);
     }
   };
@@ -72,8 +72,8 @@ const Register = () => {
       .then((result) => {
         navigate("/login");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+      console.log('error :>> ', error);
       });
   };
 

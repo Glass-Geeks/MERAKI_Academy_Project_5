@@ -6,12 +6,11 @@ import {
   Heading,
   Text,
   VStack,
-  Icon,
   ScaleFade,
+  Image,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { MdSchool } from "react-icons/md";
-
+import Logo from './Logo.png';
 const HeroSection = () => {
   const navigate = useNavigate();
 
@@ -37,7 +36,8 @@ const HeroSection = () => {
         <Center>
           <VStack spacing={4}>
             <ScaleFade initialScale={0.9} in={true}>
-              <Icon as={MdSchool} boxSize="80px" color="white" />
+           
+              <Image src={Logo}/>
             </ScaleFade>
             <Heading as="h1" size="3xl" color="white">
               Welcome to ClassMate Finder

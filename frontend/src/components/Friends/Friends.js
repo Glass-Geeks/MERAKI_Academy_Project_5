@@ -23,11 +23,10 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
-import { Global, css } from "@emotion/react";
 import Nav from "../Navbar/Nav";
 
 const API_LINK = process.env.REACT_APP_API_LINK;
-const ContainerHeight = 400;
+
 const Friends = () => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.friends.allFriends);
@@ -43,7 +42,7 @@ const Friends = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
-  
+
 
   const getAllFriends = async () => {
     if (loading) {
@@ -54,8 +53,8 @@ const Friends = () => {
       const response = await axios.get(`${API_LINK}/friends/${id}`);
       dispatch(setAllFriends(response.data.connection));
       setLoading(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log('error :>> ', error);
     }
   };
 
@@ -63,8 +62,8 @@ const Friends = () => {
     try {
       const response = await axios.get(`${API_LINK}/friends/requests/${id}`);
       dispatch(setAllFriendRequests(response.data.connection));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log('error :>> ', error);
     }
   };
 
@@ -84,18 +83,17 @@ const Friends = () => {
         duration: 9000,
         isClosable: true,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log('error :>> ', error);
     }
   };
 
 
   const addFriend = async (friend_id) => {
     try {
-      const request = await axios.post(`${API_LINK}/friends/${id}`, {
+      await axios.post(`${API_LINK}/friends/${id}`, {
         friend_id: friend_id,
       });
-      console.log(request)
       dispatch(addRequested(friend_id));
     } catch (error) {
       console.log("error :>> ", error);
@@ -103,7 +101,7 @@ const Friends = () => {
   };
   const cancelRequest = async (friend_id) => {
     try {
-      const result = await axios.delete(
+    await axios.delete(
         `${API_LINK}/friends/delete/${id}?friend_id=${friend_id}`
       );
       dispatch(removeRequested(friend_id));
@@ -113,7 +111,7 @@ const Friends = () => {
   };
   const acceptFriendShip = async (friend_id) => {
     try {
-      const result = await axios.put(
+       await axios.put(
         `${API_LINK}/friends/requests/${friend_id}/answer`,
         { friend_id: id }
       );
@@ -124,7 +122,7 @@ const Friends = () => {
   }
   const deleteFriendShip = async (friend_id) => {
     try {
-      const result = await axios.delete(
+      await axios.delete(
         `${API_LINK}/friends/delete/${friend_id}?friend_id=${id}`
       );
       await axios.delete(
@@ -159,41 +157,37 @@ const Friends = () => {
       dispatch(setFriends(friend_arr));
       dispatch(setRequested(requested_arr));
       dispatch(setReceived(received_arr));
-      
-    } catch (err) {
-      console.log(err);
+
+    } catch (error) {
+      console.log('error :>> ', error);
     }
   };
   const suggestedContacts = async (friend_arr) => {
-    console.log(friend_arr)
     try {
-      if(friend_arr.length){
+      if (friend_arr.length) {
         const response = await axios.get(`${API_LINK}/admin/users`)
         const test = response.data.data
-        console.log('friends_2', friend_arr)
         const removeMe = test.filter(me => me.user_id != id)
         const removeMyFriends = removeMe.filter(friend => {
           if (!friend_arr.includes(friend.user_id)) {
-            console.log(true)
             return true
-  
+
           } else {
             return
           }
         })
         setSuggested(removeMyFriends)
-        console.log(removeMyFriends)
-  
+
       }
-      
-      }catch (err) {
-        console.log(err)
-      }
-      
+
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+
   }
   useEffect(() => {
     setFilteredFriends(
-       friends.filter((friend) =>
+      friends.filter((friend) =>
         `${friend.first_name} ${friend.last_name}`
           .toLowerCase()
           .includes(search.toLowerCase())
@@ -201,17 +195,17 @@ const Friends = () => {
     );
     setFilteredSuggested(
       suggested.filter((contact) =>
-       `${contact.first_name} ${contact.last_name}`
-         .toLowerCase()
-         .includes(search_2.toLowerCase())
-     )
-   );
-    
-  }, [search, friends,suggested,search_2]);
+        `${contact.first_name} ${contact.last_name}`
+          .toLowerCase()
+          .includes(search_2.toLowerCase())
+      )
+    );
+
+  }, [search, friends, suggested, search_2]);
 
   useEffect(() => {
     getAllFriends();
-    
+
     getAllFriendRequests();
     getScrollData()
 
@@ -228,17 +222,17 @@ const Friends = () => {
         <div className="friendsList">
           <ChakraProvider>
             <CSSReset />
-            
-            <Box px={4} py={8}mt="85px"  >
+
+            <Box px={4} py={8} mt="85px"  >
               <Text fontSize="2xl" fontWeight="bold" mb={6}>
                 Friends
               </Text>
-              <Input 
-            placeholder="Search Friends here.."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            mb="10px"
-          />
+              <Input
+                placeholder="Search Friends here.."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                mb="10px"
+              />
               <VStack spacing={6} w="full">
                 {filteredFriends.map((friend) => (
                   <Box
@@ -289,12 +283,12 @@ const Friends = () => {
             </Box>
           </ChakraProvider>
         </div>
-        
+
         <div className="suggestedList">
-        <Text fontSize="2xl" fontWeight="bold" mb={5}>
-                Suggested People
-              </Text>
-              <Input 
+          <Text fontSize="2xl" fontWeight="bold" mb={5}>
+            Suggested People
+          </Text>
+          <Input
             placeholder="Search for someone to cantact.."
             value={search_2}
             onChange={(e) => setSearch_2(e.target.value)}
@@ -356,7 +350,7 @@ const Friends = () => {
             </InfiniteScroll>
           </div>
         </div>
-        
+
       </div>
     </>
   );
