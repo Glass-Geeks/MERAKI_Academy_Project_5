@@ -28,6 +28,7 @@
   border-radius: 5px;
   font-size: 2rem;
   line-height: 1.5;
+  
 }
 
 .story-section {
@@ -124,6 +125,9 @@
 }
 
 @media (max-width: 768px) {
+  .features-section h1 {
+    font-size: 2rem;
+  }
   .features-section h2 {
     font-size: 2rem;
   }

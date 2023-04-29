@@ -17,12 +17,17 @@ const FAQs = () => {
     {
       question: "How do I create an account?",
       answer:
-        'To create an account, click the "Sign Up" button on the top right corner of the website and fill in the required information.',
+        'To create an account, click the "Register" button on the top right corner of the website after you press "Explore Schools" and fill in the required information.',
+    },
+    {
+      question: "How do find my school?",
+      answer:
+        'To search for a  school, click on any pin the map or search for your school in the search bar in the left bar.',
     },
     {
       question: "How do I find my classmates?",
       answer:
-        "After logging in, you can search for your school and classes using the search bar. Once you find your school or class, you can connect with your classmates by sending them friend requests.",
+        "After logging in, you can search for your school and classes using the search bar. Once you find your school or class, you can connect with your classmates by sending them friend requests or you can search for suggested friends in the friends button.",
     },
     {
       question: "Can I join multiple schools or classes?",
@@ -30,15 +35,11 @@ const FAQs = () => {
         "Yes, you can join multiple schools or classes by searching for them and connecting with the respective classmates.",
     },
     {
-      question: "How do I create a study group?",
+      question: "How I can contact with my mates?",
       answer:
-        'To create a study group, navigate to the "Study Groups" section, click on "Create a Study Group" and fill in the required information.',
+        "You can message your friends by press the messages button and press message next to your friend name.",
     },
-    {
-      question: "How do I attend events?",
-      answer:
-        'You can find a list of upcoming events in the "Events" section of the website. To attend an event, simply click on the "Attend" button next to the event.',
-    },
+    
   ];
 
   return (

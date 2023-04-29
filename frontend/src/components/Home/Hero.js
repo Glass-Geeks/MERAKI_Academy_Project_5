@@ -39,7 +39,7 @@ const HeroSection = () => {
 
               <Image src='https://res.cloudinary.com/dvgnuchjw/image/upload/v1682716279/Logo_miplz6.png' />
             </ScaleFade>
-            <Heading as="h1" size="3xl" color="white">
+            <Heading as="h1" size="3xl" color="white" >
               Welcome to ClassMate Finder
             </Heading>
             <Text fontSize="2xl" color="white">

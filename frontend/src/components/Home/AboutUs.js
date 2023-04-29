@@ -14,22 +14,22 @@ import {
 const AboutUs = () => {
   const teamMembers = [
     {
-      name: "Mousa",
+      name: "Mousa Ibrahem",
       role: "Developer",
-      imageUrl: "https://via.placeholder.com/150",
-      bio: "Mousa is the CEO of the company and has been leading the team since its inception.",
+      imageUrl: "https://avatars.githubusercontent.com/u/121259768?v=4",
+      bio: "",
     },
     {
-      name: "Khalid",
+      name: "Khalid Al-Hajj",
       role: "Developer",
-      imageUrl: "https://via.placeholder.com/150",
-      bio: "Khalid is the CTO of the company and has been working on innovative technologies.",
+      imageUrl: "https://avatars.githubusercontent.com/u/121284606?v=4",
+      bio: "",
     },
     {
-      name: "Ahmad",
+      name: "Ahmad Al-Sawalmeh",
       role: "Developer",
-      imageUrl: "https://via.placeholder.com/150",
-      bio: "Ahmad is the CFO of the company and has been managing the company's finances.",
+      imageUrl: "https://avatars.githubusercontent.com/u/121333515?v=4",
+      bio: "",
     },
   ];
 
@@ -40,7 +40,15 @@ const AboutUs = () => {
           <Heading as="h2" size="2xl">
             About Us
           </Heading>
-          <Text>// ...</Text>
+          <Text>Our story begins with a team of three individuals, each with a passion for creating purpose-driven and valuable websites. As we embarked on our coding bootcamp journey, we were assigned a group project that would challenge our abilities and bring our ideas to life.
+            <br></br>
+            During our brainstorming sessions, we discovered that we all shared a common experience: losing touch with friends from our school days. This realization struck a chord with each of us and inspired the idea for our project.
+            <br></br>
+            We set out to build a platform that not only reconnected school alumni with their long-lost classmates but also offered a supportive and engaging community. Our vision was to create a space where users could reminisce about their school memories, share their personal and professional growth, and even rekindle old friendships.
+            <br></br>
+            As we progressed through the bootcamp, our technical skills and knowledge grew, enabling us to bring our idea closer to reality. We encountered challenges along the way, but our shared passion for the project fueled our determination to overcome them.
+            <br></br>
+            Today, we are proud to present our website that has the potential to reunite old friends and foster new connections. This journey has been a testament to the power of collaboration, passion, and purpose.</Text>
           <Heading as="h3" size="xl">
             Meet Our Team
           </Heading>
