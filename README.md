@@ -100,3 +100,7 @@ Now the app is ready to use.
 - <h2><a href='https://github.com/mousaibrah'><em>Mousa Ibrahim</em></a></h2>
 - <h2><a href='https://github.com/alhajjkhalid'><em>Khalid Alhajj</em></a></h2>
 - <h2><a href='https://github.com/AhmedAlSawalmeh'><em>Ahmed Al Sawalmeh</em></a></h2>
+
+## ⚠️ Guided By <a name = "guided_by"></a>
+
+This project is guided by ©️ **[MERAKI Academy](https://www.meraki-academy.org)**
