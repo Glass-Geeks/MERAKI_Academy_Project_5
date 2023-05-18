@@ -45,6 +45,9 @@ const HeroSection = () => {
             <Text fontSize="2xl" color="white">
               Connect with classmates and grow your network
             </Text>
+            <Text fontSize="2xl" color="white">
+              *NOTE the Back-End server on free-tear so may take a while to run.
+            </Text>
             <Button
               colorScheme="teal"
               onClick={handleExploreButtonClick}
